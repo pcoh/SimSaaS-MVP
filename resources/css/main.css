@@ -24,10 +24,24 @@ body {
 .divPlotContainer {
   height: 300px;
   display: none;
-  margin-top: 20px; }
+  margin-top: 20px;
+  cursor: move;
+  opacity: 0.4; }
+
+.divPlotContainer.over {
+  /*border-top: 2px dashed #000;*/ }
 
 .initialPlotCont {
   display: block; }
+
+.dropZone {
+  height: 50px;
+  margin-bottom: -70px;
+  margin-top: 20px;
+  background-color: #999;
+  border: 2px dashed #555;
+  color: #555;
+  text-align: center; }
 
 .navbar-toggle {
   float: left; }
@@ -39,6 +53,17 @@ body {
   overflow-y: scroll; }
 
 .addPlot, .removePlot {
-  float: right; }
+  float: right;
+  margin-top: 10px;
+  margin-bottom: 10px; }
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  /* Required to make elements draggable in old WebKit */
+  -khtml-user-drag: element;
+  -webkit-user-drag: element; }
 
 /*# sourceMappingURL=main.css.map */

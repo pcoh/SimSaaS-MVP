@@ -15,3 +15,17 @@ $( window ).resize(function() {
 	resizeTrackArea();
 	resizeWorkSpace();
 })
+
+$('.addPlot').on('click',  function() {
+     // $( "<div class=\"col-sm-12 fuchsia divPlotContainer myhidden\" >PlotContainer<a href=\"#\"><span class=\"removePlot grey\">Remove Plot</span></a></div>" ).insertBefore( $(this).parent(), function(){
+     // 	$(this).closest(".divPlotContainer" ).show();
+     // });
+
+	$( "<div class=\"col-sm-12 fuchsia divPlotContainer\" >PlotContainer<a href=\"#\"><span class=\"removePlot grey\">Remove Plot</span></a></div>" ).insertBefore( $(this).parent()).slideDown();
+});
+
+$('#divWorkspaceContainer').on('click', 'div a .removePlot', function() {
+	$(this).parent().parent().slideUp(400, function() {
+		$(this).remove();
+	});
+});

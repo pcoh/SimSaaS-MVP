@@ -21,8 +21,13 @@ body {
 #divTable2Container{
 	height: 200px;	
 }
-#divPlotContainer{
+.divPlotContainer{
 	height: 300px;
+	display: none;
+	margin-top: 20px;
+}
+.initialPlotCont{
+	display: block;
 }
 .navbar-toggle{
 	float: left;
@@ -32,4 +37,8 @@ body {
 }
 #divWorkspaceContainer{
 	overflow-y: scroll
+}
+
+.addPlot, .removePlot{
+	float: right;
 }

@@ -1,8 +1,9 @@
+
 #divTrackContainer{
 	height: 900px;
 }
 #divEventBanner{
-	height: 500px;
+	height: 80px;
 }
 #divSimControlContainer{
 	height: 300px;
@@ -21,4 +22,7 @@
 }
 #navTrackNavBar{
 	margin-bottom: 0px;
+}
+#divWorkspaceContainer{
+	overflow-y: scroll
 }

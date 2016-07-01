@@ -20,8 +20,8 @@ function resizeTrackArea() {
 }
 function resizeWorkSpace() {
 	var WSheight = $( window ).height()-$("#divEventBanner").height()-$("#navTrackNavBar").height();
-  	$("#divWorkspaceContainer").height(WSheight);
-  	
+	$("#divWorkspaceContainer").height(WSheight);
+  $("#divTableAndSpacer").width($("#divControlTableRow").width()); 	
 }
 
 function smartScroll(scrollPos){

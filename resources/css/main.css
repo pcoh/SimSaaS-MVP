@@ -25,7 +25,7 @@ body {
 #divTableAndSpacer {
   z-index: 100;
   position: absolute;
-  width: 100%; }
+}
 
 #divTable2Container, #divSpacer {
   height: 200px; }

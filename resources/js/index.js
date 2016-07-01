@@ -25,21 +25,20 @@ function resizeWorkSpace() {
 }
 
 function smartScroll(scrollPos){
-		scrollThresh = $("#divControlTableRow").height()- $(".navbar-header").height();
+		scrollThresh = $("#divControlTableRow").height();
    		if(scrollPos > scrollThresh){
    			if (tableSpaceScroll === false){
 	   			var topTarget = $("#divEventBanner").height()+$(".navbar-header").height();
 	   			$("#divTableAndSpacer").css({ 'top': topTarget});
-	   		    $("#divWorkspaceContainer").scrollTop(scrollPos);
-   		    }
-   		} else{
-   				var topTarget = $("#divControlTableRow").height()+$("#divEventBanner").height()-scrollPos;
-   				$("#divTableAndSpacer").css({ 'top': topTarget});
-   				$("#divWorkspaceContainer").scrollTop(scrollPos);
-   				if ($("#divTableAndSpacer").offset().top > ($("#divEventBanner").height()+ $("#divControlTableRow").height())){
-   					$("#divTableAndSpacer").offset({"top": $("#divEventBanner").height()+ $("#divControlTableRow").height()});
-   				}
-
+	   		  $("#divWorkspaceContainer").scrollTop(scrollPos);
+   		   }
+   		}else{
+ 				var topTarget = $("#divControlTableRow").height()+$("#divEventBanner").height()+$(".navbar-header").height()-scrollPos;
+ 				$("#divTableAndSpacer").css({ 'top': topTarget});
+ 				$("#divWorkspaceContainer").scrollTop(scrollPos);
+ 				if ($("#divTableAndSpacer").offset().top > ($("#divEventBanner").height()+ $("#divControlTableRow").height())){
+ 					$("#divTableAndSpacer").offset({"top": $("#divEventBanner").height()+ $("#divControlTableRow").height()});
+ 		    }
    		} 
 
    		
@@ -63,10 +62,9 @@ $( document ).ready(function() {
         wheel = event.originalEvent.wheelDeltaY;
         scrollPos = $("#divWorkspaceContainer").scrollTop()-wheel;
         tableSpaceScroll = true;
-        //console.log("wheel= " + wheel + ";scrollPos = " +scrollPos);
+        
         $('#divWorkspaceContainer').scroll( );
         tableSpaceScroll = false;
-        
     });
 
     controlTable2Pos();

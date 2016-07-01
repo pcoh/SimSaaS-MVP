@@ -1,6 +1,16 @@
+
+
+
+
 plotCount = 1;
 stdPlotOpcacity = $(".divPlotContainer").css("opacity");
 dragPlotOpacity = '0.4';
+tableSpaceScroll = false;
+
+$("#divControlTableRow").css({ 'margin-bottom': $("#divTableAndSpacer").height()});
+$("#divTableAndSpacer").css({ 'top': $("#divControlTableRow").height()+$("#divEventBanner").height()});
+
+
 function createPlotContainer(plotCount){
 	plotContHTML = "<div class=\"col-sm-12 fuchsia divPlotContainer\" draggable=\"true\">PlotContainer" + plotCount + "<a href=\"#\"><span class=\"removePlot grey\">Remove Plot</span></a></div>";
 	return plotContHTML;
@@ -14,9 +24,52 @@ function resizeWorkSpace() {
   	
 }
 
+function smartScroll(scrollPos){
+		scrollThresh = $("#divControlTableRow").height()- $(".navbar-header").height();
+   		if(scrollPos > scrollThresh){
+   			if (tableSpaceScroll === false){
+	   			var topTarget = $("#divEventBanner").height()+$(".navbar-header").height();
+	   			$("#divTableAndSpacer").css({ 'top': topTarget});
+	   		    $("#divWorkspaceContainer").scrollTop(scrollPos);
+   		    }
+   		} else{
+   				var topTarget = $("#divControlTableRow").height()+$("#divEventBanner").height()-scrollPos;
+   				$("#divTableAndSpacer").css({ 'top': topTarget});
+   				$("#divWorkspaceContainer").scrollTop(scrollPos);
+   				if ($("#divTableAndSpacer").offset().top > ($("#divEventBanner").height()+ $("#divControlTableRow").height())){
+   					$("#divTableAndSpacer").offset({"top": $("#divEventBanner").height()+ $("#divControlTableRow").height()});
+   				}
+
+   		} 
+
+   		
+}
+
+function controlTable2Pos() {	
+	$("#divWorkspaceContainer").bind('scroll', function() {
+		if (tableSpaceScroll === false){
+			scrollPos = $("#divWorkspaceContainer").scrollTop();
+		}
+		smartScroll(scrollPos);	
+	}); 
+}
+
 $( document ).ready(function() {
     resizeTrackArea();
     resizeWorkSpace();
+
+    $('#divTableAndSpacer').on('mousewheel',function(event) {
+        
+        wheel = event.originalEvent.wheelDeltaY;
+        scrollPos = $("#divWorkspaceContainer").scrollTop()-wheel;
+        tableSpaceScroll = true;
+        //console.log("wheel= " + wheel + ";scrollPos = " +scrollPos);
+        $('#divWorkspaceContainer').scroll( );
+        tableSpaceScroll = false;
+        
+    });
+
+    controlTable2Pos();
 });
 $( window ).resize(function() {
 	resizeTrackArea();

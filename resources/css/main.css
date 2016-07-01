@@ -9,8 +9,12 @@ body {
 #divTrackContainer {
   height: 900px; }
 
+#eventNavBarCollapse, ul.nav.navbar-nav > li {
+  z-Index: 1000 !important; }
+
 #divEventBanner {
-  height: 80px; }
+  height: 80px;
+  z-Index: 100; }
 
 #divSimControlContainer {
   height: 300px; }
@@ -18,7 +22,12 @@ body {
 #divTable1Container {
   height: 300px; }
 
-#divTable2Container {
+#divTableAndSpacer {
+  z-index: 100;
+  position: absolute;
+  width: 100%; }
+
+#divTable2Container, #divSpacer {
   height: 200px; }
 
 .divPlotContainer {
@@ -47,10 +56,14 @@ body {
   float: left; }
 
 #navTrackNavBar {
-  margin-bottom: 0px; }
+  margin-bottom: 0px;
+  z-index: 10000; }
 
 #divWorkspaceContainer {
   overflow-y: scroll; }
+
+#divPlotArea {
+  width: 100%; }
 
 .addPlot, .removePlot {
   float: right;
@@ -65,5 +78,14 @@ body {
   /* Required to make elements draggable in old WebKit */
   -khtml-user-drag: element;
   -webkit-user-drag: element; }
+
+#dummyBar {
+  position: absolute;
+  top: 400px;
+  z-index: 10;
+  background-color: #FF0F00;
+  width: 100%;
+  height: 200px;
+  padding: 0px; }
 
 /*# sourceMappingURL=main.css.map */

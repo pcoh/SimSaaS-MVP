@@ -74,6 +74,7 @@ $( document ).ready(function() {
 $( window ).resize(function() {
 	resizeTrackArea();
 	resizeWorkSpace();
+  controlTable2Pos();
 })
 
 $('.addPlot').on('click',  function() {
@@ -93,7 +94,6 @@ $('#divWorkspaceContainer').on('click', 'div a .removePlot', function() {
 	plotCount = plotCount -1;
 });
 
-
 function handleDragStart(e) {
 	this.style.opacity = dragPlotOpacity; 
 	dragSrcEl = this;
@@ -101,6 +101,7 @@ function handleDragStart(e) {
   	e.dataTransfer.effectAllowed = 'move';
   	e.dataTransfer.setData('text/html', this.innerHTML);
 }
+
 function handleDragEnter(e) {
   // this / e.target is the current hover target.
 	if (dragSrcEl != this) {
@@ -110,6 +111,7 @@ function handleDragEnter(e) {
 		return $newDropZone;
 	}
 }
+
 function handleDragOver(e) {
   if (e.preventDefault) {
     e.preventDefault(); 
@@ -117,7 +119,6 @@ function handleDragOver(e) {
   e.dataTransfer.dropEffect = 'move';
   return false;
 }
-
 
 function handleDragLeave(e) {
   //this.classList.remove('over');  // this / e.target is previous target element.
@@ -130,7 +131,6 @@ function handleDrop(e) {
   if (e.stopPropagation) {
     e.stopPropagation(); // stops the browser from redirecting.
   }
-  
   // Don't do anything if dropping the same plot we're dragging.
   if (dragSrcEl != this) {
     $cutPlot = $(dragSrcEl).detach();
@@ -145,6 +145,7 @@ function handleDrop(e) {
   }
   return false;
 }
+
 function handleDragEnd(e) {
   // this/e.target is the source node.
 	$newDropZone.remove();
@@ -154,7 +155,6 @@ function handleDragEnd(e) {
     //plCont.classList.remove('over'); 
   });
 }
-
 
 function addListenerToPlots(){
 	plotContains = document.querySelectorAll('.row .divPlotContainer');

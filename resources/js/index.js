@@ -74,7 +74,8 @@ $( document ).ready(function() {
 $( window ).resize(function() {
 	resizeTrackArea();
 	resizeWorkSpace();
-  controlTable2Pos();
+  scrollPos = $("#divWorkspaceContainer").scrollTop();
+  smartScroll(scrollPos); 
 })
 
 $('.addPlot').on('click',  function() {

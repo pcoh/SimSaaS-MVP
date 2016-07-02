@@ -9,7 +9,6 @@ function handleDragStart(e) {
 function handleDragEnter(e) {
   // this / e.target is the current hover target.
 	if (dragSrcEl != this) {
-	  	//this.classList.add('over');
 		dropZone = "<div class=\"col-sm-12 dropZone\">Drop here</div>";
 		$newDropZone = $( dropZone ).insertBefore( $(this));
 		return $newDropZone;
@@ -25,7 +24,6 @@ function handleDragOver(e) {
 }
 
 function handleDragLeave(e) {
-  //this.classList.remove('over');  // this / e.target is previous target element.
   if (dragSrcEl != this) {
   	$newDropZone.remove();
   }
@@ -54,9 +52,7 @@ function handleDragEnd(e) {
   // this/e.target is the source node.
 	$newDropZone.remove();
   [].forEach.call(plotContains, function (plCont) {
-    //plCont.classList.remove('over');
     plCont.style.opacity = stdPlotOpcacity; 
-    //plCont.classList.remove('over'); 
   });
 }
 
@@ -70,5 +66,4 @@ function addListenerToPlots(){
 		plCont.addEventListener('drop', handleDrop, false);
 		plCont.addEventListener('dragend', handleDragEnd, false);
 	});
-	//return plotContains;
 }

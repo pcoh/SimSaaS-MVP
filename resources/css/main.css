@@ -1,20 +1,40 @@
 html {
   overflow: hidden;
-  height: 100%; }
+  height: 100%;
+  background-color: #343434; }
 
 body {
   height: 100%;
-  overflow: auto; }
+  overflow: auto;
+  background-color: #343434;
+  color: #dfdfdf; }
 
 #divTrackContainer {
-  height: 900px; }
+  height: 900px;
+  overflow-y: scroll;
+  border-right: 1px solid #dfdfdf; }
+
+.eventSelector {
+  height: 120px; }
 
 #eventNavBarCollapse, ul.nav.navbar-nav > li {
   z-Index: 1000 !important; }
 
 #divEventBanner {
   height: 80px;
-  z-Index: 100; }
+  z-Index: 100;
+  font-size: 1.5em;
+  padding-top: 10px; }
+
+#eventHeadline {
+  margin-top: 15px; }
+
+#logo {
+  height: 70px;
+  background-position: right;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url(../images/AVLRacing_Logo.png); }
 
 #divSimControlContainer {
   height: 300px; }
@@ -24,13 +44,13 @@ body {
 
 #divTableAndSpacer {
   z-index: 100;
-  position: absolute;
-}
+  position: absolute; }
 
 #divTable2Container, #divSpacer {
   height: 200px; }
 
 .divPlotContainer {
+  background-color: #fff;
   height: 300px;
   display: none;
   margin-top: 20px;
@@ -68,7 +88,27 @@ body {
 .addPlot, .removePlot {
   float: right;
   margin-top: 10px;
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  margin-right: 20px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 20px;
+  width: 20px;
+  cursor: pointer; }
+
+.addPlot {
+  margin-right: 20px;
+  background-image: url(../images/AddPlot_off.png); }
+
+.addPlot:hover {
+  background-image: url(../images/AddPlot_hover.png); }
+
+.removePlot {
+  margin-right: 5px;
+  background-image: url(../images/RemovePlot_off.png); }
+
+.removePlot:hover {
+  background-image: url(../images/RemovePlot_hover.png); }
 
 [draggable] {
   -moz-user-select: none;
@@ -87,5 +127,7 @@ body {
   width: 100%;
   height: 200px;
   padding: 0px; }
+
+/*# sourceMappingURL=main.css.map */
 
 /*# sourceMappingURL=main.css.map */

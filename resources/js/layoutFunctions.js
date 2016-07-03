@@ -9,7 +9,7 @@ function resizeWorkSpace() {
 
 
 function createPlotContainer(plotCount){
-	plotContHTML = "<div class=\"col-sm-12 fuchsia divPlotContainer\" draggable=\"true\">PlotContainer" + plotCount + "<a href=\"#\"><span class=\"removePlot grey\">Remove Plot</span></a></div>";
+	plotContHTML = "<div class=\"col-sm-12 divPlotContainer\" draggable=\"true\">PlotContainer" + plotCount + "<a href=\"#\"><span class=\"removePlot\"></span></a></div>";
 	return plotContHTML;
 }
 

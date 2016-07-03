@@ -1,79 +1,132 @@
+$background-color: #343434;
+$font-color: #dfdfdf;
+$headline-size: 1.5em;
+$banner-height: 80px;
+
+
+
 html {
-    overflow: hidden;
-    height: 100%;
+  overflow: hidden;
+  height: 100%; 
+  background-color: $background-color;
 }
+
 body {
-    height: 100%;
-    overflow: auto;
-}
-#divTrackContainer{
-	height: 900px;
-}
-#eventNavBarCollapse, ul.nav.navbar-nav>li{
-	z-Index: 1000 !important;
+  	height: 100%;
+  	overflow: auto; 
+	background-color: $background-color;
+	color: $font-color;
 }
 
-#divEventBanner{
-	height: 80px;
-	z-Index: 100;
+#divTrackContainer {
+  height: 900px; 
+  overflow-y: scroll;
+  border-right: 1px solid $font-color;
 }
-#divSimControlContainer{
-	height: 300px;
+
+.eventSelector{
+  height: 120px;
 }
-#divTable1Container{
-	height: 300px;
+
+#eventNavBarCollapse, ul.nav.navbar-nav > li {
+  z-Index: 1000 !important; }
+
+#divEventBanner {
+  height: $banner-height;
+  z-Index: 100; 
+  font-size: $headline-size;
+  padding-top: 10px;
+
 }
-#divTableAndSpacer{
-	z-index: 100;
-	position: absolute;
-	width: 100%;
+#eventHeadline{
+	margin-top: 15px;
 }
+#logo{
+	height: $banner-height - 10;
+	background-position: right;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-image: url(../images/AVLRacing_Logo.png);
+}
+
+#divSimControlContainer {
+  height: 300px; }
+
+#divTable1Container {
+  height: 300px; }
+
+#divTableAndSpacer {
+  z-index: 100;
+  position: absolute;
+}
+
 #divTable2Container, #divSpacer {
-	height: 200px;	
-}
+  height: 200px; }
 
-.divPlotContainer{
-	height: 300px;
-	display: none;
-	margin-top: 20px;
-	cursor: move;
-	opacity: 0.4;
-}
+.divPlotContainer {
+  background-color: #fff;
+  height: 300px;
+  display: none;
+  margin-top: 20px;
+  cursor: move;
+  opacity: 0.4; }
+
 .divPlotContainer.over {
-  /*border-top: 2px dashed #000;*/
-}
-.initialPlotCont{
-	display: block;
-}
-.dropZone{
-	height: 50px;
-	margin-bottom: -70px;
-	margin-top:20px;
-	background-color: #999;
-	border: 2px dashed #555;
-	color: #555;
-	text-align: center;
-}
-.navbar-toggle{
-	float: left;
-}
-#navTrackNavBar{
-	margin-bottom: 0px;
-	z-index: 10000;
-}
-#divWorkspaceContainer{
-	overflow-y: scroll;
-}
-#divPlotArea{
-	width: 100%;
-	
+  /*border-top: 2px dashed #000;*/ }
+
+.initialPlotCont {
+  display: block; }
+
+.dropZone {
+  height: 50px;
+  margin-bottom: -70px;
+  margin-top: 20px;
+  background-color: #999;
+  border: 2px dashed #555;
+  color: #555;
+  text-align: center; }
+
+.navbar-toggle {
+  float: left; }
+
+#navTrackNavBar {
+  margin-bottom: 0px;
+  z-index: 10000; }
+
+#divWorkspaceContainer {
+  overflow-y: scroll;
 }
 
-.addPlot, .removePlot{
-	float: right;
-	margin-top: 10px;
-	margin-bottom:10px;
+#divPlotArea {
+  width: 100%; }
+
+.addPlot, .removePlot {
+  float: right;
+  margin-top: 10px;
+  margin-bottom: 10px; 
+  margin-right: 20px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
 }
+
+.addPlot{
+	margin-right: 20px;
+	background-image: url(../images/AddPlot_off.png);
+}
+.addPlot:hover{
+	background-image: url(../images/AddPlot_hover.png);
+}
+.removePlot{
+	margin-right: 5px;
+	background-image: url(../images/RemovePlot_off.png);
+}
+.removePlot:hover{
+	background-image: url(../images/RemovePlot_hover.png);
+}
+
 [draggable] {
   -moz-user-select: none;
   -khtml-user-select: none;
@@ -81,15 +134,15 @@ body {
   user-select: none;
   /* Required to make elements draggable in old WebKit */
   -khtml-user-drag: element;
-  -webkit-user-drag: element;
-}
+  -webkit-user-drag: element; }
 
-#dummyBar{
-	position: absolute;
-	top: 400px;
-	z-index:10;
-	background-color: #FF0F00;
-	width: 100%;
-	height: 200px;
-	padding: 0px;
-}
+#dummyBar {
+  position: absolute;
+  top: 400px;
+  z-index: 10;
+  background-color: #FF0F00;
+  width: 100%;
+  height: 200px;
+  padding: 0px; }
+
+/*# sourceMappingURL=main.css.map */

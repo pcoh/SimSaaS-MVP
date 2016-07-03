@@ -23,8 +23,18 @@
   <body>
     <div class="container-fluid">
       <div class="row">          
-        <div class="hidden-xs col-sm-1 blue" id="divTrackContainer">Trackarea</div>
-        <nav class="navbar navbar-default green hidden-sm hidden-md hidden-lg" id="navTrackNavBar">            
+        <div class="hidden-xs col-sm-1" id="divTrackContainer">
+          <div class="eventSelector">Event 1</div>
+          <div class="eventSelector">Event 2</div>
+          <div class="eventSelector">Event 3</div>
+          <div class="eventSelector">Event 4</div>
+          <div class="eventSelector">Event 5</div>
+          <div class="eventSelector">Event 6</div>
+          <div class="eventSelector">Event 7</div>
+          <div class="eventSelector">Event 8</div>
+          <div class="eventSelector">Event 9</div>
+        </div>
+        <nav class="navbar navbar-default hidden-sm hidden-md hidden-lg" id="navTrackNavBar">            
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#eventNavBarCollapse" aria-expanded="false">
@@ -48,27 +58,30 @@
             </ul>                    
           </div><!-- /.navbar-collapse -->
         </nav>
-        <div class="col-sm-11 yellow" id="divEventBanner">Banner</div>
+        <div class="col-sm-11" id="divEventBanner">
+          <div class="col-sm-7 col-xs-8"id="eventHeadline">Round 1 - Catalunya</div>
+          <div class="col-sm-5 col-xs-4"id="logo"></div>
+        </div>
       
     
-        <div id="divWorkspaceContainer" class="container-fluid grey">
+        <div id="divWorkspaceContainer" class="container-fluid">
           <div class="row" id="divControlTableRow">  
-            <div class="col-sm-4 green" id="divSimControlContainer">SimControls</div>
-            <div class="col-sm-8 red" id="divTable1Container">Table1</div>
+            <div class="col-sm-4" id="divSimControlContainer">SimControls</div>
+            <div class="col-sm-8" id="divTable1Container">Table1</div>
           </div>
             
             <div id="divPlotArea" >
               <div class="row">
-                <div class="col-sm-12 fuchsia divPlotContainer initialPlotCont" draggable="true">PlotContainer
-                  <a href="#" draggable="false"><span class="removePlot grey" draggable="false">Remove Plot</span></a>
+                <div class="col-sm-12 divPlotContainer initialPlotCont" draggable="true">PlotContainer
+                  <a href="#" draggable="false"><span class="removePlot" draggable="false"></span></a>
                 </div>
-                <a href="#"><span class="addPlot grey">Add Plot</span></a>
+                <a href="#"><span class="addPlot"></span></a>
               </div>
             </div>
           
             <div class="row" id="divTableAndSpacer">
-              <div class="hidden-xs col-sm-4 teal" id="divSpacer">spacer</div> 
-              <div class="col-sm-8 orange" id="divTable2Container">Table2</div>  
+              <div class="hidden-xs col-sm-4" id="divSpacer">spacer</div> 
+              <div class="col-sm-8" id="divTable2Container">Table2</div>  
             </div>
           
         </div>

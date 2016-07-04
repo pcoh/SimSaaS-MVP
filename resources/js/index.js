@@ -14,12 +14,14 @@ $( document ).ready(function() {
     });
 
     controlTable2Pos();
+    positionBG();
 });
 $( window ).resize(function() {
 	resizeTrackArea();
 	resizeWorkSpace();
   scrollPos = $("#divWorkspaceContainer").scrollTop();
   smartScroll(scrollPos); 
+  positionBG();
 })
 
 $('.addPlot').on('click',  function() {
@@ -31,7 +33,7 @@ $('.addPlot').on('click',  function() {
 
 $('#divWorkspaceContainer').on('click', 'div a .removePlot', function() {
 	$(this).parent().parent().slideUp(400, function() {
-		$(this).remove();
+		$(this).parent().remove();
 	});
 	addListenerToPlots();
 	plotCount = plotCount -1;

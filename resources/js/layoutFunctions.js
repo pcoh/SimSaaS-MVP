@@ -6,22 +6,27 @@ function resizeWorkSpace() {
 	$("#divWorkspaceContainer").height(WSheight);
   	$("#divTableAndSpacer").width($("#divControlTableRow").width()); 	
 }
+function positionBG(){
+	$('#divWorkspaceContainer').css({'background-position-y': $("#divTableAndSpacer").height()+10});
+}
 
 
 function createPlotContainer(plotCount){
-	plotContHTML = "<div class=\"col-sm-12 divPlotContainer\" draggable=\"true\">PlotContainer" + plotCount + "<a href=\"#\"><span class=\"removePlot\"></span></a></div>";
+	plotContHTML = "<div class=\"col-sm-12 divPlotContainer\" draggable=\"true\"><div class=\"plot\">PlotContainer" + plotCount + "<a href=\"#\"><span class=\"removePlot\"></span></a></div></div>";
 	return plotContHTML;
 }
 
 function smartScroll(scrollPos){
 		scrollThresh = $("#divControlTableRow").height();
-   		if(scrollPos > scrollThresh){
+   		if(scrollPos >= scrollThresh){
+   			$("#divTableAndSpacer").addClass('noSeeThrough');
    			if (tableSpaceScroll === false){
-	   			var topTarget = $("#divEventBanner").height()+$(".navbar-header").height();
+	   			var topTarget = $("#divEventBanner").height()+$(".navbar-header").height()-2;
 	   			$("#divTableAndSpacer").css({ 'top': topTarget});
-	   		  $("#divWorkspaceContainer").scrollTop(scrollPos);
+	   		  	$("#divWorkspaceContainer").scrollTop(scrollPos);
    		   }
    		}else{
+   			   	$("#divTableAndSpacer").removeClass('noSeeThrough');
  				var topTarget = $("#divControlTableRow").height()+$("#divEventBanner").height()+$(".navbar-header").height()-scrollPos;
  				$("#divTableAndSpacer").css({ 'top': topTarget});
  				$("#divWorkspaceContainer").scrollTop(scrollPos);

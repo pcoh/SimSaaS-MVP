@@ -9,6 +9,7 @@
 
     <!-- Bootstrap -->
     <link href="vendors/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendors/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet">
     <!-- custom stylesheets -->
     <link href="resources/css/main.css" rel="stylesheet">
     <link href="resources/css/helpers.css" rel="stylesheet">
@@ -66,7 +67,13 @@
     
         <div id="divWorkspaceContainer" class="container-fluid">
           <div class="row" id="divControlTableRow">  
-            <div class="col-sm-4" id="divSimControlContainer">SimControls</div>
+            <div class="col-sm-4" id="divSimControlContainer">SimControls
+              <select id="selectTrackGrip">
+                <option>95%</option>
+                <option selected="selected">100%</option>
+                <option>105%</option>
+              </select>
+            </div>
             <div class="col-sm-8" id="divTable1Container">Table1</div>
           </div>
             
@@ -98,6 +105,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="vendors/bootstrap-3.3.6-dist/js/bootstrap.min.js"></script>
+    <script src="vendors/jquery-ui-1.11.4.custom/jquery-ui.js"></script>
     <script src="resources/js/initVars.js"></script>
     <script src="resources/js/layoutFunctions.js"></script>
     <script src="resources/js/dragAndDrop.js"></script>

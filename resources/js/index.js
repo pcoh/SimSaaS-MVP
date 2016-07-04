@@ -1,3 +1,9 @@
+$(function() {
+    $( "#selectTrackGrip" ).selectmenu();
+  })
+
+
+
 $( document ).ready(function() {
     resizeTrackArea();
     resizeWorkSpace();

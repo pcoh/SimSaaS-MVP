@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,cAAc;EACb,KAAK,EAAE,IAAI;;AAEZ,cAAe;EACd,OAAO,EAAE,GAAG",
+"sources": ["jqui.scss"],
+"names": [],
+"file": "jqui.css"
+}

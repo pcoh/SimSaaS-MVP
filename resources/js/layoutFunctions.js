@@ -9,6 +9,12 @@ function resizeWorkSpace() {
 function positionBG(){
 	$('#divWorkspaceContainer').css({'background-position-y': $("#divTableAndSpacer").height()+10});
 }
+function resizeSelectMenus(){
+
+    $.each($('select'), function () {
+        $(this).selectmenu({ width : $(this).attr("width")})
+    })
+}
 
 
 function createPlotContainer(plotCount){

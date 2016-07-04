@@ -28,6 +28,7 @@ $( window ).resize(function() {
   scrollPos = $("#divWorkspaceContainer").scrollTop();
   smartScroll(scrollPos); 
   positionBG();
+  resizeSelectMenus();
 })
 
 $('.addPlot').on('click',  function() {

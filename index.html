@@ -12,6 +12,7 @@
     <link href="vendors/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet">
     <!-- custom stylesheets -->
     <link href="resources/css/main.css" rel="stylesheet">
+    <link href="resources/css/jqui.css" rel="stylesheet">
     <link href="resources/css/helpers.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -67,15 +68,22 @@
     
         <div id="divWorkspaceContainer" class="container-fluid">
           <div class="row" id="divControlTableRow">  
-            <div class="col-sm-4" id="divSimControlContainer">SimControls
-              <select id="selectTrackGrip">
-                <option>95%</option>
-                <option selected="selected">100%</option>
-                <option>105%</option>
-              </select>
+            <div class="col-sm-4" id="divSimControlContainer">
+              <div class="col-xs-6 col-sm-6 col-md-3 red"> Track Grip:</div>
+              <div class="col-xs-6 col-sm-6 col-md-3 yellow selectContain"> 
+                <select id="selectTrackGrip" class="setupSelector">
+                  <option>95%</option>
+                  <option selected="selected">100%</option>
+                  <option>105%</option>
+                </select>
+                
+              </div>
+              <div class="hidden-xs hidden-sm col-md-3 teal">spacer</div>
             </div>
-            <div class="col-sm-8" id="divTable1Container">Table1</div>
           </div>
+
+            <div class="col-sm-8" id="divTable1Container">Table1</div>
+          
             
             <div id="divPlotArea" >
               <div class="row">
@@ -87,16 +95,18 @@
                 <a href="#"><span class="addPlot"></span></a>
               </div>
             </div>
+
           
             <div class="row" id="divTableAndSpacer">
               <div class="hidden-xs col-sm-4" id="divSpacer">spacer</div> 
               <div class="col-sm-8" id="divTable2Container">Table2</div>  
             </div>
+          </div>
           
         </div>
       </div>
 
-    </div>
+    
 
 
   

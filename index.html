@@ -69,22 +69,110 @@
         <div id="divWorkspaceContainer" class="container-fluid">
           <div class="row" id="divControlTableRow">  
             <div class="col-sm-4" id="divSimControlContainer">
-              <div class="col-xs-6 col-sm-6 col-md-3 red"> Track Grip:</div>
-              <div class="col-xs-6 col-sm-6 col-md-3 yellow selectContain"> 
-                <select id="selectTrackGrip" class="setupSelector">
-                  <option>95%</option>
-                  <option selected="selected">100%</option>
-                  <option>105%</option>
-                </select>
-                
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 componentCaption ">Track Grip:</div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
+                  <select id="selectTrackGrip" class="setupSelector ">
+                    <option>95%</option>
+                    <option selected="selected">100%</option>
+                    <option>105%</option>
+                  </select>
+                </div>
+                <div class="hidden-xs hidden-sm hidden-md col-lg-4"></div>
               </div>
-              <div class="hidden-xs hidden-sm col-md-3 teal">spacer</div>
+
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 componentCaption ">Wing Position:</div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
+                  <select id="selectWingPos" class="setupSelector">
+                    <option>1</option>
+                    <option selected="selected">2</option>
+                    <option>3</option>
+                  </select>
+                </div>
+                <div class="hidden-xs hidden-sm hidden-md col-lg-4"></div>
+              </div>
+              <div class="row hidden-xs hidden-sm hidden-md ">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-4 columnCaption left">Front:</div>
+                <div class="col-lg-4 columnCaption right">Rear:</div>
+              </div>
+
+              <div class="row">
+                <div class="hidden-xs hidden-sm hidden-md col-lg-4 componentCaption ">Ride Height:</div>
+                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Ride Height Front:</div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
+                  <select id="selectRH_Front" class="setupSelector">
+                    <option>20mm</option>
+                    <option selected="selected">25mm</option>
+                    <option>30mm</option>
+                  </select>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Ride Height Rear:</div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain right"> 
+                  <select id="selectRH_Rear" class="setupSelector">
+                    <option>50mm</option>
+                    <option selected="selected">55mm</option>
+                    <option>60mm</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="hidden-xs hidden-sm hidden-md col-lg-4 componentCaption ">Spring Stiffness:</div>
+                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Spring Stiffness Front:</div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
+                  <select id="selectSpringStiff_Front" class="setupSelector">
+                    <option>150N/mm</option>
+                    <option selected="selected">200N/mm</option>
+                    <option>250N/mm</option>
+                  </select>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Spring Stiffness Rear:</div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain right"> 
+                  <select id="selectSpringStiff_Rear" class="setupSelector">
+                    <option>150N/mm</option>
+                    <option selected="selected">200N/mm</option>
+                    <option>250N/mm</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="hidden-xs hidden-sm hidden-md col-lg-4 componentCaption ">ARB Stiffness:</div>
+                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">ARB Stiffness Front:</div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
+                  <select id="selectARBStiff_Front" class="setupSelector">
+                    <option>150N/mm</option>
+                    <option selected="selected">200N/mm</option>
+                    <option>250N/mm</option>
+                  </select>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">ARB Stiffness Rear:</div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain right"> 
+                  <select id="selectARBStiff_Rear" class="setupSelector">
+                    <option>150N/mm</option>
+                    <option selected="selected">200N/mm</option>
+                    <option>250N/mm</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8 componentCaption "></div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 buttonContain">
+                  <button>Simulate Lap</button>
+                </div>
+
+              </div>
+
+
+
             </div>
-          </div>
+          
 
             <div class="col-sm-8" id="divTable1Container">Table1</div>
-          
-            
+          </div>
             <div id="divPlotArea" >
               <div class="row">
                 <div class="col-sm-12 divPlotContainer initialPlotCont" draggable="true">

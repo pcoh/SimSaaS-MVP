@@ -50,11 +50,12 @@ body {
 	background-image: url(../images/AVLRacing_Logo.png);
 }
 
-#divSimControlContainer {
+/*#divSimControlContainer {
   height: 300px; }
 
 #divTable1Container {
   height: 300px; }
+  */
 
 #divTableAndSpacer {
   z-index: 100;
@@ -117,6 +118,7 @@ body {
   background-repeat: no-repeat;
   background-position: center center;
   overflow-y: scroll;
+  padding-top: 10px;
 }
 
 #divPlotArea {

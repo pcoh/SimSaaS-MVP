@@ -1,6 +1,45 @@
 $(function() {
     $( "#selectTrackGrip" ).selectmenu();
-  })
+})
+
+$(function() {
+    $( "#selectWingPos" ).selectmenu();
+})
+
+$(function() {
+    $( "#selectRH_Front" ).selectmenu();
+})
+
+$(function() {
+    $( "#selectRH_Rear" ).selectmenu();
+})
+
+$(function() {
+    $( "#selectSpringStiff_Front" ).selectmenu();
+})
+
+$(function() {
+    $( "#selectSpringStiff_Rear" ).selectmenu();
+})
+
+$(function() {
+    $( "#selectARBStiff_Front" ).selectmenu();
+})
+
+$(function() {
+    $( "#selectARBStiff_Rear" ).selectmenu();
+})
+$(function() {
+    $( "button" )
+      .button()
+      .click(function( event ) {
+        event.preventDefault();
+      });
+  });
+
+
+
+
 
 
 
@@ -8,7 +47,9 @@ $( document ).ready(function() {
     resizeTrackArea();
     resizeWorkSpace();
     $("#divControlTableRow").css({ 'margin-bottom': $("#divTableAndSpacer").height()});
-    $("#divTableAndSpacer").css({ 'top': $("#divControlTableRow").height()+$("#divEventBanner").height()});
+    //$("#divTableAndSpacer").css({ 'top': $("#divControlTableRow").height()+$("#divEventBanner").height()});
+    $("#divTableAndSpacer").css({ 'top': $("#divControlTableRow").offset().top + $("#divControlTableRow").outerHeight(false)});
+
 
     $('#divTableAndSpacer').on('mousewheel',function(event) {
       wheel = event.originalEvent.wheelDeltaY;

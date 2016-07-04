@@ -32,13 +32,14 @@ function smartScroll(scrollPos){
 	   		  	$("#divWorkspaceContainer").scrollTop(scrollPos);
    		   }
    		}else{
-   			   	$("#divTableAndSpacer").removeClass('noSeeThrough');
- 				var topTarget = $("#divControlTableRow").height()+$("#divEventBanner").height()+$(".navbar-header").height()-scrollPos;
- 				$("#divTableAndSpacer").css({ 'top': topTarget});
- 				$("#divWorkspaceContainer").scrollTop(scrollPos);
- 				if ($("#divTableAndSpacer").offset().top > ($("#divEventBanner").height()+ $("#divControlTableRow").height())){
- 					$("#divTableAndSpacer").offset({"top": $("#divEventBanner").height()+ $("#divControlTableRow").height()});
- 		    }
+		   	$("#divTableAndSpacer").removeClass('noSeeThrough');
+			//var topTarget = $("#divControlTableRow").height()+$("#divEventBanner").height()+$(".navbar-header").height()-scrollPos;
+			var topTarget = $("#divControlTableRow").offset().top + $("#divControlTableRow").outerHeight(false);
+			$("#divTableAndSpacer").css({ 'top': topTarget});
+			$("#divWorkspaceContainer").scrollTop(scrollPos);
+			// if ($("#divTableAndSpacer").offset().top > ($("#divEventBanner").height()+ $("#divControlTableRow").height())){
+			// 	$("#divTableAndSpacer").offset({"top": $("#divEventBanner").height()+ $("#divControlTableRow").height()});
+ 		//     }
    		}  		
 }
 

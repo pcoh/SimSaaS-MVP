@@ -16,6 +16,16 @@
 button {
   width: 100%; }
 
+.ui-state-focus {
+  outline-color: #08c1fe; }
+
+#simButton:hover {
+  background-color: #08c1fe;
+  color: #FFF; }
+
+.ui-menu-item.ui-state-focus {
+  background-color: #08c1fe; }
+
 @media (max-width: 767px) {
   #divSimControlContainer .row {
     padding-left: 15px;

@@ -2,8 +2,8 @@ function resizeTrackArea() {
   $("#divTrackContainer").height($( window ).height());
 }
 function resizeWorkSpace() {
-	var WSheight = $( window ).height()-$("#divEventBanner").height()-$("#navTrackNavBar").height();
-	$("#divWorkspaceContainer").height(WSheight);
+	var WSheight = $( window ).height()-$("#divEventBanner").outerHeight(true)-$("#navTrackNavBar").outerHeight(false);
+	$("#divWorkspaceContainer").outerHeight(WSheight);
   	$("#divTableAndSpacer").width($("#divControlTableRow").width()); 	
 }
 function positionBG(){
@@ -23,23 +23,19 @@ function createPlotContainer(plotCount){
 }
 
 function smartScroll(scrollPos){
-		scrollThresh = $("#divControlTableRow").height();
+		scrollThresh = $("#divControlTableRow").outerHeight(false)+11;
    		if(scrollPos >= scrollThresh){
    			$("#divTableAndSpacer").addClass('noSeeThrough');
    			if (tableSpaceScroll === false){
-	   			var topTarget = $("#divEventBanner").height()+$(".navbar-header").height()-2;
+	   			var topTarget = $("#divEventBanner").position().top +$("#divEventBanner").outerHeight(true);
 	   			$("#divTableAndSpacer").css({ 'top': topTarget});
 	   		  	$("#divWorkspaceContainer").scrollTop(scrollPos);
    		   }
    		}else{
 		   	$("#divTableAndSpacer").removeClass('noSeeThrough');
-			//var topTarget = $("#divControlTableRow").height()+$("#divEventBanner").height()+$(".navbar-header").height()-scrollPos;
 			var topTarget = $("#divControlTableRow").offset().top + $("#divControlTableRow").outerHeight(false);
 			$("#divTableAndSpacer").css({ 'top': topTarget});
 			$("#divWorkspaceContainer").scrollTop(scrollPos);
-			// if ($("#divTableAndSpacer").offset().top > ($("#divEventBanner").height()+ $("#divControlTableRow").height())){
-			// 	$("#divTableAndSpacer").offset({"top": $("#divEventBanner").height()+ $("#divControlTableRow").height()});
- 		//     }
    		}  		
 }
 

@@ -12,34 +12,23 @@ $accent-color: #08c1fe;
 .setupSelector{
 	width: 100%;
 }
+
 .selectContain, .columnCaption, .buttonContain{
 	padding-left: 0px;
 	padding-right: 0px;
 }
 button{
-	width: 100%;
-	
+	width: 100%;	
 }
-.ui-state-focus {outline-color:$accent-color;}
-//button:active {outline:0;}
 
+.ui-state-focus {outline-color:$accent-color;}
 #simButton:hover{
 	background-color: $accent-color;
 	color: #FFF;
-	
-	// -webkit-box-shadow:0 0 6px $accent-color !important;
-	// -moz-box-shadow:0 0 5px $accent-color !important;
-	// box-shadow:0 0 5px $accent-color !important;
 }
-// input[type="button"]:active, input[type="button"].ui-state-focus {
-// 	-webkit-box-shadow:0 0 6px $accent-color !important;
-// 	-moz-box-shadow:0 0 5px $accent-color !important;
-// 	box-shadow:0 0 5px $accent-color !important;
-// 	}
+
 .ui-menu-item.ui-state-focus{
 	background-color: $accent-color;
-	
-	
 }
 
 @media (max-width: 767px) { //xs
@@ -71,6 +60,5 @@ button{
 	}
 	.selectContain.right, .columnCaption.right, .buttonContain{
 		padding-left: 7px;
-	}
-	
+	}	
 }

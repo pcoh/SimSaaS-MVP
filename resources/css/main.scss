@@ -13,8 +13,8 @@ html {
 }
 
 body {
-  	height: 100%;
-  	overflow: auto; 
+  height: 100%;
+  overflow: auto; 
 	background-color: $background-color;
 	color: $font-color;
 }
@@ -59,7 +59,7 @@ body {
   */
 
 #divTable1Container {
-  overflow-x: scroll
+  overflow-x: auto;
 }
   
 
@@ -96,9 +96,6 @@ body {
   -moz-border-radius: $corner-radius;
   -webkit-border-radius: $corner-radius;
 }
-
-.divPlotContainer.over {
-  /*border-top: 2px dashed #000;*/ }
 
 .initialPlotCont {
   display: block; }

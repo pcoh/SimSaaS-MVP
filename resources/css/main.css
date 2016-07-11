@@ -41,7 +41,7 @@ body {
   height: 300px; }
   */
 #divTable1Container {
-  overflow-x: scroll; }
+  overflow-x: auto; }
 
 #divTableAndSpacer {
   padding-top: 0px;
@@ -69,9 +69,6 @@ body {
   border-radius: 3px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px; }
-
-.divPlotContainer.over {
-  /*border-top: 2px dashed #000;*/ }
 
 .initialPlotCont {
   display: block; }

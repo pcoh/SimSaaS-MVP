@@ -1,5 +1,5 @@
 #table1 {
-  width: 832px; }
+  width: 832px !important; }
 
 #table2 {
   height: 138px;
@@ -56,7 +56,9 @@
 
 #table1ContentScroller {
   height: 206px;
-  overflow-y: scroll; }
+  overflow-y: auto;
+  padding: 0px !important;
+  width: 100% !important; }
 
 .lapRow {
   width: 100%;

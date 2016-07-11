@@ -3,7 +3,7 @@ $font-color: #dfdfdf;
 $border-radius: 3px;
 
 #table1{
-	width: 832px;
+	width: 832px !important;
 }
 #table2{
 	height: 138px;
@@ -67,17 +67,17 @@ $border-radius: 3px;
 
 #table1ContentScroller{
 	height: 206px;
-	overflow-y: scroll;
+	overflow-y: auto;
+	padding: 0px !important;
+	width: 100% !important;
 }
 
 .lapRow{
-
 	width: 100%;
 	height: 23px;
 }
 .evenRow{
 	background-color: rgba(255, 255, 255, 0.4);
-
 }
 .oddRow{
 	//background-color: rgba(255, 255, 255, 0.4);

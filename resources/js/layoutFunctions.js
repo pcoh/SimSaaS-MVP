@@ -4,7 +4,7 @@ function resizeTrackArea() {
 function resizeWorkSpace() {
 	var WSheight = $( window ).height()-$("#divEventBanner").outerHeight(true)-$("#navTrackNavBar").outerHeight(false);
 	$("#divWorkspaceContainer").outerHeight(WSheight);
-  	$("#divTableAndSpacer").width($("#divControlTableRow").width()); 	
+  	$("#divTableAndSpacer").width($("#divWorkspaceContainer").outerWidth(false)); 	
 }
 function positionBG(){
 	$('#divWorkspaceContainer').css({'background-position-y': $("#divTableAndSpacer").height()+10});

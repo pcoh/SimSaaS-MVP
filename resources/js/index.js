@@ -37,48 +37,91 @@ $(function() {
       });
   });
 
+function customScrollBarVert($event){
+  var delay = 300;
+  var timeout = null;
+  var targetElement = $event.target;      
+  $(targetElement).parent().children().children('.vertEnscrollTrack').children('.vertEnscrollHandle').addClass("myScrollHover");
+  clearTimeout(timeout);
+  timeout = setTimeout(function(){
+    $(targetElement).parent().children().children('.vertEnscrollTrack').children('.vertEnscrollHandle') .removeClass("myScrollHover");
+  },delay);
+}
 
+function customScrollBarHor($event){
+  var delay = 300;
+  var timeout = null;
+  var targetElement = $event.target;      
+  $(targetElement).parent().children().children('.horEnscrollTrack').children('.horEnscrollHandle').addClass("myScrollHover");
+  clearTimeout(timeout);
+  timeout = setTimeout(function(){
+    $(targetElement).parent().children().children('.horEnscrollTrack').children('.horEnscrollHandle') .removeClass("myScrollHover");
+  },delay);
+}
 
 
 
 
 
 $( document ).ready(function() {
-    resizeTrackArea();
-    resizeWorkSpace();
-    $("#divControlTableRow").css({ 'margin-bottom': $("#divTableAndSpacer").height()});
-    //$("#divTableAndSpacer").css({ 'top': $("#divControlTableRow").height()+$("#divEventBanner").height()});
-    $("#divTableAndSpacer").css({ 'top': $("#divControlTableRow").offset().top + $("#divControlTableRow").outerHeight(false)});
+  resizeTrackArea();
+  resizeWorkSpace();
+  $("#divControlTableRow").css({ 'margin-bottom': $("#divTableAndSpacer").height()});
+  $("#divTableAndSpacer").css({ 'top': $("#divControlTableRow").offset().top + $("#divControlTableRow").outerHeight(false)});
 
 
-    $('#divTableAndSpacer').on('mousewheel',function(event) {
-      wheel = event.originalEvent.wheelDeltaY;
-      scrollPos = $("#divWorkspaceContainer").scrollTop()-wheel;
-      tableSpaceScroll = true;
-        
-      $('#divWorkspaceContainer').scroll( );
-      tableSpaceScroll = false;
-    });
+  $('#divTableAndSpacer').on('mousewheel',function(event) {
+    wheel = event.originalEvent.wheelDeltaY;
+    scrollPos = $("#divWorkspaceContainer").scrollTop()-wheel;
+    tableSpaceScroll = true;
+      
+    $('#divWorkspaceContainer').scroll( );
+    tableSpaceScroll = false;
+  });
 
-    controlTable2Pos();
-    positionBG();
+  controlTable2Pos();
+  positionBG();
 
-    $('#divTrackContainer').enscroll({
-        verticalTrackClass: 'track4',
-        verticalHandleClass: 'handle4',
-        minScrollbarLength: 28
-    });
-    
+  $('#divTrackContainer').enscroll({
+      verticalTrackClass: 'vertEnscrollTrack',
+      verticalHandleClass: 'vertEnscrollHandle',
+      minScrollbarLength: 28
+  });
+  $('#table1').enscroll({  
+      horizontalScrolling: true,  
+      verticalScrolling: false,  
+      horizontalTrackClass: 'horEnscrollTrack',
+      horizontalHandleClass: 'horEnscrollHandle',
+      cornerClass: 'enscrollCorner',
+      //minScrollbarLength: 28
+  });
+
+  $('#table1ContentScroller').enscroll({
+      verticalTrackClass: 'vertEnscrollTrack',
+      verticalHandleClass: 'vertEnscrollHandle',
+      minScrollbarLength: 28
+  });
+  $("#divTrackContainer").outerWidth($(window).innerWidth()/12);
 });
+
 $( window ).resize(function() {
-	resizeTrackArea();
-	resizeWorkSpace();
+  resizeTrackArea();
+  resizeWorkSpace();
   scrollPos = $("#divWorkspaceContainer").scrollTop();
   smartScroll(scrollPos); 
   positionBG();
   resizeSelectMenus();
+});
 
-})
+$( '#divTrackContainer' ).scroll(function($event) {
+  customScrollBarVert($event);      
+});
+$( '#table1').scroll(function($event) {
+  customScrollBarHor($event);      
+});
+$( '#table1ContentScroller').scroll(function($event) {
+  customScrollBarVert($event);      
+});
 
 $('.addPlot').on('click',  function() {
   plotCount = plotCount +1;

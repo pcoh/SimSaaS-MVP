@@ -52,12 +52,15 @@ body {
 
 /*#divSimControlContainer {
   height: 300px; }
-
-#divTable1Container {
-  height: 300px; }
   */
 
+#divTable1Container {
+  overflow-x: scroll
+}
+  
+
 #divTableAndSpacer {
+  padding-top: 0px;
   z-index: 100;
   position: absolute;
   
@@ -113,7 +116,7 @@ body {
   z-index: 10000; }
 
 #divWorkspaceContainer {
-  background-image: url(../images/BG_Porsche.png);
+  background-image: url(../images/BG_Porsche_tansparent.png);
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;

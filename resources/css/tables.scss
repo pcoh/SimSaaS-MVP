@@ -1,0 +1,124 @@
+$background-color: #343434;
+$font-color: #dfdfdf;
+$border-radius: 3px;
+
+#table1{
+	width: 832px;
+}
+#table2{
+	height: 138px;
+	width: 760px;
+}
+#table1, #table2{
+	border: 1px solid $font-color;
+	-moz-border-radius:$border-radius;
+    -webkit-border-radius:$border-radius;
+    border-radius:$border-radius;
+}
+
+.headerRow{
+	background-color: $font-color;
+	height: 23px;
+}
+.tableHeader{
+	color: $background-color;
+	padding-left: 4px;
+	padding-right: 3px;
+	vertical-align: text-top;
+	//border-right: solid 1px #000;
+	float: left;
+	background-color: $font-color;
+	text-align:center;
+
+}
+
+.sortAsc, .sortDesc{
+  padding-right: 0px; 
+}
+
+.tableHeader.sortable:after{
+  display: inline-block;
+  width: 10px;
+  height: 16px;
+  margin: 0px 0px -3px 3px;
+  content: " ";
+  background: url('../images/SortArrow_Inactive.png') no-repeat 0 0;
+  background-size: contain;
+ }
+
+.tableHeader.sortable.sortAsc:after{
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0px 0px 0px 1px;
+  content: " ";
+  background: url('../images/SortArrow_Up.png') no-repeat 0 0;
+  background-size: contain;
+}
+.tableHeader.sortable.sortDesc:after{
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 0px 0px 0px 1px;
+  content: " ";
+  background: url('../images/sortArrow_Down.png') no-repeat 0 0;
+  background-size: contain;
+}
+
+#table1ContentScroller{
+	height: 206px;
+	overflow-y: scroll;
+}
+
+.lapRow{
+
+	width: 100%;
+	height: 23px;
+}
+.evenRow{
+	background-color: rgba(255, 255, 255, 0.4);
+
+}
+.oddRow{
+	//background-color: rgba(255, 255, 255, 0.4);
+}
+.cell{
+	display: inline-block;
+	text-align: center;
+	float: left;
+	border-right: 1px solid $font-color;
+	height: 100%
+}
+.cell.rightMost{
+	border-right: none;
+}
+.setHeader, .setCell{
+	width: 29px;
+}
+
+.plotHeader,.plotCell{
+	width: 29px;
+}
+
+.lapTimeHeader, .lapTimeCell{
+	width: 83px;
+}
+.trackGripHeader,.trackGripCell{
+	width: 55px;
+}
+.wingPosHeader, .wingPosCell{
+	width: 92px;
+}
+.RHF_Header, .RHF_Cell, .RHR_Header, .RHR_Cell{
+	width: 55px;
+}
+
+.SSF_Header, .SSR_Header, .ARBF_Header, .ARBR_Header, .deleteHeader, .downloadHeader, .colorHeader, .SSF_Cell, .SSR_Cell, .ARBF_Cell, .ARBR_Cell, .deleteCell,.downloadCell,.colorCell{
+	width: 	72px;
+}
+
+.removeHeader,.removeCell{
+	width: 58px;
+}
+
+

@@ -62,6 +62,13 @@ $( document ).ready(function() {
 
     controlTable2Pos();
     positionBG();
+
+    $('#divTrackContainer').enscroll({
+        verticalTrackClass: 'track4',
+        verticalHandleClass: 'handle4',
+        minScrollbarLength: 28
+    });
+    
 });
 $( window ).resize(function() {
 	resizeTrackArea();
@@ -70,6 +77,7 @@ $( window ).resize(function() {
   smartScroll(scrollPos); 
   positionBG();
   resizeSelectMenus();
+
 })
 
 $('.addPlot').on('click',  function() {

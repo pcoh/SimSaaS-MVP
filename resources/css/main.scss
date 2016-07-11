@@ -21,9 +21,13 @@ body {
 
 #divTrackContainer {
   height: 900px; 
-  overflow-y: scroll;
+  //overflow-y: scroll;
+  overflow: auto;
+  padding: 0 5px;
   border-right: 1px solid $font-color;
 }
+
+
 
 .eventSelector{
   height: 120px;

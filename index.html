@@ -16,6 +16,7 @@
     <link href="resources/css/main.css" rel="stylesheet">
     <link href="resources/css/simControls.css" rel="stylesheet">
     <link href="resources/css/tables.css" rel="stylesheet">
+    <link href="vendors/enscroll/enscroll.css" rel="stylesheet">
     <link href="resources/css/helpers.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -26,159 +27,374 @@
     <![endif]-->
   </head>
   <body>
-    <div class="container-fluid">
-      <div class="row">          
-        <div class="hidden-xs col-sm-1" id="divTrackContainer">
-          <div class="eventSelector">Event 1</div>
-          <div class="eventSelector">Event 2</div>
-          <div class="eventSelector">Event 3</div>
-          <div class="eventSelector">Event 4</div>
-          <div class="eventSelector">Event 5</div>
-          <div class="eventSelector">Event 6</div>
-          <div class="eventSelector">Event 7</div>
-          <div class="eventSelector">Event 8</div>
-          <div class="eventSelector">Event 9</div>
+  <div class="container-fluid">
+    <div class="row">          
+      <div class="hidden-xs col-sm-1" id="divTrackContainer">
+        <div class="eventSelector">Event 1</div>
+        <div class="eventSelector">Event 2</div>
+        <div class="eventSelector">Event 3</div>
+        <div class="eventSelector">Event 4</div>
+        <div class="eventSelector">Event 5</div>
+        <div class="eventSelector">Event 6</div>
+        <div class="eventSelector">Event 7</div>
+        <div class="eventSelector">Event 8</div>
+        <div class="eventSelector">Event 9</div>
+      </div>
+      <nav class="navbar navbar-default hidden-sm hidden-md hidden-lg" id="navTrackNavBar">            
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#eventNavBarCollapse" aria-expanded="false">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>                
         </div>
-        <nav class="navbar navbar-default hidden-sm hidden-md hidden-lg" id="navTrackNavBar">            
-          <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#eventNavBarCollapse" aria-expanded="false">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>                
-          </div>
-          <!-- Collect the nav links, forms, and other content for toggling -->
-          <div class="collapse navbar-collapse" id="eventNavBarCollapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Round 1</a></li>
-              <li><a href="#">Round 2</a></li>
-              <li><a href="#">Round 3</a></li>
-              <li><a href="#">Round 4</a></li>
-              <li><a href="#">Round 5</a></li>
-              <li><a href="#">Round 6</a></li>
-              <li><a href="#">Round 7</a></li>
-              <li><a href="#">Round 8</a></li>
-              <li><a href="#">Round 9</a></li>                  
-            </ul>                    
-          </div><!-- /.navbar-collapse -->
-        </nav>
-        <div class="col-sm-11" id="divEventBanner">
-          <div class="col-sm-7 col-xs-8"id="eventHeadline">Round 1 - Catalunya</div>
-          <div class="col-sm-5 col-xs-4"><div id="logo"></div></div>
-        </div>
-      
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="eventNavBarCollapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Round 1</a></li>
+            <li><a href="#">Round 2</a></li>
+            <li><a href="#">Round 3</a></li>
+            <li><a href="#">Round 4</a></li>
+            <li><a href="#">Round 5</a></li>
+            <li><a href="#">Round 6</a></li>
+            <li><a href="#">Round 7</a></li>
+            <li><a href="#">Round 8</a></li>
+            <li><a href="#">Round 9</a></li>                  
+          </ul>                    
+        </div><!-- /.navbar-collapse -->
+      </nav>
+      <div class="col-sm-11" id="divEventBanner">
+        <div class="col-sm-7 col-xs-8"id="eventHeadline">Round 1 - Catalunya</div>
+        <div class="col-sm-5 col-xs-4"><div id="logo"></div></div>
+      </div>
     
-        <div id="divWorkspaceContainer" class="container-fluid">
-          <div class="row" id="divControlTableRow">  
-            <div class="col-sm-4" id="divSimControlContainer">
-              <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 componentCaption ">Track Grip:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
-                  <select id="selectTrackGrip" class="setupSelector ">
-                    <option>95%</option>
-                    <option selected="selected">100%</option>
-                    <option>105%</option>
-                  </select>
-                </div>
-                <div class="hidden-xs hidden-sm hidden-md col-lg-4"></div>
+  
+      <div id="divWorkspaceContainer" class="container-fluid">
+        <div class="row" id="divControlTableRow">  
+          <div class="col-sm-4" id="divSimControlContainer">
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 componentCaption ">Track Grip:</div>
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
+                <select id="selectTrackGrip" class="setupSelector ">
+                  <option>95%</option>
+                  <option selected="selected">100%</option>
+                  <option>105%</option>
+                </select>
               </div>
+              <div class="hidden-xs hidden-sm hidden-md col-lg-4"></div>
+            </div>
 
-              <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 componentCaption ">Wing Position:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
-                  <select id="selectWingPos" class="setupSelector">
-                    <option>1</option>
-                    <option selected="selected">2</option>
-                    <option>3</option>
-                  </select>
-                </div>
-                <div class="hidden-xs hidden-sm hidden-md col-lg-4"></div>
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 componentCaption ">Wing Position:</div>
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
+                <select id="selectWingPos" class="setupSelector">
+                  <option>1</option>
+                  <option selected="selected">2</option>
+                  <option>3</option>
+                </select>
               </div>
-              <div class="row hidden-xs hidden-sm hidden-md ">
-                <div class="col-lg-4"></div>
-                <div class="col-lg-4 columnCaption left">Front:</div>
-                <div class="col-lg-4 columnCaption right">Rear:</div>
+              <div class="hidden-xs hidden-sm hidden-md col-lg-4"></div>
+            </div>
+            <div class="row hidden-xs hidden-sm hidden-md ">
+              <div class="col-lg-4"></div>
+              <div class="col-lg-4 columnCaption left">Front:</div>
+              <div class="col-lg-4 columnCaption right">Rear:</div>
+            </div>
+
+            <div class="row">
+              <div class="hidden-xs hidden-sm hidden-md col-lg-4 componentCaption ">Ride Height:</div>
+              <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Ride Height Front:</div>
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
+                <select id="selectRH_Front" class="setupSelector">
+                  <option>20mm</option>
+                  <option selected="selected">25mm</option>
+                  <option>30mm</option>
+                </select>
               </div>
-
-              <div class="row">
-                <div class="hidden-xs hidden-sm hidden-md col-lg-4 componentCaption ">Ride Height:</div>
-                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Ride Height Front:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
-                  <select id="selectRH_Front" class="setupSelector">
-                    <option>20mm</option>
-                    <option selected="selected">25mm</option>
-                    <option>30mm</option>
-                  </select>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Ride Height Rear:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain right"> 
-                  <select id="selectRH_Rear" class="setupSelector">
-                    <option>50mm</option>
-                    <option selected="selected">55mm</option>
-                    <option>60mm</option>
-                  </select>
-                </div>
+              <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Ride Height Rear:</div>
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain right"> 
+                <select id="selectRH_Rear" class="setupSelector">
+                  <option>50mm</option>
+                  <option selected="selected">55mm</option>
+                  <option>60mm</option>
+                </select>
               </div>
+            </div>
 
-              <div class="row">
-                <div class="hidden-xs hidden-sm hidden-md col-lg-4 componentCaption ">Spring Stiffness:</div>
-                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Spring Stiffness Front:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
-                  <select id="selectSpringStiff_Front" class="setupSelector">
-                    <option>150N/mm</option>
-                    <option selected="selected">200N/mm</option>
-                    <option>250N/mm</option>
-                  </select>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Spring Stiffness Rear:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain right"> 
-                  <select id="selectSpringStiff_Rear" class="setupSelector">
-                    <option>150N/mm</option>
-                    <option selected="selected">200N/mm</option>
-                    <option>250N/mm</option>
-                  </select>
-                </div>
+            <div class="row">
+              <div class="hidden-xs hidden-sm hidden-md col-lg-4 componentCaption ">Spring Stiffness:</div>
+              <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Spring Stiffness Front:</div>
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
+                <select id="selectSpringStiff_Front" class="setupSelector">
+                  <option>150N/mm</option>
+                  <option selected="selected">200N/mm</option>
+                  <option>250N/mm</option>
+                </select>
               </div>
-
-              <div class="row">
-                <div class="hidden-xs hidden-sm hidden-md col-lg-4 componentCaption ">ARB Stiffness:</div>
-                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">ARB Stiffness Front:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
-                  <select id="selectARBStiff_Front" class="setupSelector">
-                    <option>150N/mm</option>
-                    <option selected="selected">200N/mm</option>
-                    <option>250N/mm</option>
-                  </select>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">ARB Stiffness Rear:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain right"> 
-                  <select id="selectARBStiff_Rear" class="setupSelector">
-                    <option>150N/mm</option>
-                    <option selected="selected">200N/mm</option>
-                    <option>250N/mm</option>
-                  </select>
-                </div>
+              <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Spring Stiffness Rear:</div>
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain right"> 
+                <select id="selectSpringStiff_Rear" class="setupSelector">
+                  <option>150N/mm</option>
+                  <option selected="selected">200N/mm</option>
+                  <option>250N/mm</option>
+                </select>
               </div>
+            </div>
 
-              <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8 componentCaption "></div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 buttonContain">
-                  <button id="simButton">Simulate Lap</button>
-                </div>
-
+            <div class="row">
+              <div class="hidden-xs hidden-sm hidden-md col-lg-4 componentCaption ">ARB Stiffness:</div>
+              <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">ARB Stiffness Front:</div>
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
+                <select id="selectARBStiff_Front" class="setupSelector">
+                  <option>150N/mm</option>
+                  <option selected="selected">200N/mm</option>
+                  <option>250N/mm</option>
+                </select>
               </div>
+              <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">ARB Stiffness Rear:</div>
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain right"> 
+                <select id="selectARBStiff_Rear" class="setupSelector">
+                  <option>150N/mm</option>
+                  <option selected="selected">200N/mm</option>
+                  <option>250N/mm</option>
+                </select>
+              </div>
+            </div>
 
-
+            <div class="row">
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8 componentCaption "></div>
+              <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 buttonContain">
+                <button id="simButton">Simulate Lap</button>
+              </div>
 
             </div>
-          
+          </div>
+        
 
-            <div class="col-sm-8" id="divTable1Container">
-                <div id="table1">
-                  <div class="headerRow">    
-                  <span class="tableHeader setHeader">Set</span>
-                  <span class="tableHeader plotHeader">Plot</span>
+          <div class="col-sm-8" id="divTable1Container">
+            <div id="table1">
+              <div class="headerRow">    
+              <span class="tableHeader setHeader">Set</span>
+              <span class="tableHeader plotHeader">Plot</span>
+              <span class="tableHeader lapTimeHeader sortable">Lap-time</span>
+              <span class="tableHeader trackGripHeader sortable">Grip</span>
+              <span class="tableHeader wingPosHeader sortable">Wing Pos.</span>
+              <span class="tableHeader RHF_Header sortable">RH F</span>
+              <span class="tableHeader RHR_Header sortable">RH R</span>
+              <span class="tableHeader SSF_Header sortable">SS F</span>
+              <span class="tableHeader SSR_Header sortable">SS R</span> 
+              <span class="tableHeader ARBF_Header sortable">ARB F</span>  
+              <span class="tableHeader ARBR_Header sortable">ARB R</span>
+              <span class="tableHeader downloadHeader">Download</span>
+              <span class="tableHeader deleteHeader">Delete</span>      
+            </div>
+            <div id="table1ContentScroller">
+              <div id="table1Content"> 
+                <div class="lapRow oddRow">
+                  <span class="cell setCell">Set</span>
+                  <span class="cell plotCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell downloadCell">Set</span>
+                  <span class="cell deleteCell rightMost">Set</span>
+                </div>
+                <div class="lapRow evenRow">
+                  <span class="cell setCell">Set</span>
+                  <span class="cell plotCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell downloadCell">Set</span>
+                  <span class="cell deleteCell rightMost">Set</span>
+                </div>
+                <div class="lapRow oddRow">
+                  <span class="cell setCell">Set</span>
+                  <span class="cell plotCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell downloadCell">Set</span>
+                  <span class="cell deleteCell rightMost">Set</span>
+                </div>
+                <div class="lapRow evenRow">
+                  <span class="cell setCell">Set</span>
+                  <span class="cell plotCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell downloadCell">Set</span>
+                  <span class="cell deleteCell rightMost">Set</span>
+                </div>
+                <div class="lapRow oddRow">
+                  <span class="cell setCell">Set</span>
+                  <span class="cell plotCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell downloadCell">Set</span>
+                  <span class="cell deleteCell rightMost">Set</span>
+                </div>
+                <div class="lapRow evenRow">
+                  <span class="cell setCell">Set</span>
+                  <span class="cell plotCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell downloadCell">Set</span>
+                  <span class="cell deleteCell rightMost">Set</span>
+                </div>
+                <div class="lapRow oddRow">
+                  <span class="cell setCell">Set</span>
+                  <span class="cell plotCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell downloadCell">Set</span>
+                  <span class="cell deleteCell rightMost">Set</span>
+                </div>
+                <div class="lapRow evenRow">
+                  <span class="cell setCell">Set</span>
+                  <span class="cell plotCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell downloadCell">Set</span>
+                  <span class="cell deleteCell rightMost">Set</span>
+                </div>
+                <div class="lapRow oddRow">
+                  <span class="cell setCell">Set</span>
+                  <span class="cell plotCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell downloadCell">Set</span>
+                  <span class="cell deleteCell rightMost">Set</span>
+                </div>
+                <div class="lapRow evenRow">
+                  <span class="cell setCell">Set</span>
+                  <span class="cell plotCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell downloadCell">Set</span>
+                  <span class="cell deleteCell rightMost">Set</span>
+                </div>
+                <div class="lapRow oddRow">
+                  <span class="cell setCell">Set</span>
+                  <span class="cell plotCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell downloadCell">Set</span>
+                  <span class="cell deleteCell rightMost">Set</span>
+                </div>
+                <div class="lapRow evenRow">
+                  <span class="cell setCell">Set</span>
+                  <span class="cell plotCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell downloadCell">Set</span>
+                  <span class="cell deleteCell rightMost">Set</span>
+                </div>
+
+                </div>                 
+              </div> 
+            </div>
+          </div> <!--divTable1Container-->
+        </div>
+          <div id="divPlotArea" >
+            <div class="row">
+              <div class="col-sm-12 divPlotContainer initialPlotCont" draggable="true">
+                <div class="plot">PlotContainer
+                  <a href="#" draggable="false"><span class="removePlot" draggable="false"></span></a>
+                </div>
+              </div>
+              <a href="#"><span class="addPlot"></span></a>
+            </div>
+          </div>
+
+        
+          <div class="row" id="divTableAndSpacer">
+            <div class="hidden-xs col-sm-4" id="divSpacer">spacer</div> 
+            <div class="col-sm-8" id="divTable2Container">
+              <div id="table2">
+                <div class="headerRow">    
+                  <span class="tableHeader removeHeader">Remove</span>
                   <span class="tableHeader lapTimeHeader sortable">Lap-time</span>
                   <span class="tableHeader trackGripHeader sortable">Grip</span>
                   <span class="tableHeader wingPosHeader sortable">Wing Pos.</span>
@@ -188,298 +404,80 @@
                   <span class="tableHeader SSR_Header sortable">SS R</span> 
                   <span class="tableHeader ARBF_Header sortable">ARB F</span>  
                   <span class="tableHeader ARBR_Header sortable">ARB R</span>
-                  <span class="tableHeader downloadHeader">Download</span>
-                  <span class="tableHeader deleteHeader">Delete</span>      
+                  <span class="tableHeader colorHeader">Color</span>  
                 </div>
-                <div id="table1ContentScroller">
-                  <div id="table1Content"> 
-                    <div class="lapRow oddRow">
-                      <span class="cell setCell">Set</span>
-                      <span class="cell plotCell">Set</span>
-                      <span class="cell lapTimeCell">1:23:86</span>
-                      <span class="cell trackGripCell">3</span>
-                      <span class="cell wingPosCell">3</span>
-                      <span class="cell RHF_Cell">25mm</span>
-                      <span class="cell RHR_Cell">50mm</span>
-                      <span class="cell SSF_Cell">100N/mm</span>
-                      <span class="cell SSR_Cell">150N/mm</span>
-                      <span class="cell ARBF_Cell">200N/mm</span>
-                      <span class="cell ARBR_Cell">150N/mm</span>
-                      <span class="cell downloadCell">Set</span>
-                      <span class="cell deleteCell rightMost">Set</span>
-                    </div>
-                    <div class="lapRow evenRow">
-                      <span class="cell setCell">Set</span>
-                      <span class="cell plotCell">Set</span>
-                      <span class="cell lapTimeCell">1:23:86</span>
-                      <span class="cell trackGripCell">3</span>
-                      <span class="cell wingPosCell">3</span>
-                      <span class="cell RHF_Cell">25mm</span>
-                      <span class="cell RHR_Cell">50mm</span>
-                      <span class="cell SSF_Cell">100N/mm</span>
-                      <span class="cell SSR_Cell">150N/mm</span>
-                      <span class="cell ARBF_Cell">200N/mm</span>
-                      <span class="cell ARBR_Cell">150N/mm</span>
-                      <span class="cell downloadCell">Set</span>
-                      <span class="cell deleteCell rightMost">Set</span>
-                    </div>
-                    <div class="lapRow oddRow">
-                      <span class="cell setCell">Set</span>
-                      <span class="cell plotCell">Set</span>
-                      <span class="cell lapTimeCell">1:23:86</span>
-                      <span class="cell trackGripCell">3</span>
-                      <span class="cell wingPosCell">3</span>
-                      <span class="cell RHF_Cell">25mm</span>
-                      <span class="cell RHR_Cell">50mm</span>
-                      <span class="cell SSF_Cell">100N/mm</span>
-                      <span class="cell SSR_Cell">150N/mm</span>
-                      <span class="cell ARBF_Cell">200N/mm</span>
-                      <span class="cell ARBR_Cell">150N/mm</span>
-                      <span class="cell downloadCell">Set</span>
-                      <span class="cell deleteCell rightMost">Set</span>
-                    </div>
-                    <div class="lapRow evenRow">
-                      <span class="cell setCell">Set</span>
-                      <span class="cell plotCell">Set</span>
-                      <span class="cell lapTimeCell">1:23:86</span>
-                      <span class="cell trackGripCell">3</span>
-                      <span class="cell wingPosCell">3</span>
-                      <span class="cell RHF_Cell">25mm</span>
-                      <span class="cell RHR_Cell">50mm</span>
-                      <span class="cell SSF_Cell">100N/mm</span>
-                      <span class="cell SSR_Cell">150N/mm</span>
-                      <span class="cell ARBF_Cell">200N/mm</span>
-                      <span class="cell ARBR_Cell">150N/mm</span>
-                      <span class="cell downloadCell">Set</span>
-                      <span class="cell deleteCell rightMost">Set</span>
-                    </div>
-                    <div class="lapRow oddRow">
-                      <span class="cell setCell">Set</span>
-                      <span class="cell plotCell">Set</span>
-                      <span class="cell lapTimeCell">1:23:86</span>
-                      <span class="cell trackGripCell">3</span>
-                      <span class="cell wingPosCell">3</span>
-                      <span class="cell RHF_Cell">25mm</span>
-                      <span class="cell RHR_Cell">50mm</span>
-                      <span class="cell SSF_Cell">100N/mm</span>
-                      <span class="cell SSR_Cell">150N/mm</span>
-                      <span class="cell ARBF_Cell">200N/mm</span>
-                      <span class="cell ARBR_Cell">150N/mm</span>
-                      <span class="cell downloadCell">Set</span>
-                      <span class="cell deleteCell rightMost">Set</span>
-                    </div>
-                    <div class="lapRow evenRow">
-                      <span class="cell setCell">Set</span>
-                      <span class="cell plotCell">Set</span>
-                      <span class="cell lapTimeCell">1:23:86</span>
-                      <span class="cell trackGripCell">3</span>
-                      <span class="cell wingPosCell">3</span>
-                      <span class="cell RHF_Cell">25mm</span>
-                      <span class="cell RHR_Cell">50mm</span>
-                      <span class="cell SSF_Cell">100N/mm</span>
-                      <span class="cell SSR_Cell">150N/mm</span>
-                      <span class="cell ARBF_Cell">200N/mm</span>
-                      <span class="cell ARBR_Cell">150N/mm</span>
-                      <span class="cell downloadCell">Set</span>
-                      <span class="cell deleteCell rightMost">Set</span>
-                    </div>
-                    <div class="lapRow oddRow">
-                      <span class="cell setCell">Set</span>
-                      <span class="cell plotCell">Set</span>
-                      <span class="cell lapTimeCell">1:23:86</span>
-                      <span class="cell trackGripCell">3</span>
-                      <span class="cell wingPosCell">3</span>
-                      <span class="cell RHF_Cell">25mm</span>
-                      <span class="cell RHR_Cell">50mm</span>
-                      <span class="cell SSF_Cell">100N/mm</span>
-                      <span class="cell SSR_Cell">150N/mm</span>
-                      <span class="cell ARBF_Cell">200N/mm</span>
-                      <span class="cell ARBR_Cell">150N/mm</span>
-                      <span class="cell downloadCell">Set</span>
-                      <span class="cell deleteCell rightMost">Set</span>
-                    </div>
-                    <div class="lapRow evenRow">
-                      <span class="cell setCell">Set</span>
-                      <span class="cell plotCell">Set</span>
-                      <span class="cell lapTimeCell">1:23:86</span>
-                      <span class="cell trackGripCell">3</span>
-                      <span class="cell wingPosCell">3</span>
-                      <span class="cell RHF_Cell">25mm</span>
-                      <span class="cell RHR_Cell">50mm</span>
-                      <span class="cell SSF_Cell">100N/mm</span>
-                      <span class="cell SSR_Cell">150N/mm</span>
-                      <span class="cell ARBF_Cell">200N/mm</span>
-                      <span class="cell ARBR_Cell">150N/mm</span>
-                      <span class="cell downloadCell">Set</span>
-                      <span class="cell deleteCell rightMost">Set</span>
-                    </div>
-                    <div class="lapRow oddRow">
-                      <span class="cell setCell">Set</span>
-                      <span class="cell plotCell">Set</span>
-                      <span class="cell lapTimeCell">1:23:86</span>
-                      <span class="cell trackGripCell">3</span>
-                      <span class="cell wingPosCell">3</span>
-                      <span class="cell RHF_Cell">25mm</span>
-                      <span class="cell RHR_Cell">50mm</span>
-                      <span class="cell SSF_Cell">100N/mm</span>
-                      <span class="cell SSR_Cell">150N/mm</span>
-                      <span class="cell ARBF_Cell">200N/mm</span>
-                      <span class="cell ARBR_Cell">150N/mm</span>
-                      <span class="cell downloadCell">Set</span>
-                      <span class="cell deleteCell rightMost">Set</span>
-                    </div>
-                    <div class="lapRow evenRow">
-                      <span class="cell setCell">Set</span>
-                      <span class="cell plotCell">Set</span>
-                      <span class="cell lapTimeCell">1:23:86</span>
-                      <span class="cell trackGripCell">3</span>
-                      <span class="cell wingPosCell">3</span>
-                      <span class="cell RHF_Cell">25mm</span>
-                      <span class="cell RHR_Cell">50mm</span>
-                      <span class="cell SSF_Cell">100N/mm</span>
-                      <span class="cell SSR_Cell">150N/mm</span>
-                      <span class="cell ARBF_Cell">200N/mm</span>
-                      <span class="cell ARBR_Cell">150N/mm</span>
-                      <span class="cell downloadCell">Set</span>
-                      <span class="cell deleteCell rightMost">Set</span>
-                    </div>
-                    <div class="lapRow oddRow">
-                      <span class="cell setCell">Set</span>
-                      <span class="cell plotCell">Set</span>
-                      <span class="cell lapTimeCell">1:23:86</span>
-                      <span class="cell trackGripCell">3</span>
-                      <span class="cell wingPosCell">3</span>
-                      <span class="cell RHF_Cell">25mm</span>
-                      <span class="cell RHR_Cell">50mm</span>
-                      <span class="cell SSF_Cell">100N/mm</span>
-                      <span class="cell SSR_Cell">150N/mm</span>
-                      <span class="cell ARBF_Cell">200N/mm</span>
-                      <span class="cell ARBR_Cell">150N/mm</span>
-                      <span class="cell downloadCell">Set</span>
-                      <span class="cell deleteCell rightMost">Set</span>
-                    </div>
-                    <div class="lapRow evenRow">
-                      <span class="cell setCell">Set</span>
-                      <span class="cell plotCell">Set</span>
-                      <span class="cell lapTimeCell">1:23:86</span>
-                      <span class="cell trackGripCell">3</span>
-                      <span class="cell wingPosCell">3</span>
-                      <span class="cell RHF_Cell">25mm</span>
-                      <span class="cell RHR_Cell">50mm</span>
-                      <span class="cell SSF_Cell">100N/mm</span>
-                      <span class="cell SSR_Cell">150N/mm</span>
-                      <span class="cell ARBF_Cell">200N/mm</span>
-                      <span class="cell ARBR_Cell">150N/mm</span>
-                      <span class="cell downloadCell">Set</span>
-                      <span class="cell deleteCell rightMost">Set</span>
-                    </div>
-
-                  </div>                 
-                </div> 
-              </div>
-            </div> <!--divTable1Container-->
-          </div>
-            <div id="divPlotArea" >
-              <div class="row">
-                <div class="col-sm-12 divPlotContainer initialPlotCont" draggable="true">
-                  <div class="plot">PlotContainer
-                    <a href="#" draggable="false"><span class="removePlot" draggable="false"></span></a>
-                  </div>
+                <div class="lapRow oddRow">
+                  <span class="cell removeCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell colorCell rightMost">Set</span>
                 </div>
-                <a href="#"><span class="addPlot"></span></a>
-              </div>
-            </div>
-
-          
-            <div class="row" id="divTableAndSpacer">
-              <div class="hidden-xs col-sm-4" id="divSpacer">spacer</div> 
-              <div class="col-sm-8" id="divTable2Container">
-                <div id="table2">
-                  <div class="headerRow">    
-                    <span class="tableHeader removeHeader">Remove</span>
-                    <span class="tableHeader lapTimeHeader sortable">Lap-time</span>
-                    <span class="tableHeader trackGripHeader sortable">Grip</span>
-                    <span class="tableHeader wingPosHeader sortable">Wing Pos.</span>
-                    <span class="tableHeader RHF_Header sortable">RH F</span>
-                    <span class="tableHeader RHR_Header sortable">RH R</span>
-                    <span class="tableHeader SSF_Header sortable">SS F</span>
-                    <span class="tableHeader SSR_Header sortable">SS R</span> 
-                    <span class="tableHeader ARBF_Header sortable">ARB F</span>  
-                    <span class="tableHeader ARBR_Header sortable">ARB R</span>
-                    <span class="tableHeader colorHeader">Color</span>  
-                  </div>
-                  <div class="lapRow oddRow">
-                    <span class="cell removeCell">Set</span>
-                    <span class="cell lapTimeCell">1:23:86</span>
-                    <span class="cell trackGripCell">3</span>
-                    <span class="cell wingPosCell">3</span>
-                    <span class="cell RHF_Cell">25mm</span>
-                    <span class="cell RHR_Cell">50mm</span>
-                    <span class="cell SSF_Cell">100N/mm</span>
-                    <span class="cell SSR_Cell">150N/mm</span>
-                    <span class="cell ARBF_Cell">200N/mm</span>
-                    <span class="cell ARBR_Cell">150N/mm</span>
-                    <span class="cell colorCell rightMost">Set</span>
-                  </div>
-                  <div class="lapRow evenRow">
-                    <span class="cell removeCell">Set</span>
-                    <span class="cell lapTimeCell">1:23:86</span>
-                    <span class="cell trackGripCell">3</span>
-                    <span class="cell wingPosCell">3</span>
-                    <span class="cell RHF_Cell">25mm</span>
-                    <span class="cell RHR_Cell">50mm</span>
-                    <span class="cell SSF_Cell">100N/mm</span>
-                    <span class="cell SSR_Cell">150N/mm</span>
-                    <span class="cell ARBF_Cell">200N/mm</span>
-                    <span class="cell ARBR_Cell">150N/mm</span>
-                    <span class="cell colorCell rightMost">Set</span>
-                  </div>
-                  <div class="lapRow oddRow">
-                    <span class="cell removeCell">Set</span>
-                    <span class="cell lapTimeCell">1:23:86</span>
-                    <span class="cell trackGripCell">3</span>
-                    <span class="cell wingPosCell">3</span>
-                    <span class="cell RHF_Cell">25mm</span>
-                    <span class="cell RHR_Cell">50mm</span>
-                    <span class="cell SSF_Cell">100N/mm</span>
-                    <span class="cell SSR_Cell">150N/mm</span>
-                    <span class="cell ARBF_Cell">200N/mm</span>
-                    <span class="cell ARBR_Cell">150N/mm</span>
-                    <span class="cell colorCell rightMost">Set</span>
-                  </div>
-                  <div class="lapRow evenRow">
-                    <span class="cell removeCell">Set</span>
-                    <span class="cell lapTimeCell">1:23:86</span>
-                    <span class="cell trackGripCell">3</span>
-                    <span class="cell wingPosCell">3</span>
-                    <span class="cell RHF_Cell">25mm</span>
-                    <span class="cell RHR_Cell">50mm</span>
-                    <span class="cell SSF_Cell">100N/mm</span>
-                    <span class="cell SSR_Cell">150N/mm</span>
-                    <span class="cell ARBF_Cell">200N/mm</span>
-                    <span class="cell ARBR_Cell">150N/mm</span>
-                    <span class="cell colorCell rightMost">Set</span>
-                  </div>
-                  <div class="lapRow oddRow">
-                    <span class="cell removeCell">Set</span>
-                    <span class="cell lapTimeCell">1:23:86</span>
-                    <span class="cell trackGripCell">3</span>
-                    <span class="cell wingPosCell">3</span>
-                    <span class="cell RHF_Cell">25mm</span>
-                    <span class="cell RHR_Cell">50mm</span>
-                    <span class="cell SSF_Cell">100N/mm</span>
-                    <span class="cell SSR_Cell">150N/mm</span>
-                    <span class="cell ARBF_Cell">200N/mm</span>
-                    <span class="cell ARBR_Cell">150N/mm</span>
-                    <span class="cell colorCell rightMost">Set</span>
-                  </div>
-                    
-              </div>  
-            </div>
+                <div class="lapRow evenRow">
+                  <span class="cell removeCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell colorCell rightMost">Set</span>
+                </div>
+                <div class="lapRow oddRow">
+                  <span class="cell removeCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell colorCell rightMost">Set</span>
+                </div>
+                <div class="lapRow evenRow">
+                  <span class="cell removeCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell colorCell rightMost">Set</span>
+                </div>
+                <div class="lapRow oddRow">
+                  <span class="cell removeCell">Set</span>
+                  <span class="cell lapTimeCell">1:23:86</span>
+                  <span class="cell trackGripCell">3</span>
+                  <span class="cell wingPosCell">3</span>
+                  <span class="cell RHF_Cell">25mm</span>
+                  <span class="cell RHR_Cell">50mm</span>
+                  <span class="cell SSF_Cell">100N/mm</span>
+                  <span class="cell SSR_Cell">150N/mm</span>
+                  <span class="cell ARBF_Cell">200N/mm</span>
+                  <span class="cell ARBR_Cell">150N/mm</span>
+                  <span class="cell colorCell rightMost">Set</span>
+                </div>
+                  
+            </div>  
           </div>
-          
         </div>
+        
       </div>
+    </div>
 
     
 
@@ -496,6 +494,8 @@
     <script src="resources/js/layoutFunctions.js"></script>
     <script src="resources/js/dragAndDrop.js"></script>
     <script src="resources/js/index.js"></script>
+    <script src="vendors/enscroll/enscroll-0.6.2.min.js"></script>
+
 
   </body>
 </html> 

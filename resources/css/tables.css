@@ -93,10 +93,17 @@
 .RHF_Header, .RHF_Cell, .RHR_Header, .RHR_Cell {
   width: 55px; }
 
-.SSF_Header, .SSR_Header, .ARBF_Header, .ARBR_Header, .deleteHeader, .downloadHeader, .colorHeader, .SSF_Cell, .SSR_Cell, .ARBF_Cell, .ARBR_Cell, .deleteCell, .downloadCell, .colorCell {
+.SSF_Header, .SSR_Header, .ARBF_Header, .ARBR_Header, .downloadHeader, .colorHeader, .SSF_Cell, .SSR_Cell, .ARBF_Cell, .ARBR_Cell, .downloadCell, .colorCell {
   width: 72px; }
 
 .removeHeader, .removeCell {
   width: 58px; }
+
+.deleteHeader, .deleteCell {
+  width: 72px; }
+
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .deleteHeader, .deleteCell {
+    width: 64px; } }
 
 /*# sourceMappingURL=tables.css.map */

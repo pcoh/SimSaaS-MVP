@@ -30,15 +30,15 @@
     <div class="container-fluid">
       <div class="row">          
         <div class="hidden-xs col-sm-1 scroll-pane" id="divTrackContainer">
-          <div class="eventSelector">Event 1</div>
-          <div class="eventSelector">Event 2</div>
-          <div class="eventSelector">Event 3</div>
-          <div class="eventSelector">Event 4</div>
-          <div class="eventSelector">Event 5</div>
-          <div class="eventSelector">Event 6</div>
-          <div class="eventSelector">Event 7</div>
-          <div class="eventSelector">Event 8</div>
-          <div class="eventSelector">Event 9</div>
+          <div class="eventSelector activeEvent" id="event1">Round 1<div class='divtrackName hidden-sm '>Catalunya</div></div>
+          <div class="eventSelector" id="event2">Round 2<div class='divtrackName hidden-sm '>Monaco</div></div>
+          <div class="eventSelector" id="event3">Round 3<div class='divtrackName hidden-sm '>Spielberg</div></div>
+          <div class="eventSelector" id="event4">Round 4<div class='divtrackName hidden-sm'>Silverstone</div></div>
+          <div class="eventSelector" id="event5">Round 5<div class='divtrackName hidden-sm'>Budapest</div></div>
+          <div class="eventSelector" id="event6">Round 6<div class='divtrackName hidden-sm'>Hockenheim</div></div>
+          <div class="eventSelector" id="event7">Round 7<div class='divtrackName hidden-sm'>Spa</div></div>
+          <div class="eventSelector" id="event8">Round 8<div class='divtrackName hidden-sm'>Monza</div></div>
+          <div class="eventSelector" id="event9">Round 9<div class='divtrackName hidden-sm'>Austin</div></div>
         </div>
         <nav class="navbar navbar-default hidden-sm hidden-md hidden-lg" id="navTrackNavBar">            
           <!-- Brand and toggle get grouped for better mobile display -->
@@ -66,7 +66,7 @@
         </nav>
         <div class="col-xs-12 col-sm-11" id="divEventBanner">
           <div class="col-sm-7 col-xs-8"id="eventHeadline">Round 1 - Catalunya</div>
-          <div class="col-sm-5 col-xs-4"><div id="logo"></div></div>
+          <div class="col-sm-5 col-xs-4" id="divLogoContainer"><div id="logo"></div></div>
         </div>
       
     
@@ -388,7 +388,7 @@
 
           
             <div class="row" id="divTableAndSpacer">
-              <div class="hidden-xs col-sm-4" id="divSpacer">spacer</div> 
+              <div class="hidden-xs col-sm-4" id="divSpacer"></div> 
               <div class="col-sm-8" id="divTable2Container">
                 <div id="table2">
                   <div class="headerRow">    

@@ -92,6 +92,13 @@ $( window ).resize(function() {
   positionBG();
   resizeSelectMenus();
 })
+$('.eventSelector').on('click',  function() {
+  $('.eventSelector').removeClass('activeEvent')
+  $(this).addClass('activeEvent');
+  var activeRound = $(this).clone().children().remove().end().text();
+  var eventName = $(this).children('.divtrackName').html();
+  $('#eventHeadline').html(activeRound + ' - '+ eventName);
+});
 
 $('.addPlot').on('click',  function() {
   plotCount = plotCount +1;

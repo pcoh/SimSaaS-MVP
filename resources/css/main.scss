@@ -1,7 +1,8 @@
 $background-color: #343434;
 $font-color: #dfdfdf;
+$accent-color: #08c1fe;
 $headline-size: 1.5em;
-$banner-height: 80px;
+$banner-height: 70px;
 $corner-radius: 3px;
 
 ::-webkit-scrollbar {
@@ -43,10 +44,103 @@ body {
   height: 900px; 
   overflow-y: scroll;
   border-right: 1px solid $font-color;
+  padding-right: 0px;
+  padding-left: 5px;
 }
-
+#event1{
+  background-image: url('../images/Events/Catalunya_off.png');
+}
+#event1.activeEvent{
+  background-image: url('../images/Events/Catalunya_on.png');
+}
+#event2{
+  background-image: url('../images/Events/Monaco_off.png');
+}
+#event2.activeEvent{
+  background-image: url('../images/Events/Monaco_on.png');
+}
+#event3{
+  background-image: url('../images/Events/Spielberg_off.png');
+}
+#event3.activeEvent{
+  background-image: url('../images/Events/Spielberg_on.png');
+}
+#event4{
+  background-image: url('../images/Events/Silverstone_off.png');
+}
+#event4.activeEvent{
+  background-image: url('../images/Events/Silverstone_on.png');
+}
+#event5{
+  background-image: url('../images/Events/Budapest_off.png');
+}
+#event5.activeEvent{
+  background-image: url('../images/Events/Budapest_on.png');
+}
+#event6{
+  background-image: url('../images/Events/Hockenheim_off.png');
+}
+#event6.activeEvent{
+  background-image: url('../images/Events/Hockenheim_on.png');
+}
+#event7{
+  background-image: url('../images/Events/Spa_off.png');
+}
+#event7.activeEvent{
+  background-image: url('../images/Events/Spa_on.png');
+}
+#event8{
+  background-image: url('../images/Events/Monza_off.png');
+}
+#event8.activeEvent{
+  background-image: url('../images/Events/Monza_on.png');
+}
+#event9{
+  background-image: url('../images/Events/Austin_off.png');
+}
+#event9.activeEvent{
+  background-image: url('../images/Events/Austin_on.png');
+}
 .eventSelector{
   height: 120px;
+  color: $font-color;
+  text-align: center;
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+  border-bottom: 1px solid $font-color;
+}
+.eventSelector.activeEvent{
+  color: $accent-color;
+  text-shadow: 0 0 3px $accent-color;
+}
+@media (min-width: 768px) {
+  .eventSelector{
+    font-size: 1.0em;
+    font-stretch: semi-condensed;
+    height: 80px;
+    background-position: center bottom;
+  }
+}
+@media (min-width: 992px) {
+  .eventSelector{
+    font-size: 1.0em;
+    font-stretch: semi-condensed;
+    height: 120px;
+    background-position: center center;
+  }
+}
+
+@media (min-width: 1200px) {
+  .eventSelector{
+    font-size: 1.15em;
+    font-stretch: semi-condensed;
+    height: 120px;
+    background-position: center center;
+  }
+}
+.divtrackName{
+  padding-top: 68px;
 }
 
 #eventNavBarCollapse, ul.nav.navbar-nav > li {
@@ -60,10 +154,15 @@ body {
 
 }
 #eventHeadline{
-	margin-top: 15px;
+	margin-top: 8px;
+  padding-left: 0px;
+  color: $accent-color;
+} 
+#divLogoContainer{
+  padding-right: 0px;
 }
 #logo{
-	height: $banner-height - 10;
+	height: $banner-height - 20;
 	background-position: right;
 	background-size: contain;
 	background-repeat: no-repeat;
@@ -80,7 +179,7 @@ body {
   
 
 #divTableAndSpacer {
-  padding-top: 0px;
+  padding-top: 30px;
   z-index: 100;
   position: absolute;
   
@@ -92,7 +191,7 @@ body {
 
 
 #divTable2Container, #divSpacer {
-  height: 200px; }
+  height: 170px; }
 
 .divPlotContainer {
   

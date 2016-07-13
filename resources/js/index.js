@@ -100,6 +100,11 @@ $('.eventSelector').on('click',  function() {
   $('#eventHeadline').html(activeRound + ' - '+ eventName);
 });
 
+
+$('.plotCell').on('click',  function() {
+  $(this).toggleClass('plotted');
+});
+
 $('.addPlot').on('click',  function() {
   plotCount = plotCount +1;
 	plotContHTML = createPlotContainer(plotCount);

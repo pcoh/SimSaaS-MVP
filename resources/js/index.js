@@ -38,6 +38,12 @@ $(function() {
       });
 });
 
+$(function() {
+    $( ".channelSelector" ).selectmenu();
+})
+
+
+
 function customScrollBar($event){
   var delay = 1000;
   var timeout = null;
@@ -108,7 +114,12 @@ $('.plotCell').on('click',  function() {
 $('.addPlot').on('click',  function() {
   plotCount = plotCount +1;
 	plotContHTML = createPlotContainer(plotCount);
+  
+
 	$( plotContHTML ).insertBefore( $(this).parent()).slideDown();
+  $(function() {
+    $( ".channelSelector" ).selectmenu();
+  })
 	addListenerToPlots();	
 });
 

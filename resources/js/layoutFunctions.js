@@ -18,8 +18,12 @@ function resizeSelectMenus(){
 
 
 function createPlotContainer(plotCount){
-	plotContHTML = "<div class=\"col-sm-12 divPlotContainer\" draggable=\"true\"><div class=\"plot\">PlotContainer" + plotCount + "<a href=\"#\"><span class=\"removePlot\"></span></a></div></div>";
+	plotContHTML = "<div class=\"col-sm-12 divPlotContainer\" draggable=\"true\"><div class=\"plot\" id=\"plot"+plotCount+"\">"+
+	"<div class=\"channelSelectContainer\"><select id=\"selectChannel_"+plotCount+"\" class=\"channelSelector\"><option>Speed</option>" +
+	"<option selected=\"selected\">Engine Speed</option><option>Pedal Position</option></select>" +
+    "</div><a href=\"#\"><span class=\"removePlot\"></span></a></div></div>";
 	return plotContHTML;
+
 }
 
 function smartScroll(scrollPos){

@@ -186,6 +186,15 @@ body {
 .initialPlotCont {
   display: block; }
 
+.channelSelectContainer {
+  padding-top: 10px;
+  margin-left: 10px;
+  width: 150px;
+  display: inline-block; }
+
+.channelSelector {
+  width: 100%; }
+
 .dropZone {
   height: 50px;
   margin-bottom: -70px;

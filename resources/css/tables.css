@@ -146,4 +146,27 @@
 .deleteCell:active {
   background-image: url("../images/TrashIcon_On.png"); }
 
+.colorSample {
+  width: 35px;
+  height: 10px;
+  float: none;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px; }
+
+#row1 > .colorCell > .colorSample {
+  background-color: #08c1fe; }
+
+#row2 .colorCell .colorSample {
+  background-color: #FF4826; }
+
+#row3 .colorCell .colorSample {
+  background-color: #FFB400; }
+
+#row4 .colorCell .colorSample {
+  background-color: #00FE56; }
+
+#row5 .colorCell .colorSample {
+  background-color: #FF8300; }
+
 /*# sourceMappingURL=tables.css.map */

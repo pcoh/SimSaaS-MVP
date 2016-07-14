@@ -7,7 +7,7 @@ function resizeWorkSpace() {
   	$("#divTableAndSpacer").width($("#divControlTableRow").width()); 	
 }
 function positionBG(){
-	$('#divWorkspaceContainer').css({'background-position-y': $("#divTableAndSpacer").height()+10});
+	$('#divWorkspaceContainer').css({'background-position-y': $("#divTableAndSpacer").outerHeight(true)});
 }
 function resizeSelectMenus(){
 
@@ -21,7 +21,8 @@ function createPlotContainer(plotCount){
 	plotContHTML = "<div class=\"col-sm-12 divPlotContainer\" draggable=\"true\"><div class=\"plot\" id=\"plot"+plotCount+"\">"+
 	"<div class=\"channelSelectContainer\"><select id=\"selectChannel_"+plotCount+"\" class=\"channelSelector\"><option>Speed</option>" +
 	"<option selected=\"selected\">Engine Speed</option><option>Pedal Position</option></select>" +
-    "</div><a href=\"#\"><span class=\"removePlot\"></span></a></div></div>";
+    "</div><a href=\"#\"><span class=\"removePlot\"></span></a><div class=\"canvasContainer\">"+
+    "<canvas class=\"plotCanvas\" id=\"canvas"+plotCount+"\"></canvas></div></div></div>";
 	return plotContHTML;
 
 }

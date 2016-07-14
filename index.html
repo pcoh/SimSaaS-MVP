@@ -378,7 +378,7 @@
             <div id="divPlotArea" >
               <div class="row">
                 <div class="col-sm-12 divPlotContainer initialPlotCont" draggable="true">
-                  <div class="plot" id="plot1">
+                  <div class="plot" id="plot1">                    
                     <div class="channelSelectContainer">
                       <select id="selectChannel_1" class="channelSelector">
                         <option>Speed</option>
@@ -387,6 +387,10 @@
                       </select>
                     </div>
                     <a href="#" draggable="false"><span class="removePlot" draggable="false"></span></a>
+
+                    <div class="canvasContainer">
+                      <canvas class="plotCanvas" id="canvas1"></canvas>
+                    </div>
                   </div>
                 </div>
                 <a href="#"><span class="addPlot"></span></a>
@@ -411,7 +415,7 @@
                     <span class="tableHeader ARBR_Header sortable">ARB R</span>
                     <span class="tableHeader colorHeader">Color</span>  
                   </div>
-                  <div class="lapRow oddRow">
+                  <div class="lapRow oddRow"  id="row1">
                     <span class="cell removeCell">Set</span>
                     <span class="cell lapTimeCell">1:23:86</span>
                     <span class="cell trackGripCell">3</span>
@@ -422,9 +426,9 @@
                     <span class="cell SSR_Cell">150N/mm</span>
                     <span class="cell ARBF_Cell">200N/mm</span>
                     <span class="cell ARBR_Cell">150N/mm</span>
-                    <span class="cell colorCell rightMost">Set</span>
+                    <span class="cell colorCell rightMost"><div class="colorSample"></div></span>
                   </div>
-                  <div class="lapRow evenRow">
+                  <div class="lapRow evenRow"  id="row2">
                     <span class="cell removeCell">Set</span>
                     <span class="cell lapTimeCell">1:23:86</span>
                     <span class="cell trackGripCell">3</span>
@@ -435,9 +439,9 @@
                     <span class="cell SSR_Cell">150N/mm</span>
                     <span class="cell ARBF_Cell">200N/mm</span>
                     <span class="cell ARBR_Cell">150N/mm</span>
-                    <span class="cell colorCell rightMost">Set</span>
+                    <span class="cell colorCell rightMost"><div class="colorSample"></div></span>
                   </div>
-                  <div class="lapRow oddRow">
+                  <div class="lapRow oddRow"  id="row3">
                     <span class="cell removeCell">Set</span>
                     <span class="cell lapTimeCell">1:23:86</span>
                     <span class="cell trackGripCell">3</span>
@@ -448,9 +452,9 @@
                     <span class="cell SSR_Cell">150N/mm</span>
                     <span class="cell ARBF_Cell">200N/mm</span>
                     <span class="cell ARBR_Cell">150N/mm</span>
-                    <span class="cell colorCell rightMost">Set</span>
+                    <span class="cell colorCell rightMost"><div class="colorSample"></div></span>
                   </div>
-                  <div class="lapRow evenRow">
+                  <div class="lapRow evenRow"  id="row4">
                     <span class="cell removeCell">Set</span>
                     <span class="cell lapTimeCell">1:23:86</span>
                     <span class="cell trackGripCell">3</span>
@@ -461,9 +465,9 @@
                     <span class="cell SSR_Cell">150N/mm</span>
                     <span class="cell ARBF_Cell">200N/mm</span>
                     <span class="cell ARBR_Cell">150N/mm</span>
-                    <span class="cell colorCell rightMost">Set</span>
+                    <span class="cell colorCell rightMost"><div class="colorSample"></div></span>
                   </div>
-                  <div class="lapRow oddRow">
+                  <div class="lapRow oddRow"  id="row5">
                     <span class="cell removeCell">Set</span>
                     <span class="cell lapTimeCell">1:23:86</span>
                     <span class="cell trackGripCell">3</span>
@@ -474,7 +478,7 @@
                     <span class="cell SSR_Cell">150N/mm</span>
                     <span class="cell ARBF_Cell">200N/mm</span>
                     <span class="cell ARBR_Cell">150N/mm</span>
-                    <span class="cell colorCell rightMost">Set</span>
+                    <span class="cell colorCell rightMost"><div class="colorSample"></div></span>
                   </div>
                     
               </div>  
@@ -501,6 +505,8 @@
     <script src="resources/js/index.js"></script>
     <script src="vendors/jScrollPane/jScrollPane.js"></script>
     <script src="vendors/jScrollPane/jQueryMouseWheel.js"></script>
+    <script src="vendors/jScrollPane/wheelIntent.js"></script>
+    <script src="resources/js/plot.js"></script>
     
 
   </body>

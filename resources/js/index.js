@@ -61,7 +61,7 @@ $( document ).ready(function() {
   //});
   resizeTrackArea();
   resizeWorkSpace();
-  $("#divControlTableRow").css({ 'margin-bottom': $("#divTableAndSpacer").height()});
+  $("#divControlTableRow").css({ 'margin-bottom': $("#divTableAndSpacer").outerHeight(true)});
   $("#divTableAndSpacer").css({ 'top': $("#divControlTableRow").offset().top + $("#divControlTableRow").outerHeight(false)});
 
   $('#divTableAndSpacer').on('mousewheel',function(event) {

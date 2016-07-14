@@ -191,18 +191,18 @@ body {
 
 
 #divTable2Container, #divSpacer {
-  height: 170px; }
+  height: 160px; }
 
 .divPlotContainer {
   
   height: 300px;
   display: none;
-  margin-top: 20px;
+  margin-bottom: 20px;
   cursor: move;
   
 }
 .plot{
-  background-color: rgba(255,255,255,0.4);
+  background-color: rgba(255,255,255,0.75);
   width: 100%;
   height: 100%;
   border-left: 1px solid $font-color;
@@ -211,6 +211,7 @@ body {
   -moz-border-radius: $corner-radius;
   -webkit-border-radius: $corner-radius;
 }
+
 
 .divPlotContainer.over {
   /*border-top: 2px dashed #000;*/ }
@@ -223,9 +224,23 @@ body {
   margin-left: 10px;
   width: 150px;
   display: inline-block;
+  z-Index: 2;
+  float: left;
 }
 .channelSelector{
   width: 100%
+}
+.canvasContainer{
+  float: left;
+  width: 100%;
+  height: 100%;
+  margin-top: -47px;
+
+}
+.plotCanvas{
+  width: 100%;
+  height: 100%;
+  float: left;
 }
 .dropZone {
   height: 50px;
@@ -247,17 +262,19 @@ body {
   background-image: url(../images/BG_Porsche_tansparent.png);
   background-size: contain;
   background-repeat: no-repeat;
-  background-position: center center;
+  background-position:  center center; 
   overflow-y: scroll;
   padding-top: 10px;
 }
 
 #divPlotArea {
-  width: 100%; }
+  width: 100%; 
+  // margin-top: 20px;
+  float: left;
+}
 
 .addPlot, .removePlot {
   float: right;
-  margin-top: 10px;
   margin-bottom: 10px; 
   margin-right: 20px;
   background-size: cover;
@@ -265,6 +282,8 @@ body {
   height: 20px;
   width: 20px;
   cursor: pointer;
+  z-index: 2;
+  position: relative;
 }
 
 .addPlot{
@@ -275,6 +294,7 @@ body {
 	background-image: url(../images/AddPlot_hover.png);
 }
 .removePlot{
+  margin-top: 10px;
 	margin-right: 5px;
 	background-image: url(../images/RemovePlot_off.png);
 }

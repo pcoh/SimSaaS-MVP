@@ -1,21 +1,40 @@
+$(function() {
+    $( "#selectTrackGrip" ).selectmenu();
+    $( "#selectWingPos" ).selectmenu();
+    $( "#selectRH_Front" ).selectmenu();
+    $( "#selectRH_Rear" ).selectmenu();
+    $( "#selectSpringStiff_Front" ).selectmenu();
+    $( "#selectSpringStiff_Rear" ).selectmenu();
+    $( "#selectARBStiff_Front" ).selectmenu();
+    $( "#selectARBStiff_Rear" ).selectmenu();
+    $( ".channelSelector" ).selectmenu();
+    $( "button" )
+      .button()
+      .click(function( event ) {
+        event.preventDefault();
+      });
+})
+
 function resizeTrackArea() {
   $("#divTrackContainer").height($( window ).height());
 }
+
 function resizeWorkSpace() {
 	var WSheight = $( window ).height()-$("#divEventBanner").outerHeight(true)-$("#navTrackNavBar").outerHeight(false);
 	$("#divWorkspaceContainer").outerHeight(WSheight);
   	$("#divTableAndSpacer").width($("#divControlTableRow").width()); 	
 }
+
 function positionBG(){
 	$('#divWorkspaceContainer').css({'background-position-y': $("#divTableAndSpacer").outerHeight(true)});
 }
+
 function resizeSelectMenus(){
 
     $.each($('select'), function () {
         $(this).selectmenu({ width : $(this).attr("width")})
     })
 }
-
 
 function createPlotContainer(plotCount){
 	plotContHTML = "<div class=\"col-sm-12 divPlotContainer\" draggable=\"true\"><div class=\"plot\" id=\"plot"+plotCount+"\">"+
@@ -51,4 +70,15 @@ function controlTable2Pos() {
 		}
 		smartScroll(scrollPos);	
 	}); 
+}
+
+function customScrollBar($event){
+  var delay = 1000;
+  var timeout = null;
+  var targetElement = event.target;      
+  $(targetElement).addClass('scrolling');
+  clearTimeout(timeout);
+  timeout = setTimeout(function(){
+    $(targetElement).removeClass('scrolling');
+  },delay);
 }

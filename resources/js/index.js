@@ -5,8 +5,10 @@ function readJobData(jobPath){
 function getJasonCallback(data){
   var jobData = data;
   var size = Object.keys(jobData).length;
-  var jobGrips = [], jobWingPositions = [], jobRideHeights_F = [], jobRideHeights_R = [], jobSpringStiffnesses_F = [], jobSpringStiffnesses_R = [], jobARBStiffnesses_F = [], jobARBStiffnesses_R = [];
+  var jobLapNum = [], jobLapNames = [], jobGrips = [], jobWingPositions = [], jobRideHeights_F = [], jobRideHeights_R = [], jobSpringStiffnesses_F = [], jobSpringStiffnesses_R = [], jobARBStiffnesses_F = [], jobARBStiffnesses_R = [];
   for (var i=0; i<size; i++){
+    jobLapNum[i] = [i+1];
+    jobLapNames[i] = jobData[i+1].FileName;
     jobGrips[i] = jobData[i+1]["General_Parameters.Overall_Grip_[%]"];
     jobWingPositions[i] = jobData[i+1]["General_Parameters.Rear_Wing_Position_[deg]"];
     jobRideHeights_F[i] = jobData[i+1]["Initialization.Ride_Height.RideHeight_FL_Garage_[mm]"];
@@ -17,7 +19,8 @@ function getJasonCallback(data){
     jobARBStiffnesses_R[i] = jobData[i+1]["Anti_Roll_Bar.Rear.Chararcteristics_Linear.ARB_Stiffness_[N/mm]"];
   }
   extractVarParams(jobGrips,jobWingPositions, jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R); 
-  window.jobData = jobData;
+  //window.jobData = jobData;
+  window.jobData_parsed = [jobLapNum,jobLapNames, jobGrips,jobWingPositions,jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R];
 }
 
 function unique(list) {
@@ -30,14 +33,14 @@ function unique(list) {
 
 
 function extractVarParams(jobGrips,jobWingPositions, jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R){
-  uniqueGrip = unique( jobGrips );
-  uniqueWingPos = unique( jobWingPositions );
-  uniqueRF_F = unique( jobRideHeights_F );
-  uniqueRF_R = unique( jobRideHeights_R );
-  uniqueSS_F = unique( jobSpringStiffnesses_F );
-  uniqueSS_R = unique( jobSpringStiffnesses_R );
-  uniqueARB_F = unique( jobARBStiffnesses_F );
-  uniqueARB_R = unique( jobARBStiffnesses_R );
+  window.uniqueGrip = unique( jobGrips );
+  window.uniqueWingPos = unique( jobWingPositions );
+  window.uniqueRF_F = unique( jobRideHeights_F );
+  window.uniqueRF_R = unique( jobRideHeights_R );
+  window.uniqueSS_F = unique( jobSpringStiffnesses_F );
+  window.uniqueSS_R = unique( jobSpringStiffnesses_R );
+  window.uniqueARB_F = unique( jobARBStiffnesses_F );
+  window.uniqueARB_R = unique( jobARBStiffnesses_R );
   setDDOptions(uniqueGrip,uniqueWingPos,uniqueRF_F,uniqueRF_R,uniqueSS_F,uniqueSS_R,uniqueARB_F,uniqueARB_R);
 };
 
@@ -56,6 +59,99 @@ function setDDOptions(uniqueGrip,uniqueWingPos,uniqueRF_F,uniqueRF_R,uniqueSS_F,
     $("#"+controlNames[j]).selectmenu("refresh");
   }
 }
+
+function getSimSettings(){
+  var demTrackGrip = uniqueGrip[$( "#selectTrackGrip").val()];
+  var demWingPos = uniqueWingPos[$( "#selectWingPos").val()];
+  var demRH_F = uniqueRF_F[$( "#selectRH_Front").val()];
+  var demRH_R = uniqueRF_R[$( "#selectRH_Rear").val()];
+  var demSS_F = uniqueSS_F[$( "#selectSpringStiff_Front").val()];
+  var demSS_R = uniqueSS_R[$( "#selectSpringStiff_Rear").val()];
+  var demARBStiff_F = uniqueARB_F[$( "#selectARBStiff_Front").val()];
+  var demARBStiff_R = uniqueARB_R[$( "#selectARBStiff_Rear").val()];
+
+  var demandSettings = [demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R];
+
+  getLapID(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+}
+
+
+  var getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
+    lapID = [];
+    for(var i=0;i<jobData_parsed[0].length;i++){
+      currTrackGrip = jobData_parsed[2][i];
+      currWingPos = jobData_parsed[3][i];
+      currRH_F = jobData_parsed[4][i];
+      currRH_R = jobData_parsed[5][i];
+      currSS_F = jobData_parsed[6][i];
+      currSS_R = jobData_parsed[7][i];
+      currARB_F = jobData_parsed[8][i];
+      currARB_R = jobData_parsed[9][i];
+
+      //window.jobData_parsed = [jobLapNum,jobLapNames, jobGrips,jobWingPositions,jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R];
+
+      if( currTrackGrip == demTrackGrip &&  currWingPos== demWingPos && currRH_F == demRH_F && currRH_R == demRH_R && currSS_F == demSS_F && currSS_R == demSS_R && currARB_F == demARBStiff_F && currARB_R == demARBStiff_R){   
+        lapID.push(jobData_parsed[0][i]);
+      }
+       
+    }
+    alert(jobData_parsed[1][lapID-1]);
+  }
+
+
+  // var sortData = function(filteredProducts){    
+  //   switch(sortAxis){
+  //     case 'price':
+  //       filteredProducts.sort(function (a, b) {
+  //         a = parseFloat(a.variants[0].price),
+  //           b = parseFloat(b.variants[0].price);          
+  //         return a - b;
+  //       });
+
+  //       break;
+  //     case 'carat':
+  //       filteredProducts.sort(function (a, b) {
+  //         a = parseFloat(a.variants[0].grams),
+  //           b = parseFloat(b.variants[0].grams);
+  //         return a - b;           
+  //       });    
+  //       break;        
+  //     case 'cut':        
+  //       filteredProducts.sort(function (a, b) {
+  //         a = cutAxis.indexOf(a.variants[0].option1),
+  //           b = cutAxis.indexOf(b.variants[0].option1);
+  //         return a - b; 
+  //       });
+  //       break;        
+  //     case 'clarity':
+  //       filteredProducts.sort(function (a, b) {
+  //         a = clarityAxis.indexOf(a.variants[0].option3),
+  //           b = clarityAxis.indexOf(b.variants[0].option3);
+  //         return a - b; 
+  //       });        
+  //       break;        
+      
+
+  //       break;
+  //     default:        
+  //       filteredProducts.sort(function (a, b) {
+  //         a = parseFloat(a.variants[0].price),
+  //           b = parseFloat(b.variants[0].price);
+  //         return a - b;
+  //       });
+  //   }
+
+  //   if(sortDir == -1){
+  //     filteredProducts.reverse();
+  //   }
+    
+  //   $("#diamTableContent").html("");
+    
+  //   addToTable(filteredProducts);
+  // }
+
+
+
 
 $( document ).ready(function() {
   readJobData(jobPath);
@@ -95,6 +191,14 @@ $('#divTableAndSpacer').on('mousewheel',function(event) {
   tableSpaceScroll = true;        
   $('#divWorkspaceContainer').scroll( );
   tableSpaceScroll = false;
+});
+
+$('#simButton').on('click',  function() {
+  getSimSettings();
+  // getLapID();
+  // loadLapData();  
+  // addLapToTable1();
+
 });
 
 $('.eventSelector').on('click',  function() {

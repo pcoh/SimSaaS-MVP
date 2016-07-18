@@ -76,7 +76,7 @@ function getSimSettings(){
 }
 
 
-  var getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
+   getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
     lapID = [];
     for(var i=0;i<jobData_parsed[0].length;i++){
       currTrackGrip = jobData_parsed[2][i];
@@ -90,13 +90,58 @@ function getSimSettings(){
 
       //window.jobData_parsed = [jobLapNum,jobLapNames, jobGrips,jobWingPositions,jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R];
 
-      if( currTrackGrip == demTrackGrip &&  currWingPos== demWingPos && currRH_F == demRH_F && currRH_R == demRH_R && currSS_F == demSS_F && currSS_R == demSS_R && currARB_F == demARBStiff_F && currARB_R == demARBStiff_R){   
+      if( currTrackGrip == demTrackGrip &&  currWingPos == demWingPos && currRH_F == demRH_F && currRH_R == demRH_R && currSS_F == demSS_F && currSS_R == demSS_R && currARB_F == demARBStiff_F && currARB_R == demARBStiff_R){   
         lapID.push(jobData_parsed[0][i]);
       }
        
     }
-    alert(jobData_parsed[1][lapID-1]);
+    //alert(jobData_parsed[1][lapID-1]);
+    addLapToTable1(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
   }
+
+  addLapToTable1 = function(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
+    numRowsT1++;
+    if (numRowsT1 %2 ==0){
+      var rowType = "evenRow";
+    }else{
+      var rowType = "oddRow"
+    }
+    var lapHTML = "<div class=\"lapRow " +rowType + "\"><span class=\"cell setCell\"></span><span class=\"cell plotCell\"></span><span class=\"cell lapTimeCell\"><div class=\"progressBG\"><div class=\"progressVal\" id=\"progress"+numRowsT1+"\"></div></div></span>"+
+                  "<span class=\"cell trackGripCell\">"+demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+demWingPos+"</span><span class=\"cell RHF_Cell\">"+demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+demRH_R+"mm</span>" +
+                  "<span class=\"cell SSF_Cell\">"+demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+demARBStiff_R+"N/mm</span>" +
+                  "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell rightMost\"></span></div>";
+    $("#rowContainer").append(lapHTML);
+    calcProgress(numRowsT1);        
+  }
+  function updateProgress(endTime,simDur,numRowsT1) {
+    remainTime = endTime - $.now();
+    var progress = (simDur - remainTime)/simDur *100;
+    $("#progress"+numRowsT1).width(progress +"%");
+    // start the timer again
+    if (remainTime >0){      
+      setTimeout(function () {
+        //recall the parent function to create a recursive loop.
+        updateProgress(endTime,simDur,numRowsT1);
+    }, 3000);
+    }else{
+      return;
+    }
+  }
+
+  function runTimer(endTime,simDur,numRowsT1) {    
+    updateProgress(endTime,simDur,numRowsT1);
+    //myFunction(endTime,simDur,numRowsT1);
+  }
+
+  
+  calcProgress = function(numRowsT1){
+    var simDur = 20000;
+    var endTime = $.now()+simDur;
+    
+    runTimer(endTime,simDur,numRowsT1);
+  }
+
+
 
 
   // var sortData = function(filteredProducts){    
@@ -196,8 +241,9 @@ $('#divTableAndSpacer').on('mousewheel',function(event) {
 $('#simButton').on('click',  function() {
   getSimSettings();
   // getLapID();
-  // loadLapData();  
-  // addLapToTable1();
+   // addLapToTable1();
+   // loadLapData();  
+ 
 
 });
 

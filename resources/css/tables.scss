@@ -2,6 +2,7 @@ $background-color: #343434;
 $font-color: #dfdfdf;
 $accent-color: #08c1fe;
 $border-radius: 3px;
+$corner-radius: 3px;
 
 #table1{
 	width: 832px;
@@ -69,6 +70,10 @@ $border-radius: 3px;
 #table1ContentScroller{
 	height: 206px;
 	overflow-y: scroll;
+}
+
+#rowContainer{
+	border-bottom: 1px solid rgba(255, 255, 255, 0.4);
 }
 
 .lapRow{
@@ -202,6 +207,27 @@ $border-radius: 3px;
 }
 #row5 .colorCell .colorSample{
 	background-color: #FF8300;
+}
+
+.progressBG{
+	width: 55px;
+	background-color: #FFF;
+	height: 6px;
+	float: none;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 9px;
+	
+}
+
+.progressVal{
+	height: 100%;
+	float: left;
+	background-color:$accent-color;
+	box-shadow: 0 0 5px #08c1fe;
+
+	width: 0%;
+
 }
 
 

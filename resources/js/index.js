@@ -19,7 +19,6 @@ function getJasonCallback(data){
     jobARBStiffnesses_R[i] = jobData[i+1]["Anti_Roll_Bar.Rear.Chararcteristics_Linear.ARB_Stiffness_[N/mm]"];
   }
   extractVarParams(jobGrips,jobWingPositions, jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R); 
-  //window.jobData = jobData;
   window.jobData_parsed = [jobLapNum,jobLapNames, jobGrips,jobWingPositions,jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R];
 }
 
@@ -30,7 +29,6 @@ function unique(list) {
   });
   return result;
 }
-
 
 function extractVarParams(jobGrips,jobWingPositions, jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R){
   window.uniqueGrip = unique( jobGrips );
@@ -45,7 +43,6 @@ function extractVarParams(jobGrips,jobWingPositions, jobRideHeights_F,jobRideHei
 };
 
 function setDDOptions(uniqueGrip,uniqueWingPos,uniqueRF_F,uniqueRF_R,uniqueSS_F,uniqueSS_R,uniqueARB_F,uniqueARB_R){
-  //a = arguments;
   var controlNames = ["selectTrackGrip", "selectWingPos", "selectRH_Front", "selectRH_Rear", "selectSpringStiff_Front","selectSpringStiff_Rear", "selectARBStiff_Front","selectARBStiff_Rear"];
   var controlUnits = ["%", "deg","mm","mm", "N/mm", "N/mm", "N/mm", "N/mm"];
   for(var j = 0; j<arguments.length; j++){
@@ -75,74 +72,61 @@ function getSimSettings(){
   getLapID(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
 }
 
+getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
+  lapID = [];
+  for(var i=0;i<jobData_parsed[0].length;i++){
+    currTrackGrip = jobData_parsed[2][i];
+    currWingPos = jobData_parsed[3][i];
+    currRH_F = jobData_parsed[4][i];
+    currRH_R = jobData_parsed[5][i];
+    currSS_F = jobData_parsed[6][i];
+    currSS_R = jobData_parsed[7][i];
+    currARB_F = jobData_parsed[8][i];
+    currARB_R = jobData_parsed[9][i];
+    //window.jobData_parsed = [jobLapNum,jobLapNames, jobGrips,jobWingPositions,jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R];
 
-   getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
-    lapID = [];
-    for(var i=0;i<jobData_parsed[0].length;i++){
-      currTrackGrip = jobData_parsed[2][i];
-      currWingPos = jobData_parsed[3][i];
-      currRH_F = jobData_parsed[4][i];
-      currRH_R = jobData_parsed[5][i];
-      currSS_F = jobData_parsed[6][i];
-      currSS_R = jobData_parsed[7][i];
-      currARB_F = jobData_parsed[8][i];
-      currARB_R = jobData_parsed[9][i];
-
-      //window.jobData_parsed = [jobLapNum,jobLapNames, jobGrips,jobWingPositions,jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R];
-
-      if( currTrackGrip == demTrackGrip &&  currWingPos == demWingPos && currRH_F == demRH_F && currRH_R == demRH_R && currSS_F == demSS_F && currSS_R == demSS_R && currARB_F == demARBStiff_F && currARB_R == demARBStiff_R){   
-        lapID.push(jobData_parsed[0][i]);
-      }
-       
+    if( currTrackGrip == demTrackGrip &&  currWingPos == demWingPos && currRH_F == demRH_F && currRH_R == demRH_R && currSS_F == demSS_F && currSS_R == demSS_R && currARB_F == demARBStiff_F && currARB_R == demARBStiff_R){   
+      lapID.push(jobData_parsed[0][i]);
     }
-    //alert(jobData_parsed[1][lapID-1]);
-    addLapToTable1(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+     
   }
+  addLapToTable1(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+}
 
-  addLapToTable1 = function(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
-    numRowsT1++;
-    if (numRowsT1 %2 ==0){
-      var rowType = "evenRow";
-    }else{
-      var rowType = "oddRow"
-    }
-    var lapHTML = "<div class=\"lapRow " +rowType + "\"><span class=\"cell setCell\"></span><span class=\"cell plotCell\"></span><span class=\"cell lapTimeCell\"><div class=\"progressBG\"><div class=\"progressVal\" id=\"progress"+numRowsT1+"\"></div></div></span>"+
-                  "<span class=\"cell trackGripCell\">"+demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+demWingPos+"</span><span class=\"cell RHF_Cell\">"+demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+demRH_R+"mm</span>" +
-                  "<span class=\"cell SSF_Cell\">"+demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+demARBStiff_R+"N/mm</span>" +
-                  "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell rightMost\"></span></div>";
-    $("#rowContainer").append(lapHTML);
-    calcProgress(numRowsT1);        
+addLapToTable1 = function(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
+  numRowsT1++;
+  if (numRowsT1 %2 ==0){
+    var rowType = "evenRow";
+  }else{
+    var rowType = "oddRow"
   }
-  function updateProgress(endTime,simDur,numRowsT1) {
-    remainTime = endTime - $.now();
-    var progress = (simDur - remainTime)/simDur *100;
-    $("#progress"+numRowsT1).width(progress +"%");
-    // start the timer again
-    if (remainTime >0){      
-      setTimeout(function () {
-        //recall the parent function to create a recursive loop.
-        updateProgress(endTime,simDur,numRowsT1);
-    }, 3000);
-    }else{
-      return;
-    }
+  var lapHTML = "<div class=\"lapRow " +rowType + "\"><span class=\"cell setCell\"></span><span class=\"cell plotCell\"></span><span class=\"cell lapTimeCell\"><div class=\"progressBG\"><div class=\"progressVal\" id=\"progress"+numRowsT1+"\"></div></div></span>"+
+                "<span class=\"cell trackGripCell\">"+demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+demWingPos+"</span><span class=\"cell RHF_Cell\">"+demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+demRH_R+"mm</span>" +
+                "<span class=\"cell SSF_Cell\">"+demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+demARBStiff_R+"N/mm</span>" +
+                "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell rightMost\"></span></div>";
+  $("#rowContainer").append(lapHTML);
+  calcProgress(numRowsT1);        
+}
+
+function updateProgress(endTime,simDur,numRowsT1) {
+  remainTime = endTime - $.now();
+  var progress = (simDur - remainTime)/simDur *100;
+  $("#progress"+numRowsT1).width(progress +"%");
+  if (remainTime >0){      
+    setTimeout(function () {
+      //recall the parent function to create a recursive loop.
+      updateProgress(endTime,simDur,numRowsT1);
+  }, 3000);
+  }else{
+    return;
   }
+}  
 
-  function runTimer(endTime,simDur,numRowsT1) {    
-    updateProgress(endTime,simDur,numRowsT1);
-    //myFunction(endTime,simDur,numRowsT1);
-  }
-
-  
-  calcProgress = function(numRowsT1){
-    var simDur = 20000;
-    var endTime = $.now()+simDur;
-    
-    runTimer(endTime,simDur,numRowsT1);
-  }
-
-
-
+calcProgress = function(numRowsT1){
+  var simDur = 20000;
+  var endTime = $.now()+simDur; 
+  updateProgress(endTime,simDur,numRowsT1);
+}
 
   // var sortData = function(filteredProducts){    
   //   switch(sortAxis){
@@ -152,7 +136,6 @@ function getSimSettings(){
   //           b = parseFloat(b.variants[0].price);          
   //         return a - b;
   //       });
-
   //       break;
   //     case 'carat':
   //       filteredProducts.sort(function (a, b) {
@@ -175,9 +158,6 @@ function getSimSettings(){
   //         return a - b; 
   //       });        
   //       break;        
-      
-
-  //       break;
   //     default:        
   //       filteredProducts.sort(function (a, b) {
   //         a = parseFloat(a.variants[0].price),
@@ -185,18 +165,12 @@ function getSimSettings(){
   //         return a - b;
   //       });
   //   }
-
   //   if(sortDir == -1){
   //     filteredProducts.reverse();
-  //   }
-    
-  //   $("#diamTableContent").html("");
-    
+  //   }    
+  //   $("#diamTableContent").html("");    
   //   addToTable(filteredProducts);
   // }
-
-
-
 
 $( document ).ready(function() {
   readJobData(jobPath);
@@ -218,17 +192,17 @@ $( window ).resize(function() {
 })
 
 $( '#divTrackContainer').scroll(function(event) {
-    customScrollBar(event);      
-  });
-  $( '#table1ContentScroller').scroll(function(event) {
-    customScrollBar(event);      
-  });
-  $( '#divTable1Container').scroll(function(event) {
-    customScrollBar(event);      
-  });    
-  $( '#divWorkspaceContainer').scroll(function(event) {
-    customScrollBar(event);      
-  });    
+  customScrollBar(event);      
+});
+$( '#table1ContentScroller').scroll(function(event) {
+  customScrollBar(event);      
+});
+$( '#divTable1Container').scroll(function(event) {
+  customScrollBar(event);      
+});    
+$( '#divWorkspaceContainer').scroll(function(event) {
+  customScrollBar(event);      
+});    
 
 $('#divTableAndSpacer').on('mousewheel',function(event) {
   wheel = event.originalEvent.wheelDeltaY;
@@ -240,11 +214,7 @@ $('#divTableAndSpacer').on('mousewheel',function(event) {
 
 $('#simButton').on('click',  function() {
   getSimSettings();
-  // getLapID();
-   // addLapToTable1();
-   // loadLapData();  
- 
-
+   // loadLapData(); 
 });
 
 $('.eventSelector').on('click',  function() {
@@ -278,5 +248,3 @@ $('#divWorkspaceContainer').on('click', 'div a .removePlot', function() {
 	addListenerToPlots();
 	plotCount = plotCount -1;
 });
-
-//addListenerToPlots();

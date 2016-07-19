@@ -7,6 +7,7 @@ $( document ).ready(function() {
   controlTable2Pos();
   positionBG();
   populatePlot1DD();
+  resizeCanvas();
 });
 
 $( window ).resize(function() {
@@ -16,6 +17,7 @@ $( window ).resize(function() {
   smartScroll(scrollPos); 
   positionBG();
   resizeSelectMenus();
+  resizeCanvas();
 })
 
 $('#divTrackContainer').scroll(function(event) {
@@ -61,6 +63,7 @@ $('.addPlot').on('click',  function() {
     $( ".channelSelector" ).selectmenu();
   })
 	addListenerToPlots();	
+  resizeCanvas();
 });
 
 $('#divWorkspaceContainer').on('click', 'div a .removePlot', function() {

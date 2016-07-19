@@ -52,11 +52,6 @@ function setDDOptions(uniqueGrip,uniqueWingPos,uniqueRF_F,uniqueRF_R,uniqueSS_F,
   }
 }
 
-function resizeCanvas(){
-  $(".plotCanvas").width($(".canvasContainer").width());
-  $(".plotCanvas").height($(".canvasContainer").height());
-
-}
 
 function cleanAndSortChannelNames(){
   var channelOptions = channelNamesInFiles.slice(0); //slice is necessary to create a copy and not just a new referene to the same array;

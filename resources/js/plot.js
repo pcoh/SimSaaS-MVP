@@ -29,15 +29,41 @@ function plotData(){
 	$('.plot').each(function() {
 	    plotIDs.push(this.id);
 	});
-
+	var plotObject = {};
 	// for each plot, 
 	for (var i = 0; i<plotIDs.length; i++){
-		channelNames[i] = $("#"+plotIDs[i]).children().children(".channelSelector").val();
-		// 	check which cannels need to be plotted (for each of the laps)
-		// 	find maximum and minimum values across all laps 
+		// 	check which cannels need to be plotted (for each of the laps):
+		plotObject[plotIDs[i]] = {};
+		plotObject[plotIDs[i]].channelName = $("#"+plotIDs[i]).children().children(".channelSelector").val();
+		plotObject[plotIDs[i]].YData = {};
+		var maxYVal = Number.NEGATIVE_INFINITY;
+		var minYVal = Number.POSITIVE_INFINITY;
+		//fetch the data of the channels:
+		for (var j=0; j< toBePlotted.length; j++){
+			channelIndex= channelNamesInFiles.indexOf(plotObject[plotIDs[i]].channelName );
+			var fieldIndex = channelIndex+1;
+			plotObject[plotIDs[i]].YData[toBePlotted[j]] = lapData[toBePlotted[j]-1]["FIELD"+fieldIndex].slice(1);
+			// 	find maximum and minimum values across all laps 
+			maxYCurr = Math.max.apply(Math,plotObject[plotIDs[i]].YData[toBePlotted[j]]);
+			minYCurr = Math.min.apply(Math,plotObject[plotIDs[i]].YData[toBePlotted[j]]);
+			
+			if (maxYCurr > maxYVal){
+				maxYVal = maxYCurr;
+			}
+			if (minYCurr < minYVal){
+				minYVal = minYCurr;
+			}
+		}
+		plotObject[plotIDs[i]].maxYVal = maxYVal;
+		plotObject[plotIDs[i]].minYVal = minYVal;
+
+
+
+
 		// 	scale the plot to accommodate min and max
 		// 	plot each channel
 	}
+	a = 1;
 
 }
 

@@ -22,6 +22,7 @@ function getJasonCallback(data){
   window.jobData_parsed = [jobLapNum,jobLapNames, jobGrips,jobWingPositions,jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R];
 }
 
+//Utils:
 function unique(list) {
   var result = [];
   $.each(list, function(i, e) {
@@ -29,6 +30,22 @@ function unique(list) {
   });
   return result;
 }
+function secondsTimeSpanToHMSH(s) {
+    var h = Math.floor(s/3600); //Get whole hours
+    s -= h*3600;
+    var m = Math.floor(s/60); //Get remaining minutes
+    s -= m*60;
+    var H = Math.floor(s%1 *100);
+    s = Math.floor(s);
+    if (h==0){
+      return m +":"+(s < 10 ? '0'+s : s)+"."+(H < 10 ? '0'+H : H);
+    }else{
+      return h+":" +(m < 10 ? '0'+m : m)+":"+(s < 10 ? '0'+s : s)+"."+(H < 10 ? '0'+H : H);
+    }
+}
+//----------------------------------------------------------
+
+
 
 function extractVarParams(jobGrips,jobWingPositions, jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R){
   window.uniqueGrip = unique( jobGrips );
@@ -101,7 +118,7 @@ addLapToTable1 = function(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demS
 }
 
 calcProgress = function(lapID){
-  var simDur = 20000;
+  var simDur = 1000;
   var endTime = $.now()+simDur; 
   updateProgress(endTime,simDur,lapID);
 }
@@ -119,9 +136,15 @@ function updateProgress(endTime,simDur,lapID) {
       .children(".plotCell")
       .removeClass("loading")
       .on('click',  clickPlotButton);
+      var currLT = lapData[lapID-1].FIELD1[lapData[lapID-1].FIELD1.length-1];
+      var LT_HMSH = secondsTimeSpanToHMSH(currLT);
+
+    $("#lapRow"+lapID).children(".lapTimeCell").html(LT_HMSH);
     return;
   }
 } 
+
+
 
   // var sortData = function(filteredProducts){    
   //   switch(sortAxis){

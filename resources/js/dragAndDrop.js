@@ -60,8 +60,8 @@ function addListenerToPlots(){
 	plotContains = document.querySelectorAll('.row .divPlotContainer');
 	[].forEach.call(plotContains, function(plCont) {
 		plCont.addEventListener('dragstart', handleDragStart, false);	  	
-	  	plCont.addEventListener('dragenter', handleDragEnter, false);
-	  	plCont.addEventListener('dragover', handleDragOver, false);
+	  plCont.addEventListener('dragenter', handleDragEnter, false);
+	  plCont.addEventListener('dragover', handleDragOver, false);
 		plCont.addEventListener('dragleave', handleDragLeave, false);
 		plCont.addEventListener('drop', handleDrop, false);
 		plCont.addEventListener('dragend', handleDragEnd, false);

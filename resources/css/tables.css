@@ -122,6 +122,9 @@
 .plotCell.plotted {
   background-image: url("../images/PlotIcon_On.png"); }
 
+.plotCell.loading {
+  background-image: none; }
+
 .setCell {
   background-image: url("../images/SetIcon_Off.png"); }
 

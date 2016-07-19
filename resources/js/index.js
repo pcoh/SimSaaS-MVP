@@ -51,7 +51,7 @@ function setDDOptions(uniqueGrip,uniqueWingPos,uniqueRF_F,uniqueRF_R,uniqueSS_F,
     for(var i = 0; i < uniqueValues.length; i++) {
       optionsAsString += "<option value='" + i + "'>" + uniqueValues[i] + controlUnits[j]+"</option>";
     }
-    $( "#"+controlNames[j] ).html( optionsAsString );
+    $( "#"+controlNames[j]).html( optionsAsString );
     $("#"+controlNames[j]).val(0);
     $("#"+controlNames[j]).selectmenu("refresh");
   }
@@ -73,7 +73,7 @@ function getSimSettings(){
 }
 
 getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
-  lapID = [];
+  //lapID = [];
   for(var i=0;i<jobData_parsed[0].length;i++){
     currTrackGrip = jobData_parsed[2][i];
     currWingPos = jobData_parsed[3][i];
@@ -86,47 +86,79 @@ getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R
     //window.jobData_parsed = [jobLapNum,jobLapNames, jobGrips,jobWingPositions,jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R];
 
     if( currTrackGrip == demTrackGrip &&  currWingPos == demWingPos && currRH_F == demRH_F && currRH_R == demRH_R && currSS_F == demSS_F && currSS_R == demSS_R && currARB_F == demARBStiff_F && currARB_R == demARBStiff_R){   
-      lapID.push(jobData_parsed[0][i]);
+      //lapID.push(jobData_parsed[0][i]);
+      lapID = jobData_parsed[0][i][0];
     }
      
   }
   addLapToTable1(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+  loadLapData(lapID);
 }
 
 addLapToTable1 = function(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
-  numRowsT1++;
-  if (numRowsT1 %2 ==0){
-    var rowType = "evenRow";
+  if ($("#lapRow"+lapID).length ==0){
+    numRowsT1++;
+    if (numRowsT1 %2 ==0){
+      var rowType = "evenRow";
+    }else{
+      var rowType = "oddRow"
+    }
+    var lapHTML = "<div id=\"lapRow"+lapID+ "\" class=\"lapRow " +rowType + "\"><span class=\"cell setCell\"></span><span id=\"plotCell"+lapID+ "\" class=\"cell plotCell loading\"></span><span class=\"cell lapTimeCell\"><div class=\"progressBG\"><div class=\"progressVal\" id=\"progress"+lapID+"\"></div></div></span>"+
+                  "<span class=\"cell trackGripCell\">"+demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+demWingPos+"</span><span class=\"cell RHF_Cell\">"+demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+demRH_R+"mm</span>" +
+                  "<span class=\"cell SSF_Cell\">"+demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+demARBStiff_R+"N/mm</span>" +
+                  "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell rightMost\"></span></div>";
+    $("#rowContainer").append(lapHTML);
+    
+    calcProgress(lapID);  
   }else{
-    var rowType = "oddRow"
+    alert("A lap with these settings has already been simulated");    
   }
-  var lapHTML = "<div class=\"lapRow " +rowType + "\"><span class=\"cell setCell\"></span><span class=\"cell plotCell\"></span><span class=\"cell lapTimeCell\"><div class=\"progressBG\"><div class=\"progressVal\" id=\"progress"+numRowsT1+"\"></div></div></span>"+
-                "<span class=\"cell trackGripCell\">"+demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+demWingPos+"</span><span class=\"cell RHF_Cell\">"+demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+demRH_R+"mm</span>" +
-                "<span class=\"cell SSF_Cell\">"+demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+demARBStiff_R+"N/mm</span>" +
-                "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell rightMost\"></span></div>";
-  $("#rowContainer").append(lapHTML);
-  calcProgress(numRowsT1);        
-}
 
-function updateProgress(endTime,simDur,numRowsT1) {
+}
+calcProgress = function(lapID){
+  var simDur = 20000;
+  var endTime = $.now()+simDur; 
+  updateProgress(endTime,simDur,lapID);
+}
+function updateProgress(endTime,simDur,lapID) {
   remainTime = endTime - $.now();
-  var progress = (simDur - remainTime)/simDur *100;
-  $("#progress"+numRowsT1).width(progress +"%");
+  var progress = Math.min(100,(simDur - remainTime)/simDur *100);
+  $("#progress"+lapID).width(progress +"%");
   if (remainTime >0){      
     setTimeout(function () {
       //recall the parent function to create a recursive loop.
-      updateProgress(endTime,simDur,numRowsT1);
+      updateProgress(endTime,simDur,lapID);
   }, 3000);
   }else{
+    $("#lapRow"+lapID)
+      .children(".plotCell")
+      .removeClass("loading")
+      .on('click',  clickPlotButton);
+      //.on('click',  function() {$(this).toggleClass('plotted')});
     return;
   }
-}  
+} 
 
-calcProgress = function(numRowsT1){
-  var simDur = 20000;
-  var endTime = $.now()+simDur; 
-  updateProgress(endTime,simDur,numRowsT1);
+function clickPlotButton(){
+  $(this).toggleClass('plotted');
+  $targetCell = $(this);
+  getLapsToBePlotted($targetCell);
+  
+  plotData();
 }
+
+function getLapsToBePlotted(){
+  $thisID = $targetCell.attr("id");
+  lapID = parseInt($thisID.replace('plotCell',''));
+  if ($.inArray(lapID, toBePlotted) == -1){
+    toBePlotted.push(lapID);
+  }else{
+    var index = toBePlotted.indexOf(lapID);
+    toBePlotted.splice(index, 1);
+  }
+
+}
+
 
   // var sortData = function(filteredProducts){    
   //   switch(sortAxis){
@@ -180,6 +212,7 @@ $( document ).ready(function() {
   $("#divTableAndSpacer").css({ 'top': $("#divControlTableRow").offset().top + $("#divControlTableRow").outerHeight(false)});
   controlTable2Pos();
   positionBG();
+  populatePlot1DD();
 });
 
 $( window ).resize(function() {
@@ -191,18 +224,19 @@ $( window ).resize(function() {
   resizeSelectMenus();
 })
 
-$( '#divTrackContainer').scroll(function(event) {
+$('#divTrackContainer').scroll(function(event) {
   customScrollBar(event);      
 });
-$( '#table1ContentScroller').scroll(function(event) {
+$('#table1ContentScroller').scroll(function(event) {
   customScrollBar(event);      
 });
-$( '#divTable1Container').scroll(function(event) {
+$('#divTable1Container').scroll(function(event) {
   customScrollBar(event);      
 });    
-$( '#divWorkspaceContainer').scroll(function(event) {
+$('#divWorkspaceContainer').scroll(function(event) {
   customScrollBar(event);      
-});    
+});  
+
 
 $('#divTableAndSpacer').on('mousewheel',function(event) {
   wheel = event.originalEvent.wheelDeltaY;
@@ -223,10 +257,6 @@ $('.eventSelector').on('click',  function() {
   var activeRound = $(this).clone().children().remove().end().text();
   var eventName = $(this).children('.divtrackName').html();
   $('#eventHeadline').html(activeRound + ' - '+ eventName);
-});
-
-$('.plotCell').on('click',  function() {
-  $(this).toggleClass('plotted');
 });
 
 $('.addPlot').on('click',  function() {

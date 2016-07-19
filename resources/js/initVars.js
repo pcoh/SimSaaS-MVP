@@ -5,3 +5,5 @@ dragPlotOpacity = '0.4';
 tableSpaceScroll = false;
 jobPath = "resources/data/jobOverview.json";
 numRowsT1 = 0;
+lapData = [];
+toBePlotted = [];

@@ -281,6 +281,9 @@ body {
   height: 200px;
   padding: 0px; }
 
+.ui-widget-content {
+  max-height: 255px; }
+
 /*# sourceMappingURL=main.css.map */
 
 /*# sourceMappingURL=main.css.map */

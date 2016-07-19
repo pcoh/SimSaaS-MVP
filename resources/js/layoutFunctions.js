@@ -37,6 +37,21 @@ function resizeSelectMenus(){
     })
 }
 
+function setDDOptions(uniqueGrip,uniqueWingPos,uniqueRF_F,uniqueRF_R,uniqueSS_F,uniqueSS_R,uniqueARB_F,uniqueARB_R){
+  var controlNames = ["selectTrackGrip", "selectWingPos", "selectRH_Front", "selectRH_Rear", "selectSpringStiff_Front","selectSpringStiff_Rear", "selectARBStiff_Front","selectARBStiff_Rear"];
+  var controlUnits = ["%", "deg","mm","mm", "N/mm", "N/mm", "N/mm", "N/mm"];
+  for(var j = 0; j<arguments.length; j++){
+    var optionsAsString = "";
+    uniqueValues = arguments[j];
+    for(var i = 0; i < uniqueValues.length; i++) {
+      optionsAsString += "<option value='" + i + "'>" + uniqueValues[i] + controlUnits[j]+"</option>";
+    }
+    $( "#"+controlNames[j]).html( optionsAsString );
+    $("#"+controlNames[j]).val(0);
+    $("#"+controlNames[j]).selectmenu("refresh");
+  }
+}
+
 function cleanAndSortChannelNames(){
   var channelOptions = channelNamesInFiles;
   var index = channelOptions.indexOf("Time");

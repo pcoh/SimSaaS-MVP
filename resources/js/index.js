@@ -42,21 +42,6 @@ function extractVarParams(jobGrips,jobWingPositions, jobRideHeights_F,jobRideHei
   setDDOptions(uniqueGrip,uniqueWingPos,uniqueRF_F,uniqueRF_R,uniqueSS_F,uniqueSS_R,uniqueARB_F,uniqueARB_R);
 };
 
-function setDDOptions(uniqueGrip,uniqueWingPos,uniqueRF_F,uniqueRF_R,uniqueSS_F,uniqueSS_R,uniqueARB_F,uniqueARB_R){
-  var controlNames = ["selectTrackGrip", "selectWingPos", "selectRH_Front", "selectRH_Rear", "selectSpringStiff_Front","selectSpringStiff_Rear", "selectARBStiff_Front","selectARBStiff_Rear"];
-  var controlUnits = ["%", "deg","mm","mm", "N/mm", "N/mm", "N/mm", "N/mm"];
-  for(var j = 0; j<arguments.length; j++){
-    var optionsAsString = "";
-    uniqueValues = arguments[j];
-    for(var i = 0; i < uniqueValues.length; i++) {
-      optionsAsString += "<option value='" + i + "'>" + uniqueValues[i] + controlUnits[j]+"</option>";
-    }
-    $( "#"+controlNames[j]).html( optionsAsString );
-    $("#"+controlNames[j]).val(0);
-    $("#"+controlNames[j]).selectmenu("refresh");
-  }
-}
-
 function getSimSettings(){
   var demTrackGrip = uniqueGrip[$( "#selectTrackGrip").val()];
   var demWingPos = uniqueWingPos[$( "#selectWingPos").val()];
@@ -113,8 +98,8 @@ addLapToTable1 = function(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demS
   }else{
     alert("A lap with these settings has already been simulated");    
   }
-
 }
+
 calcProgress = function(lapID){
   var simDur = 20000;
   var endTime = $.now()+simDur; 
@@ -134,31 +119,9 @@ function updateProgress(endTime,simDur,lapID) {
       .children(".plotCell")
       .removeClass("loading")
       .on('click',  clickPlotButton);
-      //.on('click',  function() {$(this).toggleClass('plotted')});
     return;
   }
 } 
-
-function clickPlotButton(){
-  $(this).toggleClass('plotted');
-  $targetCell = $(this);
-  getLapsToBePlotted($targetCell);
-  
-  plotData();
-}
-
-function getLapsToBePlotted(){
-  $thisID = $targetCell.attr("id");
-  lapID = parseInt($thisID.replace('plotCell',''));
-  if ($.inArray(lapID, toBePlotted) == -1){
-    toBePlotted.push(lapID);
-  }else{
-    var index = toBePlotted.indexOf(lapID);
-    toBePlotted.splice(index, 1);
-  }
-
-}
-
 
   // var sortData = function(filteredProducts){    
   //   switch(sortAxis){
@@ -203,78 +166,3 @@ function getLapsToBePlotted(){
   //   $("#diamTableContent").html("");    
   //   addToTable(filteredProducts);
   // }
-
-$( document ).ready(function() {
-  readJobData(jobPath);
-  resizeTrackArea();
-  resizeWorkSpace();
-  $("#divControlTableRow").css({ 'margin-bottom': $("#divTableAndSpacer").outerHeight(true)});
-  $("#divTableAndSpacer").css({ 'top': $("#divControlTableRow").offset().top + $("#divControlTableRow").outerHeight(false)});
-  controlTable2Pos();
-  positionBG();
-  populatePlot1DD();
-});
-
-$( window ).resize(function() {
-	resizeTrackArea();
-	resizeWorkSpace();
-  scrollPos = $("#divWorkspaceContainer").scrollTop();
-  smartScroll(scrollPos); 
-  positionBG();
-  resizeSelectMenus();
-})
-
-$('#divTrackContainer').scroll(function(event) {
-  customScrollBar(event);      
-});
-$('#table1ContentScroller').scroll(function(event) {
-  customScrollBar(event);      
-});
-$('#divTable1Container').scroll(function(event) {
-  customScrollBar(event);      
-});    
-$('#divWorkspaceContainer').scroll(function(event) {
-  customScrollBar(event);      
-});  
-
-
-$('#divTableAndSpacer').on('mousewheel',function(event) {
-  wheel = event.originalEvent.wheelDeltaY;
-  scrollPos = $("#divWorkspaceContainer").scrollTop()-wheel;
-  tableSpaceScroll = true;        
-  $('#divWorkspaceContainer').scroll( );
-  tableSpaceScroll = false;
-});
-
-$('#simButton').on('click',  function() {
-  getSimSettings();
-   // loadLapData(); 
-});
-
-$('.eventSelector').on('click',  function() {
-  $('.eventSelector').removeClass('activeEvent')
-  $(this).addClass('activeEvent');
-  var activeRound = $(this).clone().children().remove().end().text();
-  var eventName = $(this).children('.divtrackName').html();
-  $('#eventHeadline').html(activeRound + ' - '+ eventName);
-});
-
-$('.addPlot').on('click',  function() {
-  plotCount = plotCount +1;
-	plotContHTML = createPlotContainer(plotCount);
-  
-
-	$( plotContHTML ).insertBefore( $(this).parent()).slideDown();
-  $(function() {
-    $( ".channelSelector" ).selectmenu();
-  })
-	addListenerToPlots();	
-});
-
-$('#divWorkspaceContainer').on('click', 'div a .removePlot', function() {
-	$(this).parent().parent().slideUp(400, function() {
-		$(this).parent().remove();
-	});
-	addListenerToPlots();
-	plotCount = plotCount -1;
-});

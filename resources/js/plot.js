@@ -1,5 +1,26 @@
 //var canvas = document.getElementById('canvas1');
 
+
+function clickPlotButton(){
+  $(this).toggleClass('plotted');
+  $targetCell = $(this);
+  getLapsToBePlotted($targetCell);
+  
+  plotData();
+}
+
+function getLapsToBePlotted(){
+  $thisID = $targetCell.attr("id");
+  lapID = parseInt($thisID.replace('plotCell',''));
+  if ($.inArray(lapID, toBePlotted) == -1){
+    toBePlotted.push(lapID);
+  }else{
+    var index = toBePlotted.indexOf(lapID);
+    toBePlotted.splice(index, 1);
+  }
+
+}
+
 function plotData(){
 	
 	// check which plots are to be plotted in:
@@ -19,10 +40,6 @@ function plotData(){
 	}
 
 }
-
-
-
-
 
 function plotChannel(canvasName, xVar, yVar){
 	var canvas = document.getElementById(canvasName);

@@ -1,11 +1,7 @@
-//var canvas = document.getElementById('canvas1');
-
-
 function clickPlotButton(){
   $(this).toggleClass('plotted');
   $targetCell = $(this);
-  getLapsToBePlotted($targetCell);
-  
+  getLapsToBePlotted($targetCell);  
   plotData();
 }
 
@@ -84,27 +80,13 @@ function plotData(){
 			plotObject[plotIDs[i]].minYVal = minYVal;
 			plotObject[plotIDs[i]].maxXVal = maxXVal;
 			plotObject[plotIDs[i]].minXVal = minXVal;
-
 			
 			plotChannel(canvasName,context, plotObject[plotIDs[i]].XData[toBePlotted[j]],plotObject[plotIDs[i]].YData[toBePlotted[j]],plotObject[plotIDs[i]].minXVal,plotObject[plotIDs[i]].maxXVal,plotObject[plotIDs[i]].minYVal,plotObject[plotIDs[i]].maxYVal,plotColor);
 		}
-		// 	scale the plot to accommodate min and max
-		// 	plot each channel
 	}
-	
-
 }
 
 function plotChannel(canvasName, context, xVar, yVar, minXVal, maxXVal, minYVal, maxYVal,plotColor){
-	
-	// var maxXVal = Math.max.apply(Math,xVar);
-	// var maxYVal = Math.max.apply(Math,yVar)*1.05;
-	
-	// canvas.width = maxXVal;
-	// canvas.height = maxYVal;
-
-	// plotAxes(maxYVal)
-
 	//scale and shift data for plotting (also invert y Data):
 	var xRange = maxXVal-minXVal;
 	var yRange = maxYVal-minYVal;
@@ -122,16 +104,11 @@ function plotChannel(canvasName, context, xVar, yVar, minXVal, maxXVal, minYVal,
 	for (var i=1; i<scaledXData.length; i++){
 		context.lineTo(scaledXData[i],scaledYData[i] );
 	}
-	// context.lineTo(10,100 );
-	// context.lineTo(10,200 );
 	
 	context.lineWidth = 1;
-
-	// set line color
 	context.strokeStyle = plotColor;
 	context.stroke();
-	context.closePath()
-	a = 1;
+	context.closePath();
 }
 function clearAllPlots(){
 	$('.plotCanvas').each(function(idx, item) {

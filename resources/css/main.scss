@@ -1,9 +1,11 @@
-$background-color: #343434;
-$font-color: #dfdfdf;
-$accent-color: #08c1fe;
-$headline-size: 1.5em;
-$banner-height: 70px;
-$corner-radius: 3px;
+@import "variables";
+
+// $background-color: #343434;
+// $font-color: #dfdfdf;
+// $accent-color: #08c1fe;
+// $headline-size: 1.5em;
+// $banner-height: 70px;
+// $corner-radius: 3px;
 
 ::-webkit-scrollbar {
       width: 8px;

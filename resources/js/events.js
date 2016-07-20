@@ -61,6 +61,7 @@ $('.addPlot').on('click',  function() {
     $( ".channelSelector" ).selectmenu();
   })
 	addListenerToPlots();	
+  $(".channelSelector").on('selectmenuchange',  onChannelSelectorChange);
   plotData();
 });
 
@@ -71,3 +72,4 @@ $('#divWorkspaceContainer').on('click', 'div a .removePlot', function() {
 	addListenerToPlots();
 	plotCount = plotCount -1;
 });
+

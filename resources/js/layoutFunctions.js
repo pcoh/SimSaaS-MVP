@@ -95,11 +95,16 @@ function createPlotContainer(plotCount){
 function populatePlot1DD(){
   plotSelectOptions = assemblePlotSelectOptions(plotCount);  
   $("#channelSelectContainer1").html(plotSelectOptions);
-  $(function() {
+  //$(function() {
     $( ".channelSelector" ).selectmenu();
-  })
+  //})
+  //$(".channelSelector").change( onChannelSelectorChange );
+  $(".channelSelector").on('selectmenuchange',  onChannelSelectorChange);
 }
 
+function onChannelSelectorChange(){
+  plotData();
+}
 function smartScroll(scrollPos){
 		scrollThresh = $("#divControlTableRow").outerHeight(false)+11;
    		if(scrollPos >= scrollThresh){

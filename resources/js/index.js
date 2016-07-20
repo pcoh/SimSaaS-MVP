@@ -48,20 +48,20 @@ function getJasonCallback(data){
 function extractVarParams(jobGrips,jobWingPositions, jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R){
   window.uniqueGrip = unique( jobGrips );
   window.uniqueWingPos = unique( jobWingPositions );
-  window.uniqueRF_F = unique( jobRideHeights_F );
-  window.uniqueRF_R = unique( jobRideHeights_R );
+  window.uniqueRH_F = unique( jobRideHeights_F );
+  window.uniqueRH_R = unique( jobRideHeights_R );
   window.uniqueSS_F = unique( jobSpringStiffnesses_F );
   window.uniqueSS_R = unique( jobSpringStiffnesses_R );
   window.uniqueARB_F = unique( jobARBStiffnesses_F );
   window.uniqueARB_R = unique( jobARBStiffnesses_R );
-  setDDOptions(uniqueGrip,uniqueWingPos,uniqueRF_F,uniqueRF_R,uniqueSS_F,uniqueSS_R,uniqueARB_F,uniqueARB_R);
+  setDDOptions(uniqueGrip,uniqueWingPos,uniqueRH_F,uniqueRH_R,uniqueSS_F,uniqueSS_R,uniqueARB_F,uniqueARB_R);
 };
 
 function getSimSettings(){
   var demTrackGrip = uniqueGrip[$( "#selectTrackGrip").val()];
   var demWingPos = uniqueWingPos[$( "#selectWingPos").val()];
-  var demRH_F = uniqueRF_F[$( "#selectRH_Front").val()];
-  var demRH_R = uniqueRF_R[$( "#selectRH_Rear").val()];
+  var demRH_F = uniqueRH_F[$( "#selectRH_Front").val()];
+  var demRH_R = uniqueRH_R[$( "#selectRH_Rear").val()];
   var demSS_F = uniqueSS_F[$( "#selectSpringStiff_Front").val()];
   var demSS_R = uniqueSS_R[$( "#selectSpringStiff_Rear").val()];
   var demARBStiff_F = uniqueARB_F[$( "#selectARBStiff_Front").val()];
@@ -97,8 +97,8 @@ getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R
 
 addLapToTable1 = function(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
   if ($("#lapRow"+lapID).length ==0){
-    numRowsT1++;
-    if (numRowsT1 %2 ==0){
+    var numRowsT1 = countRowsT1();
+    if (numRowsT1 %2 !=0){
       var rowType = "evenRow";
     }else{
       var rowType = "oddRow"
@@ -110,6 +110,9 @@ addLapToTable1 = function(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demS
     $("#rowContainer").append(lapHTML);
     
     calcProgress(lapID);  
+    $("#lapRow"+lapID)
+      .children(".setCell")
+      .on('click',  clickSetButton);
   }else{
     alert("A lap with these settings has already been simulated");    
   }
@@ -146,8 +149,84 @@ function updateProgress(endTime,simDur,lapID) {
   }
 } 
 
-function clickDeleteButton(){
-  
+function clickSetButton(){
+  var activeTrackGrip = $(this).parent().children(".trackGripCell").html().match(/\d+/);  
+  var activeWingPos = $(this).parent().children(".wingPosCell").html().match(/\d+/);
+  var activeRH_F = $(this).parent().children(".RHF_Cell").html().match(/\d+/);
+  var activeRH_R = $(this).parent().children(".RHR_Cell").html().match(/\d+/);
+  var activeSS_F = $(this).parent().children(".SSF_Cell").html().match(/\d+/);
+  var activeSS_R = $(this).parent().children(".SSR_Cell").html().match(/\d+/);
+  var activeARB_F = $(this).parent().children(".ARBF_Cell").html().match(/\d+/);
+  var activeARB_R = $(this).parent().children(".ARBR_Cell").html().match(/\d+/);
+
+  var highLightDuration = 500;
+
+  var optionIndex = uniqueGrip.indexOf(parseInt(activeTrackGrip));
+  $('#selectTrackGrip').val(optionIndex).selectmenu("refresh");
+  $("#selectTrackGrip-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+    $(this).removeClass("autoChange");
+    next();
+  });
+
+  var optionIndex = uniqueWingPos.indexOf(parseInt(activeWingPos));
+  $('#selectWingPos').val(optionIndex).selectmenu("refresh");
+  $("#selectWingPos-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+    $(this).removeClass("autoChange");
+    next();
+  });
+
+  var optionIndex = uniqueRH_F.indexOf(parseInt(activeRH_F));
+  $('#selectRH_Front').val(optionIndex).selectmenu("refresh");
+  $("#selectRH_Front-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+    $(this).removeClass("autoChange");
+    next();
+  });
+
+  var optionIndex = uniqueRH_R.indexOf(parseInt(activeRH_R));
+  $('#selectRH_Rear').val(optionIndex).selectmenu("refresh");
+  $("#selectRH_Rear-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+    $(this).removeClass("autoChange");
+    next();
+  });
+
+  var optionIndex = uniqueSS_F.indexOf(parseInt(activeSS_F));
+  $('#selectSpringStiff_Front').val(optionIndex).selectmenu("refresh");
+  $("#selectSpringStiff_Front-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+    $(this).removeClass("autoChange");
+    next();
+  });
+
+  var optionIndex = uniqueSS_R.indexOf(parseInt(activeSS_R));
+  $('#selectSpringStiff_Rear').val(optionIndex).selectmenu("refresh");
+  $("#selectSpringStiff_Rear-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+    $(this).removeClass("autoChange");
+    next();
+  });
+
+  var optionIndex = uniqueARB_F.indexOf(parseInt(activeARB_F));
+  $('#selectARBStiff_Front').val(optionIndex).selectmenu("refresh");
+  $("#selectARBStiff_Front-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+    $(this).removeClass("autoChange");
+    next();
+  });
+
+  var optionIndex = uniqueARB_R.indexOf(parseInt(activeARB_R));
+  $('#selectARBStiff_Rear').val(optionIndex).selectmenu("refresh");
+  $("#selectARBStiff_Rear-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+    $(this).removeClass("autoChange");
+    next();
+  });
+
+
+    // activeRH_R = ,
+    // activeSS_F = ,
+    // activeSS_R = ,
+    // activeARB_F = ,
+    // activeARB_R = ,
+    a = 1;
+}
+
+function clickDeleteButton(){  
   // delete lapID from toBePlotted
   var lapID = parseInt($(this).parent().attr("id").replace("lapRow",""));
   if ($.inArray(lapID, toBePlotted) != -1){
@@ -160,7 +239,27 @@ function clickDeleteButton(){
 
   // delete data from lapData Object
   delete lapData[lapID -1];
-    
+  reStyleRows();
+}
+
+
+function countRowsT1(){
+  numRowsT1  = $('#rowContainer').children('.lapRow').length;
+  return numRowsT1;
+}
+
+function reStyleRows(){
+  var numRowsT1 = countRowsT1();
+  for (var i=0;i<numRowsT1; i++){
+    var currRow = $('#rowContainer').children('.lapRow')[i];
+    $(currRow).removeClass("evenRow");
+    $(currRow).removeClass("oddRow");
+    if (i%2 == 0){
+      $(currRow).addClass("oddRow");
+    }else{
+      $(currRow).addClass("evenRow");
+    }
+  }
 }
   // var sortData = function(filteredProducts){    
   //   switch(sortAxis){

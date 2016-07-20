@@ -283,5 +283,9 @@ body {
   max-height: 255px; }
 
 /*# sourceMappingURL=main.css.map */
+.ui-selectmenu-button.autoChange {
+  background-color: #08c1fe;
+  border-color: #08c1fe;
+  box-shadow: 0 0 3px #08c1fe; }
 
 /*# sourceMappingURL=main.css.map */

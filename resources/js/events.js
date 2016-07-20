@@ -57,9 +57,9 @@ $('.addPlot').on('click',  function() {
 	plotContHTML = createPlotContainer(plotCount);  
 
 	$( plotContHTML ).insertBefore( $(this).parent()).slideDown();
-  $(function() {
-    $( ".channelSelector" ).selectmenu();
-  })
+  
+  $( ".channelSelector" ).selectmenu();
+  
 	addListenerToPlots();	
   $(".channelSelector").on('selectmenuchange',  onChannelSelectorChange);
   plotData();

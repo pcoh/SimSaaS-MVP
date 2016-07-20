@@ -328,3 +328,9 @@ body {
    max-height: 255px;
 }
 /*# sourceMappingURL=main.css.map */
+
+.ui-selectmenu-button.autoChange{
+  background-color: $accent-color;
+  border-color: $accent-color;
+  box-shadow:0 0 3px $accent-color;
+}

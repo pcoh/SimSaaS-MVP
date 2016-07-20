@@ -2,7 +2,7 @@
   width: 832px; }
 
 #table2 {
-  height: 138px;
+  height: 140px;
   width: 760px; }
 
 #table1, #table2 {
@@ -108,7 +108,7 @@
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
   .deleteHeader, .deleteCell {
     width: 64px; } }
-.plotCell, .setCell, .downloadCell, .deleteCell {
+.plotCell, .setCell, .downloadCell, .deleteCell, .removeCell {
   background-size: 20px 20px;
   background-position: center center;
   background-repeat: no-repeat; }
@@ -193,5 +193,11 @@
   background-color: #08c1fe;
   box-shadow: 0 0 5px #08c1fe;
   width: 0%; }
+
+.removeCell:hover {
+  background-image: url("../images/PlotIcon_Off.png"); }
+
+.removeCell {
+  background-image: url("../images/PlotIcon_On.png"); }
 
 /*# sourceMappingURL=tables.css.map */

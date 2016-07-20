@@ -180,6 +180,9 @@
 .deleteCell:active{
 	background-image: url('../images/TrashIcon_On.png');
 }
+.deleteCell.loading{
+	background-image: none;
+}
 
 .colorSample{
 	width: 35px;

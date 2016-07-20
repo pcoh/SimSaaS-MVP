@@ -106,7 +106,7 @@ addLapToTable1 = function(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demS
     var lapHTML = "<div id=\"lapRow"+lapID+ "\" class=\"lapRow " +rowType + "\"><span class=\"cell setCell\"></span><span id=\"plotCell"+lapID+ "\" class=\"cell plotCell loading\"></span><span class=\"cell lapTimeCell\"><div class=\"progressBG\"><div class=\"progressVal\" id=\"progress"+lapID+"\"></div></div></span>"+
                   "<span class=\"cell trackGripCell\">"+demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+demWingPos+"</span><span class=\"cell RHF_Cell\">"+demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+demRH_R+"mm</span>" +
                   "<span class=\"cell SSF_Cell\">"+demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+demARBStiff_R+"N/mm</span>" +
-                  "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell rightMost\"></span></div>";
+                  "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell loading rightMost\"></span></div>";
     $("#rowContainer").append(lapHTML);
     
     calcProgress(lapID);  
@@ -137,10 +137,31 @@ function updateProgress(endTime,simDur,lapID) {
       var currLT = lapData[lapID-1].FIELD1[lapData[lapID-1].FIELD1.length-1];
       var LT_HMSH = secondsTimeSpanToHMSH(currLT);
 
+    $("#lapRow"+lapID)
+      .children(".deleteCell")
+      .removeClass("loading")
+      .on('click',  clickDeleteButton);
     $("#lapRow"+lapID).children(".lapTimeCell").html(LT_HMSH);
     return;
   }
 } 
+
+function clickDeleteButton(){
+  
+  // delete lapID from toBePlotted
+  var lapID = parseInt($(this).parent().attr("id").replace("lapRow",""));
+  if ($.inArray(lapID, toBePlotted) != -1){
+    var index = toBePlotted.indexOf(lapID);
+    toBePlotted.splice(index,1);
+  }
+  
+  $(this).parent().remove();
+  plotData();
+
+  // delete data from lapData Object
+  delete lapData[lapID -1];
+    
+}
   // var sortData = function(filteredProducts){    
   //   switch(sortAxis){
   //     case 'price':

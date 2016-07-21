@@ -163,56 +163,56 @@ function clickSetButton(){
 
   var optionIndex = uniqueGrip.indexOf(parseInt(activeTrackGrip));
   $('#selectTrackGrip').val(optionIndex).selectmenu("refresh");
-  $("#selectTrackGrip-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+  $("#selectTrackGrip-button").addClass("autoChange").delay(highLightDuration).queue(function(next){
     $(this).removeClass("autoChange");
     next();
   });
 
   var optionIndex = uniqueWingPos.indexOf(parseInt(activeWingPos));
   $('#selectWingPos').val(optionIndex).selectmenu("refresh");
-  $("#selectWingPos-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+  $("#selectWingPos-button").addClass("autoChange").delay(highLightDuration).queue(function(next){
     $(this).removeClass("autoChange");
     next();
   });
 
   var optionIndex = uniqueRH_F.indexOf(parseInt(activeRH_F));
   $('#selectRH_Front').val(optionIndex).selectmenu("refresh");
-  $("#selectRH_Front-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+  $("#selectRH_Front-button").addClass("autoChange").delay(highLightDuration).queue(function(next){
     $(this).removeClass("autoChange");
     next();
   });
 
   var optionIndex = uniqueRH_R.indexOf(parseInt(activeRH_R));
   $('#selectRH_Rear').val(optionIndex).selectmenu("refresh");
-  $("#selectRH_Rear-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+  $("#selectRH_Rear-button").addClass("autoChange").delay(highLightDuration).queue(function(next){
     $(this).removeClass("autoChange");
     next();
   });
 
   var optionIndex = uniqueSS_F.indexOf(parseInt(activeSS_F));
   $('#selectSpringStiff_Front').val(optionIndex).selectmenu("refresh");
-  $("#selectSpringStiff_Front-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+  $("#selectSpringStiff_Front-button").addClass("autoChange").delay(highLightDuration).queue(function(next){
     $(this).removeClass("autoChange");
     next();
   });
 
   var optionIndex = uniqueSS_R.indexOf(parseInt(activeSS_R));
   $('#selectSpringStiff_Rear').val(optionIndex).selectmenu("refresh");
-  $("#selectSpringStiff_Rear-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+  $("#selectSpringStiff_Rear-button").addClass("autoChange").delay(highLightDuration).queue(function(next){
     $(this).removeClass("autoChange");
     next();
   });
 
   var optionIndex = uniqueARB_F.indexOf(parseInt(activeARB_F));
   $('#selectARBStiff_Front').val(optionIndex).selectmenu("refresh");
-  $("#selectARBStiff_Front-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+  $("#selectARBStiff_Front-button").addClass("autoChange").delay(highLightDuration).queue(function(next){
     $(this).removeClass("autoChange");
     next();
   });
 
   var optionIndex = uniqueARB_R.indexOf(parseInt(activeARB_R));
   $('#selectARBStiff_Rear').val(optionIndex).selectmenu("refresh");
-  $("#selectARBStiff_Rear-button"). addClass("autoChange").delay(highLightDuration).queue(function(next){
+  $("#selectARBStiff_Rear-button").addClass("autoChange").delay(highLightDuration).queue(function(next){
     $(this).removeClass("autoChange");
     next();
   });
@@ -232,7 +232,7 @@ function clickDeleteButton(){
 
   // delete lapID from toBePlotted
   var lapID = parseInt($(this).parent().attr("id").replace("lapRow",""));
-  
+
   if ($.inArray(lapID, toBePlotted) != -1){
 
     var index = toBePlotted.indexOf(lapID);

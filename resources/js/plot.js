@@ -86,6 +86,7 @@ function plotData(){
 	});
 	var plotObject = {};
 	var xFieldIndex= channelNamesInFiles.indexOf("TRK_Distance")+1;
+	var xUnit = channelUnits[xFieldIndex-1];
 	// for each plot, 
 	for (var i = 0; i<plotIDs.length; i++){
 		// 	check which cannels need to be plotted (for each of the laps):
@@ -93,6 +94,11 @@ function plotData(){
 		plotObject[plotIDs[i]].channelName = $("#"+plotIDs[i]).children().children(".channelSelector").val();
 		plotObject[plotIDs[i]].YData = {};
 		plotObject[plotIDs[i]].XData = {};
+		plotObject[plotIDs[i]].YUnit = [];
+		plotObject[plotIDs[i]].XUnit = [];
+		
+		
+		
 		var maxYVal = Number.NEGATIVE_INFINITY;
 		var minYVal = Number.POSITIVE_INFINITY;
 		var maxXVal = Number.NEGATIVE_INFINITY;
@@ -107,6 +113,12 @@ function plotData(){
 		//fetch the data of the channels:
 		for (var j=0; j< toBePlotted.length; j++){
 			var yFieldIndex = channelNamesInFiles.indexOf(plotObject[plotIDs[i]].channelName )+1;
+		if (j==0){
+			var yUnit = channelUnits[yFieldIndex-1];
+			plotObject[plotIDs[i]].XUnit = xUnit;
+			plotObject[plotIDs[i]].YUnit = yUnit;
+		}
+			
 			plotObject[plotIDs[i]].YData[toBePlotted[j]] = lapData[toBePlotted[j]-1]["FIELD"+yFieldIndex].slice(1);
 			plotObject[plotIDs[i]].XData[toBePlotted[j]] = lapData[toBePlotted[j]-1]["FIELD"+xFieldIndex].slice(1);
 			

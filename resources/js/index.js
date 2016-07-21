@@ -97,7 +97,7 @@ getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R
 
 addLapToTable1 = function(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
   if ($("#lapRow"+lapID).length ==0){
-    var numRowsT1 = countRowsT1();
+    var numRowsT1 = countTableRows('#rowContainer1','.lapRow' );
     if (numRowsT1 %2 !=0){
       var rowType = "evenRow";
     }else{
@@ -107,7 +107,7 @@ addLapToTable1 = function(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demS
                   "<span class=\"cell trackGripCell\">"+demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+demWingPos+"</span><span class=\"cell RHF_Cell\">"+demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+demRH_R+"mm</span>" +
                   "<span class=\"cell SSF_Cell\">"+demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+demARBStiff_R+"N/mm</span>" +
                   "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell loading rightMost\"></span></div>";
-    $("#rowContainer").append(lapHTML);
+    $("#rowContainer1").append(lapHTML);
     
     calcProgress(lapID);  
     $("#lapRow"+lapID)
@@ -227,31 +227,44 @@ function clickSetButton(){
 }
 
 function clickDeleteButton(){  
+
+
+
   // delete lapID from toBePlotted
   var lapID = parseInt($(this).parent().attr("id").replace("lapRow",""));
+  
   if ($.inArray(lapID, toBePlotted) != -1){
+
     var index = toBePlotted.indexOf(lapID);
     toBePlotted.splice(index,1);
   }
-  
+  removeLapFromTable2(lapID);
   $(this).parent().remove();
   plotData();
 
   // delete data from lapData Object
   delete lapData[lapID -1];
-  reStyleRows();
+  reStyleRows('#rowContainer1','.lapRow');
+}
+
+function clickRemoveButton(){  
+  var lapID = parseInt($(this).parent().attr("id").replace("lapRow",""));
+  
+  $("#plotCell"+lapID).click();
 }
 
 
-function countRowsT1(){
-  numRowsT1  = $('#rowContainer').children('.lapRow').length;
-  return numRowsT1;
+
+function countTableRows(containerSelector, rowSelector){
+  numRows  = $(containerSelector).children(rowSelector).length;
+  return numRows;
 }
 
-function reStyleRows(){
-  var numRowsT1 = countRowsT1();
-  for (var i=0;i<numRowsT1; i++){
-    var currRow = $('#rowContainer').children('.lapRow')[i];
+
+function reStyleRows(containerSelector, rowSelector){
+  var numRows = countTableRows(containerSelector, rowSelector);
+  for (var i=0;i<numRows; i++){
+    var currRow = $(containerSelector).children(rowSelector)[i];
     $(currRow).removeClass("evenRow");
     $(currRow).removeClass("oddRow");
     if (i%2 == 0){
@@ -260,6 +273,12 @@ function reStyleRows(){
       $(currRow).addClass("evenRow");
     }
   }
+  if (rowSelector == '.plotRow'){
+    for (var i = 0; i<toBePlotted.length; i++){
+        $("#plotRow"+toBePlotted[i]).children(".colorCell").children(".colorSample").css({'background-color': plotColors[i]});    
+    }
+  }
+
 }
   // var sortData = function(filteredProducts){    
   //   switch(sortAxis){

@@ -1,13 +1,63 @@
 function clickPlotButton(){
-  $(this).toggleClass('plotted');
-  $targetCell = $(this);
-  getLapsToBePlotted($targetCell);  
-  plotData();
+	$targetCell = $(this);
+	lapID = getPlotLapID($targetCell);
+
+	if ($(this).hasClass("plotCell")){
+		$(this).toggleClass('plotted');
+	}else if ($(this).hasClass("removeCell")){
+		$("#plotCell"+lapID).toggleClass('plotted');
+	}
+
+
+	getLapsToBePlotted(lapID); 
+	if($.inArray(lapID, toBePlotted) != -1){
+		addLapToTable2(lapID); 
+	}else{
+		removeLapFromTable2(lapID);
+	}
+	plotData();
+	
 }
 
-function getLapsToBePlotted(){
- 	$thisID = $targetCell.attr("id");
-	lapID = parseInt($thisID.replace('plotCell',''));
+addLapToTable2 = function(lapID){
+  	//if ($("#plotRow"+lapID).length ==0){
+    
+    if (toBePlotted.length %2 !=0){
+      var rowType = "oddRow";
+    }else{
+      var rowType = "evenRow"
+    }
+
+  	var lapHTML2 = "<div class=\"plotRow " +rowType +"\" id=\"plotRow"+lapID+"\"><span id=\"removeCell"+lapID+ "\" class=\"cell removeCell\"></span><span class=\"cell lapTimeCell\"></span><span class=\"cell trackGripCell\"></span>"+
+	    "<span class=\"cell wingPosCell\"></span><span class=\"cell RHF_Cell\"></span><span class=\"cell RHR_Cell\"></span><span class=\"cell SSF_Cell\"></span>"+
+	    "<span class=\"cell SSR_Cell\"></span><span class=\"cell ARBF_Cell\"></span><span class=\"cell ARBR_Cell\"></span><span class=\"cell colorCell rightMost\">"+
+	    "<div class=\"colorSample\"></div></span>";
+	//}
+	$("#rowContainer2").append(lapHTML2);
+	$("#plotRow"+lapID).children('.lapTimeCell').html($("#lapRow"+lapID).children('.lapTimeCell').html());
+	$("#plotRow"+lapID).children('.trackGripCell').html($("#lapRow"+lapID).children('.trackGripCell').html());
+	$("#plotRow"+lapID).children('.wingPosCell').html($("#lapRow"+lapID).children('.wingPosCell').html());
+	$("#plotRow"+lapID).children('.RHF_Cell').html($("#lapRow"+lapID).children('.RHF_Cell').html());
+	$("#plotRow"+lapID).children('.RHR_Cell').html($("#lapRow"+lapID).children('.RHR_Cell').html());
+	$("#plotRow"+lapID).children('.SSF_Cell').html($("#lapRow"+lapID).children('.SSF_Cell').html());
+	$("#plotRow"+lapID).children('.SSR_Cell').html($("#lapRow"+lapID).children('.SSR_Cell').html());
+	$("#plotRow"+lapID).children('.ARBF_Cell').html($("#lapRow"+lapID).children('.ARBF_Cell').html());
+	$("#plotRow"+lapID).children('.ARBR_Cell').html($("#lapRow"+lapID).children('.ARBR_Cell').html());
+
+	reStyleRows('#rowContainer2','.plotRow');
+
+	$("#plotRow"+lapID)
+      .children(".removeCell")
+      .on('click',  clickPlotButton);
+}
+
+function removeLapFromTable2(lapID){
+	$("#plotRow"+lapID).remove();
+	reStyleRows('#rowContainer2','.plotRow');
+}
+
+
+function getLapsToBePlotted(lapID){	 	
 	if ($.inArray(lapID, toBePlotted) == -1){
 		toBePlotted.push(lapID);
 	}else{
@@ -15,10 +65,17 @@ function getLapsToBePlotted(){
 		toBePlotted.splice(index, 1);
 	}
 }
+function getPlotLapID($targetCell){
+	$thisID = $targetCell.attr("id");
+	//lapID = parseInt($thisID.replace('plotCell',''));
+	lapID = parseInt($thisID.match(/\d+/));
+	return lapID;
+}
 
 function plotData(){
+	clearAllPlots();
 	if (toBePlotted.length == 0){
-		clearAllPlots();
+		
 		return;
 	}	
 	// check which plots are to be plotted in:
@@ -52,7 +109,7 @@ function plotData(){
 			var yFieldIndex = channelNamesInFiles.indexOf(plotObject[plotIDs[i]].channelName )+1;
 			plotObject[plotIDs[i]].YData[toBePlotted[j]] = lapData[toBePlotted[j]-1]["FIELD"+yFieldIndex].slice(1);
 			plotObject[plotIDs[i]].XData[toBePlotted[j]] = lapData[toBePlotted[j]-1]["FIELD"+xFieldIndex].slice(1);
-			var plotColor = plotColors[j];
+			
 			
 			
 
@@ -81,6 +138,10 @@ function plotData(){
 			plotObject[plotIDs[i]].maxXVal = maxXVal;
 			plotObject[plotIDs[i]].minXVal = minXVal;
 			
+			
+		}
+		for (var j=0; j< toBePlotted.length; j++){
+			var plotColor = plotColors[j];
 			plotChannel(canvasName,context, plotObject[plotIDs[i]].XData[toBePlotted[j]],plotObject[plotIDs[i]].YData[toBePlotted[j]],plotObject[plotIDs[i]].minXVal,plotObject[plotIDs[i]].maxXVal,plotObject[plotIDs[i]].minYVal,plotObject[plotIDs[i]].maxYVal,plotColor);
 		}
 	}
@@ -104,7 +165,7 @@ function plotChannel(canvasName, context, xVar, yVar, minXVal, maxXVal, minYVal,
 	for (var i=1; i<scaledXData.length; i++){
 		context.lineTo(scaledXData[i],scaledYData[i] );
 	}
-	
+
 	context.lineWidth = 1;
 	context.strokeStyle = plotColor;
 	context.stroke();

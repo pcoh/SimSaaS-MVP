@@ -152,11 +152,32 @@ function plotData(){
 			
 			
 		}
+
+		// set Range of plot axes:
+		yPlotRange = setYAxisRange(plotObject[plotIDs[i]].minYVal, plotObject[plotIDs[i]].maxYVal);
+
 		for (var j=0; j< toBePlotted.length; j++){
 			var plotColor = plotColors[j];
-			plotChannel(canvasName,context, plotObject[plotIDs[i]].XData[toBePlotted[j]],plotObject[plotIDs[i]].YData[toBePlotted[j]],plotObject[plotIDs[i]].minXVal,plotObject[plotIDs[i]].maxXVal,plotObject[plotIDs[i]].minYVal,plotObject[plotIDs[i]].maxYVal,plotColor);
+			plotChannel(canvasName,context, plotObject[plotIDs[i]].XData[toBePlotted[j]],plotObject[plotIDs[i]].YData[toBePlotted[j]],plotObject[plotIDs[i]].minXVal,plotObject[plotIDs[i]].maxXVal,yPlotRange[0],yPlotRange[1],plotColor);
 		}
 	}
+}
+
+function setYAxisRange(minYVal, maxYVal){
+	var yRange = maxYVal-minYVal;
+	var yBufferTop = yRange*0.15;
+	var yBufferBottom = yRange*0.05;
+	var yMin;
+	if (minYVal == 0){
+		yMin = 0;
+	}else{
+		yMin = minYVal - yBufferBottom;
+		yMax = maxYVal + yBufferTop;
+	}
+	var yPlotRange = [yMin, yMax];
+	return yPlotRange;
+
+
 }
 
 function plotChannel(canvasName, context, xVar, yVar, minXVal, maxXVal, minYVal, maxYVal,plotColor){

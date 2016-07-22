@@ -148,17 +148,17 @@ function plotData(){
 			plotObject[plotIDs[i]].maxYVal = maxYVal;
 			plotObject[plotIDs[i]].minYVal = minYVal;
 			plotObject[plotIDs[i]].maxXVal = maxXVal;
-			plotObject[plotIDs[i]].minXVal = minXVal;
-			
-			
+			plotObject[plotIDs[i]].minXVal = minXVal;			
 		}
 
 		// set Range of plot axes:
+		xPlotRange = [plotObject[plotIDs[i]].minXVal,plotObject[plotIDs[i]].maxXVal];
 		yPlotRange = setYAxisRange(plotObject[plotIDs[i]].minYVal, plotObject[plotIDs[i]].maxYVal);
+		plotAxis("X", plotObject[plotIDs[i]].XData[1].length, canvasName, yPlotRange[0],yPlotRange[1]);
 
 		for (var j=0; j< toBePlotted.length; j++){
 			var plotColor = plotColors[j];
-			plotChannel(canvasName,context, plotObject[plotIDs[i]].XData[toBePlotted[j]],plotObject[plotIDs[i]].YData[toBePlotted[j]],plotObject[plotIDs[i]].minXVal,plotObject[plotIDs[i]].maxXVal,yPlotRange[0],yPlotRange[1],plotColor);
+			plotChannel(canvasName,context, plotObject[plotIDs[i]].XData[toBePlotted[j]],plotObject[plotIDs[i]].YData[toBePlotted[j]],xPlotRange[0],xPlotRange[1],yPlotRange[0],yPlotRange[1],plotColor);
 		}
 	}
 }
@@ -176,34 +176,67 @@ function setYAxisRange(minYVal, maxYVal){
 	}
 	var yPlotRange = [yMin, yMax];
 	return yPlotRange;
-
-
 }
 
 function plotChannel(canvasName, context, xVar, yVar, minXVal, maxXVal, minYVal, maxYVal,plotColor){
 	//scale and shift data for plotting (also invert y Data):
-	var xRange = maxXVal-minXVal;
-	var yRange = maxYVal-minYVal;
-	var canvasWidth = $("#"+canvasName).width();
-	var canvasHeight = $("#"+canvasName).height();
-
-	var scaledXData = [], scaledYData = [];
-	for (var i=0; i<xVar.length; i++){
-		scaledXData[i] = (xVar[i]-minXVal)*canvasWidth/xRange;
-		scaledYData[i] = canvasHeight- (yVar[i]-minYVal)*canvasHeight/yRange;
-	}
+	scaledXData = scaleData2Canvas("X",xVar, canvasName, minXVal, maxXVal, false);
+	scaledYData = scaleData2Canvas("Y",yVar, canvasName, minYVal, maxYVal, false);	
 
 	context.beginPath();
 	context.moveTo(scaledXData[1], scaledYData[1]);
 	for (var i=1; i<scaledXData.length; i++){
 		context.lineTo(scaledXData[i],scaledYData[i] );
 	}
-
 	context.lineWidth = 1;
 	context.strokeStyle = plotColor;
 	context.stroke();
 	context.closePath();
 }
+
+function scaleData2Canvas(axisDir, data, canvasName, minVal, maxVal, axisFlag){
+	var canvasWidth = $("#"+canvasName).width();
+	var canvasHeight = $("#"+canvasName).height();
+	var scaledData = [];
+	
+	if (axisFlag){
+		if (data[0] <= minVal || data[0]  > maxVal){
+			data[0]=minVal;
+		}
+	}
+	for (var i=0; i<data.length; i++){
+		if (axisDir == "X" && !axisFlag || axisDir == "Y" && axisFlag){
+			scaledData[i] = (data[i]-minVal)*canvasWidth/(maxVal-minVal);
+		}else{
+			scaledData[i] = canvasHeight- (data[i]-minVal)*canvasHeight/(maxVal-minVal);
+		}
+	}
+// 	if (axisFlag){
+// 		if (scaledAxisData1 <= minVal || scaledAxisData1 >maxVal){
+// 			scaledAxisData1 = [0];
+// 		}
+// }
+	return scaledData;
+}
+function plotAxis(axisDir, oppositeData, canvasName, minVal, maxVal){
+	var axisData1 = [0];
+
+	var scaledAxisData1 = scaleData2Canvas(axisDir,axisData1, canvasName, minVal, maxVal, true);
+	
+	var canvas = document.getElementById(canvasName);
+	var context = canvas.getContext('2d');
+
+	context.beginPath();
+	context.moveTo(0, scaledAxisData1[0]);
+	context.lineTo($("#"+canvasName).width(),scaledAxisData1[0]);
+	
+	context.lineWidth = 1;
+	context.strokeStyle = '#FF0000';
+	context.stroke();
+	context.closePath();
+}
+
+
 function clearAllPlots(){
 	$('.plotCanvas').each(function(idx, item) {
 		var context = item.getContext("2d");

@@ -16,6 +16,7 @@ $( window ).resize(function() {
   smartScroll(scrollPos); 
   positionBG();
   resizeSelectMenus();
+  plotData();
 })
 
 $('#divTrackContainer').scroll(function(event) {

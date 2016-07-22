@@ -92,18 +92,16 @@ function plotData(){
 		// 	check which cannels need to be plotted (for each of the laps):
 		plotObject[plotIDs[i]] = {};
 		plotObject[plotIDs[i]].channelName = $("#"+plotIDs[i]).children().children(".channelSelector").val();
-		plotObject[plotIDs[i]].YData = {};
 		plotObject[plotIDs[i]].XData = {};
-		plotObject[plotIDs[i]].YUnit = [];
+		plotObject[plotIDs[i]].YData = {};		
 		plotObject[plotIDs[i]].XUnit = [];
+		plotObject[plotIDs[i]].YUnit = [];		
 		
-		
-		
-		var maxYVal = Number.NEGATIVE_INFINITY;
-		var minYVal = Number.POSITIVE_INFINITY;
 		var maxXVal = Number.NEGATIVE_INFINITY;
 		var minXVal = Number.POSITIVE_INFINITY;
-
+		var maxYVal = Number.NEGATIVE_INFINITY;
+		var minYVal = Number.POSITIVE_INFINITY;
+		
 		var canvasName = plotIDs[i].replace("plot","canvas");
 		var canvas = document.getElementById(canvasName);
 		canvas.width =$(".canvasContainer").width();
@@ -119,43 +117,56 @@ function plotData(){
 			plotObject[plotIDs[i]].YUnit = yUnit;
 		}
 			
-			plotObject[plotIDs[i]].YData[toBePlotted[j]] = lapData[toBePlotted[j]-1]["FIELD"+yFieldIndex].slice(1);
 			plotObject[plotIDs[i]].XData[toBePlotted[j]] = lapData[toBePlotted[j]-1]["FIELD"+xFieldIndex].slice(1);
+			plotObject[plotIDs[i]].YData[toBePlotted[j]] = lapData[toBePlotted[j]-1]["FIELD"+yFieldIndex].slice(1);
 			
-			
-			
-
 			// 	find maximum and minimum values across all laps 
+			maxXCurr = Math.max.apply(Math,plotObject[plotIDs[i]].XData[toBePlotted[j]]);
+			minXCurr = Math.min.apply(Math,plotObject[plotIDs[i]].XData[toBePlotted[j]]);
 			maxYCurr = Math.max.apply(Math,plotObject[plotIDs[i]].YData[toBePlotted[j]]);
 			minYCurr = Math.min.apply(Math,plotObject[plotIDs[i]].YData[toBePlotted[j]]);
 
-			maxXCurr = Math.max.apply(Math,plotObject[plotIDs[i]].XData[toBePlotted[j]]);
-			minXCurr = Math.min.apply(Math,plotObject[plotIDs[i]].XData[toBePlotted[j]]);
-			
-			if (maxYCurr > maxYVal){
-				maxYVal = maxYCurr;
-			}
-			if (minYCurr < minYVal){
-				minYVal = minYCurr;
-			}
 			if (maxXCurr > maxXVal){
 				maxXVal = maxXCurr;
 			}
 			if (minXCurr < minXVal){
 				minXVal = minXCurr;
 			}
+			if (maxYCurr > maxYVal){
+				maxYVal = maxYCurr;
+			}
+			if (minYCurr < minYVal){
+				minYVal = minYCurr;
+			}
 		
-			plotObject[plotIDs[i]].maxYVal = maxYVal;
-			plotObject[plotIDs[i]].minYVal = minYVal;
 			plotObject[plotIDs[i]].maxXVal = maxXVal;
-			plotObject[plotIDs[i]].minXVal = minXVal;			
+			plotObject[plotIDs[i]].minXVal = minXVal;
+			plotObject[plotIDs[i]].maxYVal = maxYVal;
+			plotObject[plotIDs[i]].minYVal = minYVal;		
 		}
 
 		// set Range of plot axes:
-		xPlotRange = [plotObject[plotIDs[i]].minXVal,plotObject[plotIDs[i]].maxXVal];
-		yPlotRange = setYAxisRange(plotObject[plotIDs[i]].minYVal, plotObject[plotIDs[i]].maxYVal);
-		plotAxis("X", plotObject[plotIDs[i]].XData[1].length, canvasName, yPlotRange[0],yPlotRange[1]);
+		var xPlotRange = [plotObject[plotIDs[i]].minXVal,plotObject[plotIDs[i]].maxXVal];
+		var yPlotRange = setYAxisRange(plotObject[plotIDs[i]].minYVal, plotObject[plotIDs[i]].maxYVal);		
 
+		var axislocation = [0];
+		var scaledXAxisData = scaleData2Canvas("X",axislocation, canvasName, yPlotRange[0],yPlotRange[1], true);
+		axislocation = [0];
+		var scaledYAxisData = scaleData2Canvas("Y",axislocation, canvasName, xPlotRange[0],xPlotRange[1], true);
+
+		plotAxis("X", scaledXAxisData, canvasName, yPlotRange[0],yPlotRange[1]);
+		plotAxis("Y", scaledYAxisData, canvasName, xPlotRange[0],xPlotRange[1]);
+
+		var xTickPos = calcTickPos("X",xPlotRange);
+		var yTickPos = calcTickPos("Y",yPlotRange);
+		xTickPosScaled = scaleData2Canvas("X", xTickPos, canvasName, xPlotRange[0],xPlotRange[1], false);
+		yTickPosScaled = scaleData2Canvas("Y", yTickPos, canvasName, yPlotRange[0],yPlotRange[1], false);
+
+		plotTickMarks("X", xTickPosScaled, scaledXAxisData[0], canvasName);
+		plotTickMarks("Y", yTickPosScaled, scaledYAxisData[0], canvasName);
+
+		plotTickValues("X",xTickPos, xTickPosScaled, scaledXAxisData[0], canvasName);
+		plotTickValues("Y",yTickPos, yTickPosScaled, scaledYAxisData[0], canvasName);
 		for (var j=0; j< toBePlotted.length; j++){
 			var plotColor = plotColors[j];
 			plotChannel(canvasName,context, plotObject[plotIDs[i]].XData[toBePlotted[j]],plotObject[plotIDs[i]].YData[toBePlotted[j]],xPlotRange[0],xPlotRange[1],yPlotRange[0],yPlotRange[1],plotColor);
@@ -211,29 +222,98 @@ function scaleData2Canvas(axisDir, data, canvasName, minVal, maxVal, axisFlag){
 			scaledData[i] = canvasHeight- (data[i]-minVal)*canvasHeight/(maxVal-minVal);
 		}
 	}
-// 	if (axisFlag){
-// 		if (scaledAxisData1 <= minVal || scaledAxisData1 >maxVal){
-// 			scaledAxisData1 = [0];
-// 		}
-// }
 	return scaledData;
 }
-function plotAxis(axisDir, oppositeData, canvasName, minVal, maxVal){
-	var axisData1 = [0];
-
-	var scaledAxisData1 = scaleData2Canvas(axisDir,axisData1, canvasName, minVal, maxVal, true);
-	
+function plotAxis(axisDir, scaledAxisData, canvasName, minVal, maxVal){
+		
 	var canvas = document.getElementById(canvasName);
 	var context = canvas.getContext('2d');
 
 	context.beginPath();
-	context.moveTo(0, scaledAxisData1[0]);
-	context.lineTo($("#"+canvasName).width(),scaledAxisData1[0]);
-	
+	if (axisDir == "X"){
+		context.moveTo(0, scaledAxisData[0]);
+		context.lineTo($("#"+canvasName).width(),scaledAxisData[0]);
+	}else{
+		context.moveTo(scaledAxisData[0],0);
+		context.lineTo(scaledAxisData[0],$("#"+canvasName).height());
+	}
 	context.lineWidth = 1;
-	context.strokeStyle = '#FF0000';
+	context.strokeStyle = axisColor;
 	context.stroke();
 	context.closePath();
+}
+function plotTickMarks (axisDir, data, axisPos, canvasName){
+	var canvas = document.getElementById(canvasName);
+	var context = canvas.getContext('2d');
+
+	context.beginPath();
+	if (axisDir == "X"){
+		for (var i = 0; i<data.length; i++){
+			context.moveTo(data[i], axisPos);
+			context.lineTo(data[i],axisPos - tickLength);
+		}
+	}else{
+		for (var i = 0; i<data.length; i++){
+			context.moveTo(axisPos,data[i]);
+			context.lineTo(axisPos + tickLength,data[i]);
+		}
+	}
+	context.lineWidth = 1;
+	context.strokeStyle = tickMarkColor;
+	context.stroke();
+	context.closePath();
+}
+
+function plotTickValues(axisDir,tickValues, tickPos, axisPos, canvasName){
+	var canvas = document.getElementById(canvasName);
+	var context = canvas.getContext('2d');
+
+	context.font=tickLabelFont;
+	context.fillStyle = tickLabelColor;
+	context.textAlign = "center";
+	if(axisDir=="X"){
+		for (var i=0; i<tickValues.length;i++){
+			context.fillText(tickValues[i], tickPos[i], axisPos-10);
+		}
+	}else{
+		for (var i=0; i<tickValues.length;i++){
+			context.fillText(tickValues[i],  axisPos+10,tickPos[i]);
+		}
+
+	}
+
+
+
+}
+
+function calcTickPos(axisDir, axisRange){	
+	var i = acceptableTickInts.length-1;
+	axisMin = axisRange[0];
+	axisMax = axisRange[1];
+	var tickCount = (axisMax-axisMin)/acceptableTickInts[i]; 
+
+	if(axisDir =="X"){
+		minTickCount = 7;
+		
+	}else{
+		minTickCount = 4;
+	}
+	
+	while (tickCount < minTickCount){
+		i--;
+		tickCount = (axisMax-axisMin)/acceptableTickInts[i]; 
+	}	
+	
+	tickInts = acceptableTickInts[i];
+	tickPos = [0];
+	while(tickPos[tickPos.length-1] < axisMax-tickInts){
+		tickPos.push(tickPos[tickPos.length-1]+tickInts);
+	}
+	while(tickPos[0] > axisMin+tickInts){
+		tickPos.splice(0,0,tickPos[0]-tickInts);
+	}
+	return tickPos;
+
 }
 
 

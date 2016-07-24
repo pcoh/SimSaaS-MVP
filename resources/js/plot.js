@@ -323,7 +323,7 @@ function plotTickValues(axisDir,tickValues, tickPos, axisPos, oppAxisPos, canvas
 		for (var i=0; i<tickValues.length;i++){
 			
 			if (Math.abs(tickPos[i]-oppAxisPos) > minDistFromAxis){
-				if(canvasWidth - tickPos[i]< xBuffer){
+				if(canvasWidth - tickPos[i]< xBuffer && canvasWidth - tickPos[i] >=0){
 					context.textAlign = "right";
 					tickPos[i] = canvasWidth -xBuffer;
 				}
@@ -337,10 +337,10 @@ function plotTickValues(axisDir,tickValues, tickPos, axisPos, oppAxisPos, canvas
 		context.textAlign = "left";
 		for (var i=0; i<tickValues.length;i++){
 			if (Math.abs(tickPos[i]-oppAxisPos) > minDistFromAxis){
-				if(tickPos[i]< yBuffer){
+				if(tickPos[i]< yBuffer && tickPos[i] >= 0){
 					tickPos[i] = yBuffer;
 				}
-				if(canvasHeight - tickPos[i]< yBuffer){					
+				if(canvasHeight - tickPos[i]< yBuffer && canvasHeight - tickPos[i]>= 0){					
 					tickPos[i] = canvasHeight -yBuffer;
 				}
 

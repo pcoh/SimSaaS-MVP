@@ -148,11 +148,14 @@ function plotData(){
 		// set Range of plot axes:
 		var xPlotRange = [plotObject[plotIDs[i]].minXVal,plotObject[plotIDs[i]].maxXVal];
 		var yPlotRange = setYAxisRange(plotObject[plotIDs[i]].minYVal, plotObject[plotIDs[i]].maxYVal);		
-
-		var axislocation = [0];
-		var scaledXAxisData = scaleData2Canvas("X",axislocation, canvasName, yPlotRange[0],yPlotRange[1], true);
-		axislocation = [0];
-		var scaledYAxisData = scaleData2Canvas("Y",axislocation, canvasName, xPlotRange[0],xPlotRange[1], true);
+		for (var j=0; j< toBePlotted.length; j++){
+			var plotColor = plotColors[j];
+			plotChannel(canvasName,context, plotObject[plotIDs[i]].XData[toBePlotted[j]],plotObject[plotIDs[i]].YData[toBePlotted[j]],xPlotRange[0],xPlotRange[1],yPlotRange[0],yPlotRange[1],plotColor);
+		}
+		var axisLocation = setAxisLocation("X", yPlotRange[0],yPlotRange[1]);
+		var scaledXAxisData = scaleData2Canvas("X",axisLocation, canvasName, yPlotRange[0],yPlotRange[1], true);
+		var axisLocation = setAxisLocation("Y", xPlotRange[0],xPlotRange[1]);
+		var scaledYAxisData = scaleData2Canvas("Y",axisLocation, canvasName, xPlotRange[0],xPlotRange[1], true);
 
 		plotAxis("X", scaledXAxisData, canvasName, yPlotRange[0],yPlotRange[1]);
 		plotAxis("Y", scaledYAxisData, canvasName, xPlotRange[0],xPlotRange[1]);
@@ -162,15 +165,12 @@ function plotData(){
 		xTickPosScaled = scaleData2Canvas("X", xTickPos, canvasName, xPlotRange[0],xPlotRange[1], false);
 		yTickPosScaled = scaleData2Canvas("Y", yTickPos, canvasName, yPlotRange[0],yPlotRange[1], false);
 
-		plotTickMarks("X", xTickPosScaled, scaledXAxisData[0], canvasName);
-		plotTickMarks("Y", yTickPosScaled, scaledYAxisData[0], canvasName);
+		plotTickMarks("X", xTickPosScaled, scaledXAxisData[0], scaledYAxisData[0],canvasName);
+		plotTickMarks("Y", yTickPosScaled, scaledYAxisData[0], scaledXAxisData[0],canvasName);
 
-		plotTickValues("X",xTickPos, xTickPosScaled, scaledXAxisData[0], canvasName);
-		plotTickValues("Y",yTickPos, yTickPosScaled, scaledYAxisData[0], canvasName);
-		for (var j=0; j< toBePlotted.length; j++){
-			var plotColor = plotColors[j];
-			plotChannel(canvasName,context, plotObject[plotIDs[i]].XData[toBePlotted[j]],plotObject[plotIDs[i]].YData[toBePlotted[j]],xPlotRange[0],xPlotRange[1],yPlotRange[0],yPlotRange[1],plotColor);
-		}
+		plotTickValues("X",xTickPos, xTickPosScaled, scaledXAxisData[0], scaledYAxisData[0], canvasName, xUnit);
+		plotTickValues("Y",yTickPos, yTickPosScaled, scaledYAxisData[0], scaledXAxisData[0], canvasName, yUnit);
+		
 	}
 }
 
@@ -187,6 +187,16 @@ function setYAxisRange(minYVal, maxYVal){
 	}
 	var yPlotRange = [yMin, yMax];
 	return yPlotRange;
+}
+
+function setAxisLocation(AxisDir, oppositeAxisMin,oppositeAxisMax){
+	var axisLocation = 0;		
+		if (0 <= oppositeAxisMin || 0 > oppositeAxisMax){
+			var axisLocation= [oppositeAxisMin];
+		}else{
+			var axisLocation = [0];
+		}
+	return axisLocation;
 }
 
 function plotChannel(canvasName, context, xVar, yVar, minXVal, maxXVal, minYVal, maxYVal,plotColor){
@@ -210,11 +220,11 @@ function scaleData2Canvas(axisDir, data, canvasName, minVal, maxVal, axisFlag){
 	var canvasHeight = $("#"+canvasName).height();
 	var scaledData = [];
 	
-	if (axisFlag){
-		if (data[0] <= minVal || data[0]  > maxVal){
-			data[0]=minVal;
-		}
-	}
+	// if (axisFlag){
+	// 	if (data[0] <= minVal || data[0]  > maxVal){
+	// 		data[0]=minVal;
+	// 	}
+	// }
 	for (var i=0; i<data.length; i++){
 		if (axisDir == "X" && !axisFlag || axisDir == "Y" && axisFlag){
 			scaledData[i] = (data[i]-minVal)*canvasWidth/(maxVal-minVal);
@@ -242,20 +252,25 @@ function plotAxis(axisDir, scaledAxisData, canvasName, minVal, maxVal){
 	context.stroke();
 	context.closePath();
 }
-function plotTickMarks (axisDir, data, axisPos, canvasName){
+function plotTickMarks (axisDir, data, axisPos, oppAxisPos, canvasName){
 	var canvas = document.getElementById(canvasName);
 	var context = canvas.getContext('2d');
+	var minDistFromAxis = 10;
 
 	context.beginPath();
 	if (axisDir == "X"){
 		for (var i = 0; i<data.length; i++){
-			context.moveTo(data[i], axisPos);
-			context.lineTo(data[i],axisPos - tickLength);
+			if (Math.abs(data[i]-oppAxisPos) > minDistFromAxis){
+				context.moveTo(data[i], axisPos);
+				context.lineTo(data[i],axisPos - tickLength);
+			}
 		}
 	}else{
 		for (var i = 0; i<data.length; i++){
-			context.moveTo(axisPos,data[i]);
-			context.lineTo(axisPos + tickLength,data[i]);
+			if (Math.abs(data[i]-oppAxisPos) > minDistFromAxis){
+				context.moveTo(axisPos,data[i]);
+				context.lineTo(axisPos + tickLength,data[i]);
+			}
 		}
 	}
 	context.lineWidth = 1;
@@ -264,22 +279,77 @@ function plotTickMarks (axisDir, data, axisPos, canvasName){
 	context.closePath();
 }
 
-function plotTickValues(axisDir,tickValues, tickPos, axisPos, canvasName){
+function plotTickValues(axisDir,tickValues, tickPos, axisPos, oppAxisPos, canvasName, axisUnit){
 	var canvas = document.getElementById(canvasName);
 	var context = canvas.getContext('2d');
+	var canvasWidth = $("#"+canvasName).width();
+	var canvasHeight = $("#"+canvasName).height();
+	var minDistFromAxis = 10;
+	// var xOffset = 0;
+	var xBuffer = 2;
+	var yBuffer = 6;
+	var tickVertPos = -10;
+	var precision, currPrecision;
+
+
+	var periodIndex = (tickInts + "").indexOf(".");
+	if(periodIndex == -1){
+		var maxPrecision = 0;
+	}else{
+		var maxPrecision = (tickInts + "").split(".")[1].length;
+	}
+	 
+	for(var i=0; i<tickValues.length; i++){
+		periodIndex = (tickValues[i] + "").indexOf(".");
+		if(periodIndex == -1){
+			currPrecision = 0;
+		}else{
+			currPrecision = (tickValues[i] + "").split(".")[1].length;
+		}
+		precision = Math.min(currPrecision,maxPrecision);
+		if(precision != 0){
+			tickValues[i] = tickValues[i].toPrecision(precision);
+		}
+	}
 
 	context.font=tickLabelFont;
 	context.fillStyle = tickLabelColor;
 	context.textAlign = "center";
 	if(axisDir=="X"){
+		if (axisPos < canvasHeight-12){
+			tickVertPos = 12;
+		}
+		context.textAlign = "center";
 		for (var i=0; i<tickValues.length;i++){
-			context.fillText(tickValues[i], tickPos[i], axisPos-10);
+			
+			if (Math.abs(tickPos[i]-oppAxisPos) > minDistFromAxis){
+				if(canvasWidth - tickPos[i]< xBuffer){
+					context.textAlign = "right";
+					tickPos[i] = canvasWidth -xBuffer;
+				}
+				if (i==tickValues.length-1){
+					tickValues[i] = tickValues[i] + "[" + axisUnit +"]";
+				}
+				context.fillText(tickValues[i], tickPos[i], axisPos+tickVertPos);
+			}
 		}
 	}else{
+		context.textAlign = "left";
 		for (var i=0; i<tickValues.length;i++){
-			context.fillText(tickValues[i],  axisPos+10,tickPos[i]);
-		}
+			if (Math.abs(tickPos[i]-oppAxisPos) > minDistFromAxis){
+				if(tickPos[i]< yBuffer){
+					tickPos[i] = yBuffer;
+				}
+				if(canvasHeight - tickPos[i]< yBuffer){					
+					tickPos[i] = canvasHeight -yBuffer;
+				}
 
+				if (i==tickValues.length-1){
+					tickValues[i] = tickValues[i] + "[" + axisUnit +"]";
+				}
+				context.fillText(tickValues[i],  axisPos+12,tickPos[i] +4);
+			}
+		}
 	}
 
 
@@ -293,10 +363,9 @@ function calcTickPos(axisDir, axisRange){
 	var tickCount = (axisMax-axisMin)/acceptableTickInts[i]; 
 
 	if(axisDir =="X"){
-		minTickCount = 7;
-		
+		minTickCount = 7;		
 	}else{
-		minTickCount = 4;
+		minTickCount = 5;
 	}
 	
 	while (tickCount < minTickCount){
@@ -311,6 +380,11 @@ function calcTickPos(axisDir, axisRange){
 	}
 	while(tickPos[0] > axisMin+tickInts){
 		tickPos.splice(0,0,tickPos[0]-tickInts);
+	}
+
+	var zeroIndex = tickPos.indexOf(0);
+	if (zeroIndex != -1){
+		tickPos.splice(zeroIndex,1);
 	}
 	return tickPos;
 

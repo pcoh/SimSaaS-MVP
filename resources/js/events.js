@@ -8,8 +8,7 @@ $( document ).ready(function() {
   controlTable2Pos();
   positionBG();
   populatePlot1DD();  
-  $(".cursorCanvas").on('mousemove',  onCursorCanvasHover);
-  $(".cursorCanvas").on('mouseleave',  onCursorCanvasLeave);
+
 });
 
 $( window ).resize(function() {
@@ -65,10 +64,7 @@ $('.addPlot').on('click',  function() {
   $( ".channelSelector" ).selectmenu();
   
 	addListenerToPlots();	
-  $(".channelSelector").on('selectmenuchange',  onChannelSelectorChange);
-  $(".cursorCanvas").on('mousemove',  onCursorCanvasHover);
-  $(".cursorCanvas").on('mouseleave',  onCursorCanvasLeave);
-  
+  $(".channelSelector").on('selectmenuchange',  onChannelSelectorChange);  
   plotData();
 });
 

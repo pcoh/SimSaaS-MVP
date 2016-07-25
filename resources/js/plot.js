@@ -17,6 +17,7 @@ function clickPlotButton(){
 	}
 	plotData();
 	
+	
 }
 
 addLapToTable2 = function(lapID){
@@ -178,6 +179,9 @@ function plotData(){
 
 
 	}
+	window.plotObject =plotObject;
+	$(".cursorCanvas").on('mousemove',  onCursorCanvasHover);
+    $(".cursorCanvas").on('mouseleave',  onCursorCanvasLeave);
 }
 
 function setYAxisRange(minYVal, maxYVal){
@@ -258,6 +262,40 @@ function plotAxis(axisDir, scaledAxisData, canvasName, minVal, maxVal){
 	context.stroke();
 	context.closePath();
 }
+
+function calcTickPos(axisDir, axisRange){	
+	var i = acceptableTickInts.length-1;
+	axisMin = axisRange[0];
+	axisMax = axisRange[1];
+	var tickCount = (axisMax-axisMin)/acceptableTickInts[i]; 
+
+	if(axisDir =="X"){
+		minTickCount = 7;		
+	}else{
+		minTickCount = 5;
+	}
+	
+	while (tickCount < minTickCount){
+		i--;
+		tickCount = (axisMax-axisMin)/acceptableTickInts[i]; 
+	}	
+	
+	tickInts = acceptableTickInts[i];
+	tickPos = [0];
+	while(tickPos[tickPos.length-1] < axisMax-tickInts){
+		tickPos.push(tickPos[tickPos.length-1]+tickInts);
+	}
+	while(tickPos[0] > axisMin+tickInts){
+		tickPos.splice(0,0,tickPos[0]-tickInts);
+	}
+
+	var zeroIndex = tickPos.indexOf(0);
+	if (zeroIndex != -1){
+		tickPos.splice(zeroIndex,1);
+	}
+	return tickPos;
+}
+
 function plotTickMarks (axisDir, data, axisPos, oppAxisPos, canvasName){
 	var canvas = document.getElementById(canvasName);
 	var context = canvas.getContext('2d');
@@ -357,43 +395,6 @@ function plotTickValues(axisDir,tickValues, tickPos, axisPos, oppAxisPos, canvas
 			}
 		}
 	}
-
-
-
-}
-
-function calcTickPos(axisDir, axisRange){	
-	var i = acceptableTickInts.length-1;
-	axisMin = axisRange[0];
-	axisMax = axisRange[1];
-	var tickCount = (axisMax-axisMin)/acceptableTickInts[i]; 
-
-	if(axisDir =="X"){
-		minTickCount = 7;		
-	}else{
-		minTickCount = 5;
-	}
-	
-	while (tickCount < minTickCount){
-		i--;
-		tickCount = (axisMax-axisMin)/acceptableTickInts[i]; 
-	}	
-	
-	tickInts = acceptableTickInts[i];
-	tickPos = [0];
-	while(tickPos[tickPos.length-1] < axisMax-tickInts){
-		tickPos.push(tickPos[tickPos.length-1]+tickInts);
-	}
-	while(tickPos[0] > axisMin+tickInts){
-		tickPos.splice(0,0,tickPos[0]-tickInts);
-	}
-
-	var zeroIndex = tickPos.indexOf(0);
-	if (zeroIndex != -1){
-		tickPos.splice(zeroIndex,1);
-	}
-	return tickPos;
-
 }
 
 function onCursorCanvasHover(e){
@@ -401,7 +402,11 @@ function onCursorCanvasHover(e){
 	var canvasID = $(this).attr("id");
 	var canvas = document.getElementById(canvasID);
 	var mousePos = getMousePos(canvas, e);
+	var cursorVals = calcCursorVals(mousePos, canvasID);
+	var units = getUnits(canvasID);
 	var context = canvas.getContext("2d");
+	var xBuffer = 50;
+	var xOffset;
 	
 	context.clearRect(0, 0, canvas.width, canvas.height);
 	
@@ -413,25 +418,90 @@ function onCursorCanvasHover(e){
 	context.stroke();
 	context.closePath();
 
-    console.log("x="+mousePos.x+" ;y="+mousePos.y);    
+	context.font=cursorLabelFont;
+	var lineHeight = 18;
+	var precision;
+	if (canvas.width - mousePos.x > xBuffer){
+		context.textAlign = "left";
+		xOffset = 12;
+	}else{
+		context.textAlign = "right";
+		xOffset = -12;
+	}
+	
+
+	switch(true){
+		case cursorVals[i] > 1000:
+			precision = 0;
+			break;
+		case cursorVals[i] > 300:
+			precision = 1;
+			break;
+		case cursorVals[i] > 10:
+			precision = 2;
+			break;
+		case cursorVals[i] > 1:
+			precision = 3;
+			break;
+		default: 
+			precision = 4;
+			break;
+
+	}
+	
+	for (var i=0; i<cursorVals.length; i++){
+		context.fillStyle = plotColors[i];
+		context.fillText(cursorVals[i].toPrecision(precision)+"["+units+"]", mousePos.x+xOffset, mousePos.y+ lineHeight*i);
+	}
 }
+
+function calcCursorVals(mousePos, canvasID){
+	var xPos_Canvas = mousePos.x;
+	var maxXVal = plotObject["plot"+canvasID.replace("cursorCanvas","")].maxXVal;
+	
+	var xPos_Data = xPos_Canvas/$("#"+canvasID).width()*maxXVal;
+	var yPos_Data = [];
+	var currPlot = "plot"+canvasID.replace("cursorCanvas","");
+	for(var i=0; i< toBePlotted.length;i++){
+		var xData = plotObject[currPlot].XData[toBePlotted[i]];
+		var yData = plotObject[currPlot].YData[toBePlotted[i]];
+		yPos_Data[i] = interpolate(xPos_Data,xData,yData)
+	}
+	return yPos_Data;
+}
+function interpolate(xVal,xVect,yVect){
+	var i =0;
+	while (xVal > xVect[i]){
+		i++;
+	}
+	var x_lo = parseFloat(xVect[i-1]),
+		x_hi = parseFloat(xVect[i]),
+		y_lo = parseFloat(yVect[i-1]),
+		y_hi = parseFloat(yVect[i]);
+
+	yPos_Data =  y_lo + (y_hi-y_lo)/(x_hi-x_lo)*(xVal-x_lo);
+	return yPos_Data;
+}
+function getUnits(canvasID){
+	var units = plotObject["plot"+canvasID.replace("cursorCanvas","")].YUnit;
+	return units;
+}
+
 function onCursorCanvasLeave(e){
 	var canvasID = $(this).attr("id");
 	var canvas = document.getElementById(canvasID);
 	var context = canvas.getContext("2d");
 	
 	context.clearRect(0, 0, canvas.width, canvas.height);
-
 }
 
 function getMousePos(canvas, e) {
-        var rect = canvas.getBoundingClientRect();
-        return {
-         	x: Math.round((e.clientX-rect.left)/(rect.right-rect.left)*canvas.width),
-			y: Math.round((e.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height)
-        };
-      }
-
+	var rect = canvas.getBoundingClientRect();
+	return {
+	 	x: Math.round((e.clientX-rect.left)/(rect.right-rect.left)*canvas.width),
+		y: Math.round((e.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height)
+	};
+}
 
 function clearAllPlots(){
 	$('.plotCanvas').each(function(idx, item) {

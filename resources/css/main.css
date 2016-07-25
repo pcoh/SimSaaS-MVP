@@ -189,7 +189,8 @@ body {
   margin-left: 55px;
   width: 150px;
   display: inline-block;
-  z-Index: 2;
+  position: relative;
+  z-index: 3;
   float: left; }
 
 .channelSelector {
@@ -201,8 +202,15 @@ body {
   height: 100%;
   margin-top: -42px; }
 
+.plotCanvas, .cursorCanvas {
+  float: left;
+  position: relative; }
+
 .plotCanvas {
-  float: left; }
+  z-index: 1; }
+
+.cursorCanvas {
+  z-index: 2; }
 
 .dropZone {
   height: 50px;
@@ -241,7 +249,7 @@ body {
   height: 20px;
   width: 20px;
   cursor: pointer;
-  z-index: 2;
+  z-index: 3;
   position: relative; }
 
 .addPlot {

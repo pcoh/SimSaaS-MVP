@@ -87,7 +87,9 @@ function createPlotContainer(plotCount){
 	plotContHTML = "<div class=\"col-sm-12 divPlotContainer\" draggable=\"true\"><div class=\"plot\" id=\"plot"+plotCount+"\">"+
 	"<div class=\"channelSelectContainer\">"+plotSelectOptions +
     "</div><a href=\"#\"><span class=\"removePlot\"></span></a><div class=\"canvasContainer\">"+
-    "<canvas class=\"plotCanvas\" id=\"canvas"+plotCount+"\"></canvas></div></div></div>";
+    "<canvas class=\"plotCanvas\" id=\"canvas"+plotCount+"\"></canvas>"+
+    "<canvas class=\"cursorCanvas\" id=\"cursorCanvas"+plotCount+"\"></canvas></div></div></div>";
+
 	return plotContHTML;
 
 }

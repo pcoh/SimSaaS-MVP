@@ -74,8 +74,7 @@ function getPlotLapID($targetCell){
 
 function plotData(){
 	clearAllPlots();
-	if (toBePlotted.length == 0){
-		
+	if (toBePlotted.length == 0){		
 		return;
 	}	
 	// check which plots are to be plotted in:
@@ -107,6 +106,11 @@ function plotData(){
 		canvas.width =$(".canvasContainer").width();
 		canvas.height =$(".canvasContainer").height();
 		var context = canvas.getContext('2d');
+		var cursorCanvasName = plotIDs[i].replace("plot","cursorCanvas");
+		var cursorCanvas = document.getElementById(cursorCanvasName);
+		cursorCanvas.width = $(".canvasContainer").width(); 
+		cursorCanvas.height = $(".canvasContainer").height();
+		$("#cursorCanvas"+(i+1)).css({"margin-top" : -$(".canvasContainer").height()});
 
 		//fetch the data of the channels:
 		for (var j=0; j< toBePlotted.length; j++){
@@ -171,6 +175,8 @@ function plotData(){
 		plotTickValues("X",xTickPos, xTickPosScaled, scaledXAxisData[0], scaledYAxisData[0], canvasName, xUnit);
 		plotTickValues("Y",yTickPos, yTickPosScaled, scaledYAxisData[0], scaledXAxisData[0], canvasName, yUnit);
 		
+
+
 	}
 }
 
@@ -389,6 +395,22 @@ function calcTickPos(axisDir, axisRange){
 	return tickPos;
 
 }
+
+function onCursorCanvasHover(e){
+	//e.preventDefault();
+	var canvasID = $(this).attr("id");
+	var canvas = document.getElementById(canvasID);
+	var mousePos = getMousePos(canvas, e);
+    console.log("x="+mousePos.x+" ;y="+mousePos.y);    
+}
+
+function getMousePos(canvas, e) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top
+        };
+      }
 
 
 function clearAllPlots(){

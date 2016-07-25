@@ -218,18 +218,9 @@ function clickSetButton(){
     next();
   });
 
-
-    // activeRH_R = ,
-    // activeSS_F = ,
-    // activeSS_R = ,
-    // activeARB_F = ,
-    // activeARB_R = ,
-    a = 1;
 }
 
 function clickDeleteButton(){  
-
-
 
   // delete lapID from toBePlotted
   var lapID = parseInt($(this).parent().attr("id").replace("lapRow",""));

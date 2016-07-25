@@ -7,7 +7,8 @@ $( document ).ready(function() {
   $("#divTableAndSpacer").css({ 'top': $("#divControlTableRow").offset().top + $("#divControlTableRow").outerHeight(false)});
   controlTable2Pos();
   positionBG();
-  populatePlot1DD();
+  populatePlot1DD();  
+  $(".cursorCanvas").on('mousemove',  onCursorCanvasHover);
 });
 
 $( window ).resize(function() {
@@ -64,6 +65,7 @@ $('.addPlot').on('click',  function() {
   
 	addListenerToPlots();	
   $(".channelSelector").on('selectmenuchange',  onChannelSelectorChange);
+  $(".cursorCanvas").on('mousemove',  onCursorCanvasHover);
   plotData();
 });
 

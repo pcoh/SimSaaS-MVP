@@ -1,4 +1,5 @@
 $( document ).ready(function() {
+  $('#simButton').button('disable');
   readJobData(jobPath);
   resizeTrackArea();
   resizeWorkSpace();

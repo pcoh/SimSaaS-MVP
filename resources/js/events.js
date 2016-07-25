@@ -9,6 +9,7 @@ $( document ).ready(function() {
   positionBG();
   populatePlot1DD();  
   $(".cursorCanvas").on('mousemove',  onCursorCanvasHover);
+  $(".cursorCanvas").on('mouseleave',  onCursorCanvasLeave);
 });
 
 $( window ).resize(function() {
@@ -66,6 +67,8 @@ $('.addPlot').on('click',  function() {
 	addListenerToPlots();	
   $(".channelSelector").on('selectmenuchange',  onChannelSelectorChange);
   $(".cursorCanvas").on('mousemove',  onCursorCanvasHover);
+  $(".cursorCanvas").on('mouseleave',  onCursorCanvasLeave);
+  
   plotData();
 });
 

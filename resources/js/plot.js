@@ -401,14 +401,34 @@ function onCursorCanvasHover(e){
 	var canvasID = $(this).attr("id");
 	var canvas = document.getElementById(canvasID);
 	var mousePos = getMousePos(canvas, e);
+	var context = canvas.getContext("2d");
+	
+	context.clearRect(0, 0, canvas.width, canvas.height);
+	
+	context.beginPath();
+	context.moveTo(mousePos.x, 0);
+	context.lineTo(mousePos.x,canvas.height);
+	context.lineWidth = 1;
+	context.strokeStyle = axisColor;
+	context.stroke();
+	context.closePath();
+
     console.log("x="+mousePos.x+" ;y="+mousePos.y);    
+}
+function onCursorCanvasLeave(e){
+	var canvasID = $(this).attr("id");
+	var canvas = document.getElementById(canvasID);
+	var context = canvas.getContext("2d");
+	
+	context.clearRect(0, 0, canvas.width, canvas.height);
+
 }
 
 function getMousePos(canvas, e) {
         var rect = canvas.getBoundingClientRect();
         return {
-          x: e.clientX - rect.left,
-          y: e.clientY - rect.top
+         	x: Math.round((e.clientX-rect.left)/(rect.right-rect.left)*canvas.width),
+			y: Math.round((e.clientY-rect.top)/(rect.bottom-rect.top)*canvas.height)
         };
       }
 

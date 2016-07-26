@@ -30,9 +30,7 @@ function buildEventControls(){
   }
   $('.eventSelector').on('click', eventSelectorClick );
   $('.liEventSelector').on('click', eventSelectorClick );
-
 }
-
 
 function eventSelectorClick(){
   $('#simButton').button('disable');
@@ -50,11 +48,9 @@ function eventSelectorClick(){
   readJobData(jobPath);
   fillTable1();
   getLapsToBePlotted();
+  fillTable2();
   plotData();
 
-
-  //var activeRound = $(this).clone().children().remove().end().text();
-  //var eventName = $(this).children('.divtrackName').html();
   $('#eventHeadline').html(currEvent + ' - '+ eventList[currEvent-1]);
 }
 
@@ -124,16 +120,24 @@ getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R
     //window.jobData_parsed = [jobLapNum,jobLapNames, jobGrips,jobWingPositions,jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R];
 
     if( currTrackGrip == demTrackGrip &&  currWingPos == demWingPos && currRH_F == demRH_F && currRH_R == demRH_R && currSS_F == demSS_F && currSS_R == demSS_R && currARB_F == demARBStiff_F && currARB_R == demARBStiff_R){   
-      //lapID.push(jobData_parsed[0][i]);
       lapID = jobData_parsed[0][i][0];
     }
      
   }
   addLapToTable1Object(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
   //addLapToTable1(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
-  fillTable1()
-  calcProgress(lapID); 
-  loadLapData(lapID);
+  fillTable1();
+  if(simData[currEvent].hasOwnProperty('lapData')){
+    if(simData[currEvent].lapData.hasOwnProperty(lapID-1)){
+      alert("A lap with these settings has already been simulated");  
+    }else{
+      calcProgress(lapID); 
+      loadLapData(lapID);  
+    }
+  }else{
+    calcProgress(lapID); 
+    loadLapData(lapID);  
+  }
 }
 
 function addLapToTable1Object(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
@@ -157,7 +161,6 @@ function addLapToTable1Object(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, 
   simData[currEvent].table1Object[lapID].demARBStiff_R = demARBStiff_R;
   simData[currEvent].table1Object[lapID].plotted = false;
 }
-
 function fillTable1(){
   $("#rowContainer1").html("");
   if(simData.hasOwnProperty(currEvent)){
@@ -187,29 +190,33 @@ function fillTable1(){
       }
     }
   }
-
 }
 
-addLapToTable1 = function(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
-  if ($("#lapRow"+lapID).length ==0){
-    var numRowsT1 = countTableRows('#rowContainer1','.lapRow' );
-    if (numRowsT1 %2 !=0){
-      var rowType = "evenRow";
-    }else{
-      var rowType = "oddRow"
+function fillTable2(){
+  $("#rowContainer2").html("");
+  if(simData.hasOwnProperty(currEvent)){
+    if(simData[currEvent].hasOwnProperty('table1Object')){
+      var u = 0;
+      for(var i=0;i<Object.keys(simData[currEvent].table1Object).length;i++){
+        var currLapID =  Object.keys(simData[currEvent].table1Object)[i]; 
+        if(simData[currEvent].table1Object[currLapID].plotted == true){
+          if (u %2 !=0){
+            var rowType = "evenRow";
+          }else{
+            var rowType = "oddRow"
+          }
+          var lapHTML = "<div id=\"plotRow"+currLapID+ "\" class=\"plotRow " +rowType + "\"><span id=\"removeCell"+currLapID+ "\" class=\"cell removeCell\"></span><span class=\"cell lapTimeCell\">"+simData[currEvent].table1Object[currLapID].lapTime+"</span>"+
+                        "<span class=\"cell trackGripCell\">"+simData[currEvent].table1Object[currLapID].demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+simData[currEvent].table1Object[currLapID].demWingPos+"</span><span class=\"cell RHF_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_R+"mm</span>" +
+                        "<span class=\"cell SSF_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_R+"N/mm</span>" +
+                        "<span class=\"cell colorCell rightMost\"><div class=\"colorSample\"></div></span></div>";
+          $("#rowContainer2").append(lapHTML); 
+          $("#plotRow"+currLapID).children(".removeCell").on('click',  clickPlotButton);
+          $("#plotRow"+currLapID).children(".colorCell").children(".colorSample").css({'background-color': plotColors[u]});
+          u++;
+        }
+      }
+      reStyleRows('#rowContainer2','.plotRow');
     }
-    var lapHTML = "<div id=\"lapRow"+lapID+ "\" class=\"lapRow " +rowType + "\"><span class=\"cell setCell\"></span><span id=\"plotCell"+lapID+ "\" class=\"cell plotCell loading\"></span><span class=\"cell lapTimeCell\"><div class=\"progressBG\"><div class=\"progressVal\" id=\"progress"+lapID+"\"></div></div></span>"+
-                  "<span class=\"cell trackGripCell\">"+demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+demWingPos+"</span><span class=\"cell RHF_Cell\">"+demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+demRH_R+"mm</span>" +
-                  "<span class=\"cell SSF_Cell\">"+demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+demARBStiff_R+"N/mm</span>" +
-                  "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell loading rightMost\"></span></div>";
-    $("#rowContainer1").append(lapHTML);
-    
-    calcProgress(lapID);  
-    $("#lapRow"+lapID)
-      .children(".setCell")
-      .on('click',  clickSetButton);
-  }else{
-    alert("A lap with these settings has already been simulated");    
   }
 }
 
@@ -311,22 +318,18 @@ function clickSetButton(){
 }
 
 function clickDeleteButton(){  
-
   // delete lapID from toBePlotted
   var lapID = parseInt($(this).parent().attr("id").replace("lapRow",""));
 
-  if ($.inArray(lapID, toBePlotted) != -1){
-
-    var index = toBePlotted.indexOf(lapID);
-    toBePlotted.splice(index,1);
-  }
-  removeLapFromTable2(lapID);
+  //if ($.inArray(lapID, toBePlotted) != -1){
+  delete simData[currEvent].table1Object[lapID];
+  delete simData[currEvent].lapData[lapID -1];
+  getLapsToBePlotted();
+  fillTable2();
   $(this).parent().remove();
   plotData();
-
-  // delete data from lapData Object
-  delete simData[currEvent].lapData[lapID -1];
   reStyleRows('#rowContainer1','.lapRow');
+  //}  
 }
 
 function clickRemoveButton(){  

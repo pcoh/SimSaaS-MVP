@@ -13,75 +13,23 @@ function clickPlotButton(){
 		simData[currEvent].table1Object[lapID].plotted = true;
 	}
 
-
 	getLapsToBePlotted(); 
-	if($.inArray(lapID, toBePlotted) != -1){
-		addLapToTable2(lapID); 
-	}else{
-		removeLapFromTable2(lapID);
-	}
-	plotData();
-	
-	
+	fillTable2(); 
+	plotData();	
 }
-
-addLapToTable2 = function(lapID){
-  	//if ($("#plotRow"+lapID).length ==0){
-    
-    if (toBePlotted.length %2 !=0){
-      var rowType = "oddRow";
-    }else{
-      var rowType = "evenRow"
-    }
-
-  	var lapHTML2 = "<div class=\"plotRow " +rowType +"\" id=\"plotRow"+lapID+"\"><span id=\"removeCell"+lapID+ "\" class=\"cell removeCell\"></span><span class=\"cell lapTimeCell\"></span><span class=\"cell trackGripCell\"></span>"+
-	    "<span class=\"cell wingPosCell\"></span><span class=\"cell RHF_Cell\"></span><span class=\"cell RHR_Cell\"></span><span class=\"cell SSF_Cell\"></span>"+
-	    "<span class=\"cell SSR_Cell\"></span><span class=\"cell ARBF_Cell\"></span><span class=\"cell ARBR_Cell\"></span><span class=\"cell colorCell rightMost\">"+
-	    "<div class=\"colorSample\"></div></span>";
-	//}
-	$("#rowContainer2").append(lapHTML2);
-	$("#plotRow"+lapID).children('.lapTimeCell').html($("#lapRow"+lapID).children('.lapTimeCell').html());
-	$("#plotRow"+lapID).children('.trackGripCell').html($("#lapRow"+lapID).children('.trackGripCell').html());
-	$("#plotRow"+lapID).children('.wingPosCell').html($("#lapRow"+lapID).children('.wingPosCell').html());
-	$("#plotRow"+lapID).children('.RHF_Cell').html($("#lapRow"+lapID).children('.RHF_Cell').html());
-	$("#plotRow"+lapID).children('.RHR_Cell').html($("#lapRow"+lapID).children('.RHR_Cell').html());
-	$("#plotRow"+lapID).children('.SSF_Cell').html($("#lapRow"+lapID).children('.SSF_Cell').html());
-	$("#plotRow"+lapID).children('.SSR_Cell').html($("#lapRow"+lapID).children('.SSR_Cell').html());
-	$("#plotRow"+lapID).children('.ARBF_Cell').html($("#lapRow"+lapID).children('.ARBF_Cell').html());
-	$("#plotRow"+lapID).children('.ARBR_Cell').html($("#lapRow"+lapID).children('.ARBR_Cell').html());
-
-	reStyleRows('#rowContainer2','.plotRow');
-
-	$("#plotRow"+lapID)
-      .children(".removeCell")
-      .on('click',  clickPlotButton);
-}
-
-function removeLapFromTable2(lapID){
-	$("#plotRow"+lapID).remove();
-	reStyleRows('#rowContainer2','.plotRow');
-}
-
 
 function getLapsToBePlotted(){
 	toBePlotted=[];
-	var j = 0; 
 	if(simData.hasOwnProperty(currEvent)){
 		if(simData[currEvent].hasOwnProperty('table1Object')){
 			for(var i=0;i<Object.keys(simData[currEvent].table1Object).length;i++){
 		        var currLapID =  Object.keys(simData[currEvent].table1Object)[i];
 		         if (simData[currEvent].table1Object[currLapID].plotted){
-		         	toBePlotted.push(currLapID);
+		         	toBePlotted.push(parseInt(currLapID));
 		         }
 		    }
 		}	
-	} 	
-	// if ($.inArray(lapID, toBePlotted) == -1){
-	// 	toBePlotted.push(lapID);
-	// }else{
-	// 	var index = toBePlotted.indexOf(lapID);
-	// 	toBePlotted.splice(index, 1);
-	// }
+	} 
 }
 function getPlotLapID($targetCell){
 	$thisID = $targetCell.attr("id");
@@ -194,9 +142,6 @@ function plotData(){
 
 				plotTickValues("X",xTickPos, xTickPosScaled, scaledXAxisData[0], scaledYAxisData[0], canvasName, xUnit);
 				plotTickValues("Y",yTickPos, yTickPosScaled, scaledYAxisData[0], scaledXAxisData[0], canvasName, yUnit);
-				
-
-
 			}
 			window.plotObject =plotObject;
 			$(".cursorCanvas").on('mousemove',  onCursorCanvasHover);
@@ -251,11 +196,6 @@ function scaleData2Canvas(axisDir, data, canvasName, minVal, maxVal, axisFlag){
 	var canvasHeight = $("#"+canvasName).height();
 	var scaledData = [];
 	
-	// if (axisFlag){
-	// 	if (data[0] <= minVal || data[0]  > maxVal){
-	// 		data[0]=minVal;
-	// 	}
-	// }
 	for (var i=0; i<data.length; i++){
 		if (axisDir == "X" && !axisFlag || axisDir == "Y" && axisFlag){
 			scaledData[i] = (data[i]-minVal)*canvasWidth/(maxVal-minVal);

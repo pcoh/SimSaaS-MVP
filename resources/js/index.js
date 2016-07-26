@@ -48,6 +48,9 @@ function eventSelectorClick(){
   
   var jobPath = jobsFolder+(currEvent < 10 ? '0'+currEvent : currEvent)+'/'+jobFileName;
   readJobData(jobPath);
+  fillTable1();
+  getLapsToBePlotted();
+  plotData();
 
 
   //var activeRound = $(this).clone().children().remove().end().text();
@@ -126,8 +129,65 @@ getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R
     }
      
   }
-  addLapToTable1(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+  addLapToTable1Object(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+  //addLapToTable1(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+  fillTable1()
+  calcProgress(lapID); 
   loadLapData(lapID);
+}
+
+function addLapToTable1Object(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
+  if(!simData.hasOwnProperty(currEvent)){
+    simData[currEvent]= {};
+  }
+  if(!simData[currEvent].hasOwnProperty('table1Object')){
+    simData[currEvent].table1Object={};
+  }
+  if(!simData[currEvent].table1Object.hasOwnProperty(lapID)){
+    simData[currEvent].table1Object[lapID] = {};
+  }
+
+  simData[currEvent].table1Object[lapID].demTrackGrip = demTrackGrip;
+  simData[currEvent].table1Object[lapID].demWingPos = demWingPos;
+  simData[currEvent].table1Object[lapID].demRH_F = demRH_F;
+  simData[currEvent].table1Object[lapID].demRH_R = demRH_R;
+  simData[currEvent].table1Object[lapID].demSS_F = demSS_F;
+  simData[currEvent].table1Object[lapID].demSS_R = demSS_R;
+  simData[currEvent].table1Object[lapID].demARBStiff_F = demARBStiff_F;
+  simData[currEvent].table1Object[lapID].demARBStiff_R = demARBStiff_R;
+  simData[currEvent].table1Object[lapID].plotted = false;
+}
+
+function fillTable1(){
+  $("#rowContainer1").html("");
+  if(simData.hasOwnProperty(currEvent)){
+    if(simData[currEvent].hasOwnProperty('table1Object')){
+      for(var i=0;i<Object.keys(simData[currEvent].table1Object).length;i++){
+        var currLapID =  Object.keys(simData[currEvent].table1Object)[i];  
+        if (i %2 !=0){
+          var rowType = "evenRow";
+        }else{
+          var rowType = "oddRow"
+        }
+        var lapHTML = "<div id=\"lapRow"+currLapID+ "\" class=\"lapRow " +rowType + "\"><span class=\"cell setCell\"></span><span id=\"plotCell"+currLapID+ "\" class=\"cell plotCell loading\"></span><span class=\"cell lapTimeCell\"><div class=\"progressBG\"><div class=\"progressVal\" id=\"progress"+currLapID+"\"></div></div></span>"+
+                      "<span class=\"cell trackGripCell\">"+simData[currEvent].table1Object[currLapID].demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+simData[currEvent].table1Object[currLapID].demWingPos+"</span><span class=\"cell RHF_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_R+"mm</span>" +
+                      "<span class=\"cell SSF_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_R+"N/mm</span>" +
+                      "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell loading rightMost\"></span></div>";
+        $("#rowContainer1").append(lapHTML); 
+
+        if(simData[currEvent].table1Object[currLapID].hasOwnProperty('lapTime')){
+          $("#lapRow"+currLapID).children('.lapTimeCell').html(simData[currEvent].table1Object[currLapID].lapTime);
+          $("#lapRow"+currLapID).children(".plotCell").removeClass("loading").on('click',  clickPlotButton);
+          $("#lapRow"+currLapID).children(".deleteCell").removeClass("loading").on('click',  clickDeleteButton);
+          $("#lapRow"+currLapID).children(".setCell").on('click',  clickSetButton);
+        }
+        if(simData[currEvent].table1Object[currLapID].plotted == true){
+          $("#plotCell"+currLapID).addClass('plotted');
+        }
+      }
+    }
+  }
+
 }
 
 addLapToTable1 = function(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
@@ -168,17 +228,13 @@ function updateProgress(endTime,simDur,lapID) {
       updateProgress(endTime,simDur,lapID);
   }, 3000);
   }else{
-    $("#lapRow"+lapID)
-      .children(".plotCell")
-      .removeClass("loading")
-      .on('click',  clickPlotButton);
-      var currLT = simData[currEvent].lapData[lapID-1].FIELD1[simData[currEvent].lapData[lapID-1].FIELD1.length-1];
-      var LT_HMSH = secondsTimeSpanToHMSH(currLT);
+    $("#lapRow"+lapID).children(".plotCell").removeClass("loading").on('click',  clickPlotButton);
+    $("#lapRow"+lapID).children(".deleteCell").removeClass("loading").on('click',  clickDeleteButton);
+    $("#lapRow"+lapID).children(".setCell").on('click',  clickSetButton);
 
-    $("#lapRow"+lapID)
-      .children(".deleteCell")
-      .removeClass("loading")
-      .on('click',  clickDeleteButton);
+    var currLT = simData[currEvent].lapData[lapID-1].FIELD1[simData[currEvent].lapData[lapID-1].FIELD1.length-1];
+    var LT_HMSH = secondsTimeSpanToHMSH(currLT);
+    simData[currEvent].table1Object[lapID].lapTime = LT_HMSH;
     $("#lapRow"+lapID).children(".lapTimeCell").html(LT_HMSH);
     return;
   }

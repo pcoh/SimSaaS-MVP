@@ -7,9 +7,14 @@ function clickPlotButton(){
 	}else if ($(this).hasClass("removeCell")){
 		$("#plotCell"+lapID).toggleClass('plotted');
 	}
+	if(simData[currEvent].table1Object[lapID].plotted){
+		simData[currEvent].table1Object[lapID].plotted = false;
+	}else{
+		simData[currEvent].table1Object[lapID].plotted = true;
+	}
 
 
-	getLapsToBePlotted(lapID); 
+	getLapsToBePlotted(); 
 	if($.inArray(lapID, toBePlotted) != -1){
 		addLapToTable2(lapID); 
 	}else{
@@ -58,13 +63,25 @@ function removeLapFromTable2(lapID){
 }
 
 
-function getLapsToBePlotted(lapID){	 	
-	if ($.inArray(lapID, toBePlotted) == -1){
-		toBePlotted.push(lapID);
-	}else{
-		var index = toBePlotted.indexOf(lapID);
-		toBePlotted.splice(index, 1);
-	}
+function getLapsToBePlotted(){
+	toBePlotted=[];
+	var j = 0; 
+	if(simData.hasOwnProperty(currEvent)){
+		if(simData[currEvent].hasOwnProperty('table1Object')){
+			for(var i=0;i<Object.keys(simData[currEvent].table1Object).length;i++){
+		        var currLapID =  Object.keys(simData[currEvent].table1Object)[i];
+		         if (simData[currEvent].table1Object[currLapID].plotted){
+		         	toBePlotted.push(currLapID);
+		         }
+		    }
+		}	
+	} 	
+	// if ($.inArray(lapID, toBePlotted) == -1){
+	// 	toBePlotted.push(lapID);
+	// }else{
+	// 	var index = toBePlotted.indexOf(lapID);
+	// 	toBePlotted.splice(index, 1);
+	// }
 }
 function getPlotLapID($targetCell){
 	$thisID = $targetCell.attr("id");
@@ -75,113 +92,117 @@ function getPlotLapID($targetCell){
 
 function plotData(){
 	clearAllPlots();
-	if (toBePlotted.length == 0){		
-		return;
-	}	
-	// check which plots are to be plotted in:
-	var plotIDs = [],
-	channelNames = [];
-	$('.plot').each(function() {
-	    plotIDs.push(this.id);
-	});
-	var plotObject = {};
-	var xFieldIndex= channelNamesInFiles.indexOf("TRK_Distance")+1;
-	var xUnit = channelUnits[xFieldIndex-1];
-	// for each plot, 
-	for (var i = 0; i<plotIDs.length; i++){
-		// 	check which cannels need to be plotted (for each of the laps):
-		plotObject[plotIDs[i]] = {};
-		plotObject[plotIDs[i]].channelName = $("#"+plotIDs[i]).children().children(".channelSelector").val();
-		plotObject[plotIDs[i]].XData = {};
-		plotObject[plotIDs[i]].YData = {};		
-		plotObject[plotIDs[i]].XUnit = [];
-		plotObject[plotIDs[i]].YUnit = [];		
-		
-		var maxXVal = Number.NEGATIVE_INFINITY;
-		var minXVal = Number.POSITIVE_INFINITY;
-		var maxYVal = Number.NEGATIVE_INFINITY;
-		var minYVal = Number.POSITIVE_INFINITY;
-		
-		var canvasName = plotIDs[i].replace("plot","canvas");
-		var canvas = document.getElementById(canvasName);
-		canvas.width =$(".canvasContainer").width();
-		canvas.height =$(".canvasContainer").height();
-		var context = canvas.getContext('2d');
-		var cursorCanvasName = plotIDs[i].replace("plot","cursorCanvas");
-		var cursorCanvas = document.getElementById(cursorCanvasName);
-		cursorCanvas.width = $(".canvasContainer").width(); 
-		cursorCanvas.height = $(".canvasContainer").height();
-		$("#cursorCanvas"+(i+1)).css({"margin-top" : -$(".canvasContainer").height()});
+	if(simData.hasOwnProperty(currEvent)){ 
+		if(simData[currEvent].hasOwnProperty('lapData')){
+			if (toBePlotted.length == 0){		
+				return;
+			}	
+			// check which plots are to be plotted in:
+			var plotIDs = [],
+			channelNames = [];
+			$('.plot').each(function() {
+			    plotIDs.push(this.id);
+			});
+			var plotObject = {};
+			var xFieldIndex= channelNamesInFiles.indexOf("TRK_Distance")+1;
+			var xUnit = channelUnits[xFieldIndex-1];
+			// for each plot, 
+			for (var i = 0; i<plotIDs.length; i++){
+				// 	check which cannels need to be plotted (for each of the laps):
+				plotObject[plotIDs[i]] = {};
+				plotObject[plotIDs[i]].channelName = $("#"+plotIDs[i]).children().children(".channelSelector").val();
+				plotObject[plotIDs[i]].XData = {};
+				plotObject[plotIDs[i]].YData = {};		
+				plotObject[plotIDs[i]].XUnit = [];
+				plotObject[plotIDs[i]].YUnit = [];		
+				
+				var maxXVal = Number.NEGATIVE_INFINITY;
+				var minXVal = Number.POSITIVE_INFINITY;
+				var maxYVal = Number.NEGATIVE_INFINITY;
+				var minYVal = Number.POSITIVE_INFINITY;
+				
+				var canvasName = plotIDs[i].replace("plot","canvas");
+				var canvas = document.getElementById(canvasName);
+				canvas.width =$(".canvasContainer").width();
+				canvas.height =$(".canvasContainer").height();
+				var context = canvas.getContext('2d');
+				var cursorCanvasName = plotIDs[i].replace("plot","cursorCanvas");
+				var cursorCanvas = document.getElementById(cursorCanvasName);
+				cursorCanvas.width = $(".canvasContainer").width(); 
+				cursorCanvas.height = $(".canvasContainer").height();
+				$("#cursorCanvas"+(i+1)).css({"margin-top" : -$(".canvasContainer").height()});
 
-		//fetch the data of the channels:
-		for (var j=0; j< toBePlotted.length; j++){
-			var yFieldIndex = channelNamesInFiles.indexOf(plotObject[plotIDs[i]].channelName )+1;
-		if (j==0){
-			var yUnit = channelUnits[yFieldIndex-1];
-			plotObject[plotIDs[i]].XUnit = xUnit;
-			plotObject[plotIDs[i]].YUnit = yUnit;
+				//fetch the data of the channels:
+				for (var j=0; j< toBePlotted.length; j++){
+					var yFieldIndex = channelNamesInFiles.indexOf(plotObject[plotIDs[i]].channelName )+1;
+				if (j==0){
+					var yUnit = channelUnits[yFieldIndex-1];
+					plotObject[plotIDs[i]].XUnit = xUnit;
+					plotObject[plotIDs[i]].YUnit = yUnit;
+				}
+					
+					plotObject[plotIDs[i]].XData[toBePlotted[j]] = simData[currEvent].lapData[toBePlotted[j]-1]["FIELD"+xFieldIndex].slice(1);
+					plotObject[plotIDs[i]].YData[toBePlotted[j]] = simData[currEvent].lapData[toBePlotted[j]-1]["FIELD"+yFieldIndex].slice(1);
+					
+					// 	find maximum and minimum values across all laps 
+					maxXCurr = Math.max.apply(Math,plotObject[plotIDs[i]].XData[toBePlotted[j]]);
+					minXCurr = Math.min.apply(Math,plotObject[plotIDs[i]].XData[toBePlotted[j]]);
+					maxYCurr = Math.max.apply(Math,plotObject[plotIDs[i]].YData[toBePlotted[j]]);
+					minYCurr = Math.min.apply(Math,plotObject[plotIDs[i]].YData[toBePlotted[j]]);
+
+					if (maxXCurr > maxXVal){
+						maxXVal = maxXCurr;
+					}
+					if (minXCurr < minXVal){
+						minXVal = minXCurr;
+					}
+					if (maxYCurr > maxYVal){
+						maxYVal = maxYCurr;
+					}
+					if (minYCurr < minYVal){
+						minYVal = minYCurr;
+					}
+				
+					plotObject[plotIDs[i]].maxXVal = maxXVal;
+					plotObject[plotIDs[i]].minXVal = minXVal;
+					plotObject[plotIDs[i]].maxYVal = maxYVal;
+					plotObject[plotIDs[i]].minYVal = minYVal;		
+				}
+
+				// set Range of plot axes:
+				var xPlotRange = [plotObject[plotIDs[i]].minXVal,plotObject[plotIDs[i]].maxXVal];
+				var yPlotRange = setYAxisRange(plotObject[plotIDs[i]].minYVal, plotObject[plotIDs[i]].maxYVal);		
+				for (var j=0; j< toBePlotted.length; j++){
+					var plotColor = plotColors[j];
+					plotChannel(canvasName,context, plotObject[plotIDs[i]].XData[toBePlotted[j]],plotObject[plotIDs[i]].YData[toBePlotted[j]],xPlotRange[0],xPlotRange[1],yPlotRange[0],yPlotRange[1],plotColor);
+				}
+				var axisLocation = setAxisLocation("X", yPlotRange[0],yPlotRange[1]);
+				var scaledXAxisData = scaleData2Canvas("X",axisLocation, canvasName, yPlotRange[0],yPlotRange[1], true);
+				var axisLocation = setAxisLocation("Y", xPlotRange[0],xPlotRange[1]);
+				var scaledYAxisData = scaleData2Canvas("Y",axisLocation, canvasName, xPlotRange[0],xPlotRange[1], true);
+
+				plotAxis("X", scaledXAxisData, canvasName, yPlotRange[0],yPlotRange[1]);
+				plotAxis("Y", scaledYAxisData, canvasName, xPlotRange[0],xPlotRange[1]);
+
+				var xTickPos = calcTickPos("X",xPlotRange);
+				var yTickPos = calcTickPos("Y",yPlotRange);
+				xTickPosScaled = scaleData2Canvas("X", xTickPos, canvasName, xPlotRange[0],xPlotRange[1], false);
+				yTickPosScaled = scaleData2Canvas("Y", yTickPos, canvasName, yPlotRange[0],yPlotRange[1], false);
+
+				plotTickMarks("X", xTickPosScaled, scaledXAxisData[0], scaledYAxisData[0],canvasName);
+				plotTickMarks("Y", yTickPosScaled, scaledYAxisData[0], scaledXAxisData[0],canvasName);
+
+				plotTickValues("X",xTickPos, xTickPosScaled, scaledXAxisData[0], scaledYAxisData[0], canvasName, xUnit);
+				plotTickValues("Y",yTickPos, yTickPosScaled, scaledYAxisData[0], scaledXAxisData[0], canvasName, yUnit);
+				
+
+
+			}
+			window.plotObject =plotObject;
+			$(".cursorCanvas").on('mousemove',  onCursorCanvasHover);
+		    $(".cursorCanvas").on('mouseleave',  onCursorCanvasLeave);
 		}
-			
-			plotObject[plotIDs[i]].XData[toBePlotted[j]] = simData[currEvent].lapData[toBePlotted[j]-1]["FIELD"+xFieldIndex].slice(1);
-			plotObject[plotIDs[i]].YData[toBePlotted[j]] = simData[currEvent].lapData[toBePlotted[j]-1]["FIELD"+yFieldIndex].slice(1);
-			
-			// 	find maximum and minimum values across all laps 
-			maxXCurr = Math.max.apply(Math,plotObject[plotIDs[i]].XData[toBePlotted[j]]);
-			minXCurr = Math.min.apply(Math,plotObject[plotIDs[i]].XData[toBePlotted[j]]);
-			maxYCurr = Math.max.apply(Math,plotObject[plotIDs[i]].YData[toBePlotted[j]]);
-			minYCurr = Math.min.apply(Math,plotObject[plotIDs[i]].YData[toBePlotted[j]]);
-
-			if (maxXCurr > maxXVal){
-				maxXVal = maxXCurr;
-			}
-			if (minXCurr < minXVal){
-				minXVal = minXCurr;
-			}
-			if (maxYCurr > maxYVal){
-				maxYVal = maxYCurr;
-			}
-			if (minYCurr < minYVal){
-				minYVal = minYCurr;
-			}
-		
-			plotObject[plotIDs[i]].maxXVal = maxXVal;
-			plotObject[plotIDs[i]].minXVal = minXVal;
-			plotObject[plotIDs[i]].maxYVal = maxYVal;
-			plotObject[plotIDs[i]].minYVal = minYVal;		
-		}
-
-		// set Range of plot axes:
-		var xPlotRange = [plotObject[plotIDs[i]].minXVal,plotObject[plotIDs[i]].maxXVal];
-		var yPlotRange = setYAxisRange(plotObject[plotIDs[i]].minYVal, plotObject[plotIDs[i]].maxYVal);		
-		for (var j=0; j< toBePlotted.length; j++){
-			var plotColor = plotColors[j];
-			plotChannel(canvasName,context, plotObject[plotIDs[i]].XData[toBePlotted[j]],plotObject[plotIDs[i]].YData[toBePlotted[j]],xPlotRange[0],xPlotRange[1],yPlotRange[0],yPlotRange[1],plotColor);
-		}
-		var axisLocation = setAxisLocation("X", yPlotRange[0],yPlotRange[1]);
-		var scaledXAxisData = scaleData2Canvas("X",axisLocation, canvasName, yPlotRange[0],yPlotRange[1], true);
-		var axisLocation = setAxisLocation("Y", xPlotRange[0],xPlotRange[1]);
-		var scaledYAxisData = scaleData2Canvas("Y",axisLocation, canvasName, xPlotRange[0],xPlotRange[1], true);
-
-		plotAxis("X", scaledXAxisData, canvasName, yPlotRange[0],yPlotRange[1]);
-		plotAxis("Y", scaledYAxisData, canvasName, xPlotRange[0],xPlotRange[1]);
-
-		var xTickPos = calcTickPos("X",xPlotRange);
-		var yTickPos = calcTickPos("Y",yPlotRange);
-		xTickPosScaled = scaleData2Canvas("X", xTickPos, canvasName, xPlotRange[0],xPlotRange[1], false);
-		yTickPosScaled = scaleData2Canvas("Y", yTickPos, canvasName, yPlotRange[0],yPlotRange[1], false);
-
-		plotTickMarks("X", xTickPosScaled, scaledXAxisData[0], scaledYAxisData[0],canvasName);
-		plotTickMarks("Y", yTickPosScaled, scaledYAxisData[0], scaledXAxisData[0],canvasName);
-
-		plotTickValues("X",xTickPos, xTickPosScaled, scaledXAxisData[0], scaledYAxisData[0], canvasName, xUnit);
-		plotTickValues("Y",yTickPos, yTickPosScaled, scaledYAxisData[0], scaledXAxisData[0], canvasName, yUnit);
-		
-
-
 	}
-	window.plotObject =plotObject;
-	$(".cursorCanvas").on('mousemove',  onCursorCanvasHover);
-    $(".cursorCanvas").on('mouseleave',  onCursorCanvasLeave);
 }
 
 function setYAxisRange(minYVal, maxYVal){

@@ -5,7 +5,7 @@
 
 function loadLapData(lapID){
 	var lapName = jobData_parsed[1][lapID-1];
-	$.getJSON( "resources/data/"+lapName +".json", loadLapCallback);
+	$.getJSON( "resources/data/"+(currEvent < 10 ? '0'+currEvent : currEvent)+'/'+lapName +".json", loadLapCallback);
 }
 function loadLapCallback( data ) {
 	if(!simData.hasOwnProperty(currEvent)){

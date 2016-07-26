@@ -10,6 +10,7 @@ eventList = ['Catalunya', 'Monaco','Spielberg', 'Silverstone', 'Budapest', 'Hock
 //numRowsT1 = 0;
 lapData = [];
 simData = {};
+
 toBePlotted = [];
 
 plotColors = ['#08c1fe','#FF4826','#FFB400','#00FE56','#FF8300'];

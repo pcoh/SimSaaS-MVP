@@ -122,8 +122,8 @@ function plotData(){
 			plotObject[plotIDs[i]].YUnit = yUnit;
 		}
 			
-			plotObject[plotIDs[i]].XData[toBePlotted[j]] = lapData[toBePlotted[j]-1]["FIELD"+xFieldIndex].slice(1);
-			plotObject[plotIDs[i]].YData[toBePlotted[j]] = lapData[toBePlotted[j]-1]["FIELD"+yFieldIndex].slice(1);
+			plotObject[plotIDs[i]].XData[toBePlotted[j]] = simData[currEvent].lapData[toBePlotted[j]-1]["FIELD"+xFieldIndex].slice(1);
+			plotObject[plotIDs[i]].YData[toBePlotted[j]] = simData[currEvent].lapData[toBePlotted[j]-1]["FIELD"+yFieldIndex].slice(1);
 			
 			// 	find maximum and minimum values across all laps 
 			maxXCurr = Math.max.apply(Math,plotObject[plotIDs[i]].XData[toBePlotted[j]]);

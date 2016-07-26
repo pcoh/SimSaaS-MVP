@@ -1,6 +1,9 @@
 $( document ).ready(function() {
   $('#simButton').button('disable');
-  readJobData(jobPath);
+  buildEventControls();
+  
+    
+  $('#event'+currEvent).click();
   resizeTrackArea();
   resizeWorkSpace();
   $("#divControlTableRow").css({ 'margin-bottom': $("#divTableAndSpacer").outerHeight(true)});
@@ -10,6 +13,8 @@ $( document ).ready(function() {
   populatePlot1DD();  
 
 });
+
+
 
 $( window ).resize(function() {
 	resizeTrackArea();
@@ -45,14 +50,6 @@ $('#divTableAndSpacer').on('mousewheel',function(event) {
 $('#simButton').on('click',  function() {
   getSimSettings();
    // loadLapData(); 
-});
-
-$('.eventSelector').on('click',  function() {
-  $('.eventSelector').removeClass('activeEvent')
-  $(this).addClass('activeEvent');
-  var activeRound = $(this).clone().children().remove().end().text();
-  var eventName = $(this).children('.divtrackName').html();
-  $('#eventHeadline').html(activeRound + ' - '+ eventName);
 });
 
 $('.addPlot').on('click',  function() {

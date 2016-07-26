@@ -21,6 +21,40 @@ function secondsTimeSpanToHMSH(s) {
 }
 //----------------------------------------------------------
 
+function buildEventControls(){
+  for (var i=0; i<eventList.length; i++){
+    var eventHTML = "<div class=\"eventSelector\" id=\"event"+(i+1)+"\">Round "+(i+1)+"<div class=\"divtrackName hidden-sm \">"+eventList[i]+"</div></div>"
+    $("#divTrackContainer").append(eventHTML);
+    var eventMenuHTML = "<li class=\"liEventSelector\" id=\"liEvent"+(i+1)+"\"><a href=\"#\">Round "+ (i+1)+" - "+eventList[i]+"</a></li>";
+    $("#ulEventsList").append(eventMenuHTML);
+  }
+  $('.eventSelector').on('click', eventSelectorClick );
+  $('.liEventSelector').on('click', eventSelectorClick );
+
+}
+
+
+function eventSelectorClick(){
+  $('#simButton').button('disable');
+  $('.eventSelector').removeClass('activeEvent')
+  if($(this).attr("class")=='eventSelector'){
+    
+    currEvent = parseInt($(this).attr("id").replace("event",""));
+  }else if($(this).attr("class")=='liEventSelector'){
+    currEvent = parseInt($(this).attr("id").replace("liEvent",""));
+    $(".navbar-header").children("button").click();
+  }
+  $('#event'+currEvent).addClass('activeEvent');
+  
+  var jobPath = jobsFolder+(currEvent < 10 ? '0'+currEvent : currEvent)+'/'+jobFileName;
+  readJobData(jobPath);
+
+
+  //var activeRound = $(this).clone().children().remove().end().text();
+  //var eventName = $(this).children('.divtrackName').html();
+  $('#eventHeadline').html(currEvent + ' - '+ eventList[currEvent-1]);
+}
+
 function readJobData(jobPath){
     $.getJSON(jobPath, getJasonCallback);
 }
@@ -138,7 +172,7 @@ function updateProgress(endTime,simDur,lapID) {
       .children(".plotCell")
       .removeClass("loading")
       .on('click',  clickPlotButton);
-      var currLT = lapData[lapID-1].FIELD1[lapData[lapID-1].FIELD1.length-1];
+      var currLT = simData[currEvent].lapData[lapID-1].FIELD1[simData[currEvent].lapData[lapID-1].FIELD1.length-1];
       var LT_HMSH = secondsTimeSpanToHMSH(currLT);
 
     $("#lapRow"+lapID)
@@ -235,7 +269,7 @@ function clickDeleteButton(){
   plotData();
 
   // delete data from lapData Object
-  delete lapData[lapID -1];
+  delete simData[currEvent].lapData[lapID -1];
   reStyleRows('#rowContainer1','.lapRow');
 }
 

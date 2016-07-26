@@ -3,9 +3,13 @@ plotCount = 1;
 stdPlotOpcacity = $(".divPlotContainer").css("opacity");
 dragPlotOpacity = '0.4';
 tableSpaceScroll = false;
-jobPath = "resources/data/jobOverview.json";
+jobsFolder = "resources/data/"
+jobFileName = "jobOverview.json";
+currEvent = 7;
+eventList = ['Catalunya', 'Monaco','Spielberg', 'Silverstone', 'Budapest', 'Hockenheim', 'Spa', 'Monza',  'Austin'];
 //numRowsT1 = 0;
 lapData = [];
+simData = {};
 toBePlotted = [];
 
 plotColors = ['#08c1fe','#FF4826','#FFB400','#00FE56','#FF8300'];

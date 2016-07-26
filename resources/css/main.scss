@@ -111,6 +111,7 @@ body {
   background-position: center center;
   background-repeat: no-repeat;
   border-bottom: 1px solid rgba(223,223,223,.5);
+  cursor: pointer;
 }
 .eventSelector.activeEvent{
   color: $accent-color;

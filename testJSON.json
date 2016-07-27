@@ -1,0 +1,16 @@
+{
+	"person":[
+
+	{"name": "Patrick", "age": 35},
+	{"name": "Kate", "age": 33}
+
+	],
+
+	"cars":[
+
+	{"make": "Audi", "model": "A7"},
+	{"make": "Mercedes", "model": "CLS"}
+
+	]
+
+}

@@ -11,10 +11,7 @@ $( document ).ready(function() {
   controlTable2Pos();
   positionBG();
   populatePlot1DD();  
-
 });
-
-
 
 $( window ).resize(function() {
 	resizeTrackArea();
@@ -73,3 +70,35 @@ $('#divWorkspaceContainer').on('click', 'div a .removePlot', function() {
 	plotCount = plotCount -1;
 });
 
+
+$( ".tableHeader.sortable" ).click(function() {
+      
+      sortAxis = (this.innerHTML);
+      if(lastSorted == sortAxis){
+        sortDir = sortDirVector[axesVector.indexOf(sortAxis)]*-1;
+        sortDirVector = sortDirVector_default.slice(0);
+        sortDirVector[axesVector.indexOf(sortAxis)] = sortDir;
+      }else{
+        sortDirVector = sortDirVector_default.slice(0);
+        sortDir = sortDirVector[axesVector.indexOf(sortAxis)];        
+      }
+      $( ".tableHeader" ).removeClass("sortAsc");
+      $( ".tableHeader" ).removeClass("sortDesc");
+      if (sortDir == 1){
+       $(this).addClass("sortAsc");
+      }else{
+       $(this).addClass("sortDesc") 
+      }
+      lastSorted = sortAxis;
+      $( ".diamondRow" ).remove();
+      fillTable1(sortAxis, sortDir);
+      // subSetNum = 1;
+      // getRemaining = false;
+      // if(initialSort ==1){
+      //   initialSort=0;
+      // }      
+      // if(initialSort ==0){
+      //   sortData(filteredProducts);
+      // }
+
+    });

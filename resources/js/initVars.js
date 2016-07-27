@@ -11,8 +11,9 @@ eventList = ['Catalunya', 'Monaco','Spielberg', 'Silverstone', 'Budapest', 'Hock
 lapData = [];
 simData = {};
 
-toBePlotted = [];
 
+// Plotting:
+toBePlotted = [];
 plotColors = ['#08c1fe','#FF4826','#FFB400','#00FE56','#FF8300'];
 axisColor = '#FFF';
 tickMarkColor = '#FFF'
@@ -21,3 +22,12 @@ tickLength = 8;
 tickLabelFont="12px Arial";
 tickLabelColor = '#FFF'
 cursorLabelFont="14px Arial";
+
+
+// Sorting:
+var sortAxis = 'Lap-time';
+var sortDir = 1;
+var initialSort = 1;
+var sortDirVector_default = [1,1,1,1,1,1,1,1,1];
+var lastSorted;
+var axesVector = ["Lap-time", "Grip", "Wing Pos.", "RH F", "RH R", "SS F", "SS R", "ARB F", "ARB R"];

@@ -46,7 +46,7 @@ function eventSelectorClick(){
   
   var jobPath = jobsFolder+(currEvent < 10 ? '0'+currEvent : currEvent)+'/'+jobFileName;
   readJobData(jobPath);
-  fillTable1();
+  fillTable1(sortAxis, sortDir);
   getLapsToBePlotted();
   fillTable2();
   plotData();
@@ -126,7 +126,7 @@ getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R
   }
   addLapToTable1Object(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
   //addLapToTable1(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
-  fillTable1();
+  fillTable1(sortAxis, sortDir);
   if(simData[currEvent].hasOwnProperty('lapData')){
     if(simData[currEvent].lapData.hasOwnProperty(lapID-1)){
       alert("A lap with these settings has already been simulated");  
@@ -145,12 +145,13 @@ function addLapToTable1Object(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, 
     simData[currEvent]= {};
   }
   if(!simData[currEvent].hasOwnProperty('table1Object')){
-    simData[currEvent].table1Object={};
+    simData[currEvent].table1Object=[];
   }
   if(!simData[currEvent].table1Object.hasOwnProperty(lapID)){
     simData[currEvent].table1Object[lapID] = {};
   }
 
+  simData[currEvent].table1Object[lapID].lapID = lapID;
   simData[currEvent].table1Object[lapID].demTrackGrip = demTrackGrip;
   simData[currEvent].table1Object[lapID].demWingPos = demWingPos;
   simData[currEvent].table1Object[lapID].demRH_F = demRH_F;
@@ -160,32 +161,119 @@ function addLapToTable1Object(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, 
   simData[currEvent].table1Object[lapID].demARBStiff_F = demARBStiff_F;
   simData[currEvent].table1Object[lapID].demARBStiff_R = demARBStiff_R;
   simData[currEvent].table1Object[lapID].plotted = false;
+
+
 }
-function fillTable1(){
+
+function fillTable1(sortAxis, sortDir){
   $("#rowContainer1").html("");
   if(simData.hasOwnProperty(currEvent)){
     if(simData[currEvent].hasOwnProperty('table1Object')){
+      var sortVector = [];
       for(var i=0;i<Object.keys(simData[currEvent].table1Object).length;i++){
-        var currLapID =  Object.keys(simData[currEvent].table1Object)[i];  
-        if (i %2 !=0){
-          var rowType = "evenRow";
-        }else{
-          var rowType = "oddRow"
-        }
-        var lapHTML = "<div id=\"lapRow"+currLapID+ "\" class=\"lapRow " +rowType + "\"><span class=\"cell setCell\"></span><span id=\"plotCell"+currLapID+ "\" class=\"cell plotCell loading\"></span><span class=\"cell lapTimeCell\"><div class=\"progressBG\"><div class=\"progressVal\" id=\"progress"+currLapID+"\"></div></div></span>"+
-                      "<span class=\"cell trackGripCell\">"+simData[currEvent].table1Object[currLapID].demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+simData[currEvent].table1Object[currLapID].demWingPos+"</span><span class=\"cell RHF_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_R+"mm</span>" +
-                      "<span class=\"cell SSF_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_R+"N/mm</span>" +
-                      "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell loading rightMost\"></span></div>";
-        $("#rowContainer1").append(lapHTML); 
+        sortVector.push(i);
+      }
+      
+      var sortedArray = simData[currEvent].table1Object.slice();
+      
+      switch(sortAxis){
+        case "Lap-time":        
+        sortedArray.sort(function (a, b) {
+            a = parseFloat(a.lapTime_s),
+            b = parseFloat(b.lapTime_s);          
+            return a - b;
+          });
 
-        if(simData[currEvent].table1Object[currLapID].hasOwnProperty('lapTime')){
-          $("#lapRow"+currLapID).children('.lapTimeCell').html(simData[currEvent].table1Object[currLapID].lapTime);
-          $("#lapRow"+currLapID).children(".plotCell").removeClass("loading").on('click',  clickPlotButton);
-          $("#lapRow"+currLapID).children(".deleteCell").removeClass("loading").on('click',  clickDeleteButton);
-          $("#lapRow"+currLapID).children(".setCell").on('click',  clickSetButton);
-        }
-        if(simData[currEvent].table1Object[currLapID].plotted == true){
-          $("#plotCell"+currLapID).addClass('plotted');
+          break;
+        case "Grip":
+          sortedArray.sort(function (a, b) {
+            a = parseFloat(a.demTrackGrip),
+            b = parseFloat(b.demTrackGrip);          
+            return a - b;
+          });
+        break;
+        case "Wing Pos.":
+          sortedArray.sort(function (a, b) {
+            a = parseFloat(a.demWingPos),
+            b = parseFloat(b.demWingPos);          
+            return a - b;
+          });
+          break;
+        case "RH F":
+          sortedArray.sort(function (a, b) {
+            a = parseFloat(a.demRH_F),
+            b = parseFloat(b.demRH_F);          
+            return a - b;
+          });
+          break;
+        case "RH R":
+          sortedArray.sort(function (a, b) {
+            a = parseFloat(a.demRH_R),
+            b = parseFloat(b.demRH_R);          
+            return a - b;
+          });
+          break;
+        case "SS F":
+          sortedArray.sort(function (a, b) {
+            a = parseFloat(a.demSS_F),
+            b = parseFloat(b.demSS_F);          
+            return a - b;
+          });
+          break;
+        case "SS R": 
+          sortedArray.sort(function (a, b) {
+            a = parseFloat(a.demSS_R),
+            b = parseFloat(b.demSS_R);          
+            return a - b;
+          });
+          break;
+        case "ARB F":
+          sortedArray.sort(function (a, b) {
+            a = parseFloat(a.demARBStiff_F),
+            b = parseFloat(b.demARBStiff_F);          
+            return a - b;
+          });
+          break;
+        case "ARB R":
+          sortedArray.sort(function (a, b) {
+            a = parseFloat(a.demARBStiff_R),
+            b = parseFloat(b.demARBStiff_R);          
+            return a - b;
+          });
+          break;        
+    }
+
+    if(sortDir == -1){
+      sortedArray.reverse();
+    } 
+
+
+     
+      //for(var i=0;i<Object.keys(simData[currEvent].table1Object).length;i++){
+      for(var i=0;i<sortedArray.length;i++){
+        // if(sortedArray[i].hasOwnProperty('demTrackGrip')){
+        if(typeof sortedArray[i] !== 'undefined'){
+          var currLapID =  sortedArray[i].lapID;  
+          if (i %2 !=0){
+            var rowType = "evenRow";
+          }else{
+            var rowType = "oddRow"
+          }
+          var lapHTML = "<div id=\"lapRow"+currLapID+ "\" class=\"lapRow " +rowType + "\"><span class=\"cell setCell\"></span><span id=\"plotCell"+currLapID+ "\" class=\"cell plotCell loading\"></span><span class=\"cell lapTimeCell\"><div class=\"progressBG\"><div class=\"progressVal\" id=\"progress"+currLapID+"\"></div></div></span>"+
+                        "<span class=\"cell trackGripCell\">"+simData[currEvent].table1Object[currLapID].demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+simData[currEvent].table1Object[currLapID].demWingPos+"</span><span class=\"cell RHF_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_R+"mm</span>" +
+                        "<span class=\"cell SSF_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_R+"N/mm</span>" +
+                        "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell loading rightMost\"></span></div>";
+          $("#rowContainer1").append(lapHTML); 
+
+          if(simData[currEvent].table1Object[currLapID].hasOwnProperty('lapTime')){
+            $("#lapRow"+currLapID).children('.lapTimeCell').html(simData[currEvent].table1Object[currLapID].lapTime);
+            $("#lapRow"+currLapID).children(".plotCell").removeClass("loading").on('click',  clickPlotButton);
+            $("#lapRow"+currLapID).children(".deleteCell").removeClass("loading").on('click',  clickDeleteButton);
+            $("#lapRow"+currLapID).children(".setCell").on('click',  clickSetButton);
+          }
+          if(simData[currEvent].table1Object[currLapID].plotted == true){
+            $("#plotCell"+currLapID).addClass('plotted');
+          }
         }
       }
     }
@@ -241,6 +329,7 @@ function updateProgress(endTime,simDur,lapID) {
 
     var currLT = simData[currEvent].lapData[lapID-1].FIELD1[simData[currEvent].lapData[lapID-1].FIELD1.length-1];
     var LT_HMSH = secondsTimeSpanToHMSH(currLT);
+    simData[currEvent].table1Object[lapID].lapTime_s = currLT;
     simData[currEvent].table1Object[lapID].lapTime = LT_HMSH;
     $("#lapRow"+lapID).children(".lapTimeCell").html(LT_HMSH);
     return;
@@ -365,46 +454,4 @@ function reStyleRows(containerSelector, rowSelector){
   }
 
 }
-  // var sortData = function(filteredProducts){    
-  //   switch(sortAxis){
-  //     case 'price':
-  //       filteredProducts.sort(function (a, b) {
-  //         a = parseFloat(a.variants[0].price),
-  //           b = parseFloat(b.variants[0].price);          
-  //         return a - b;
-  //       });
-  //       break;
-  //     case 'carat':
-  //       filteredProducts.sort(function (a, b) {
-  //         a = parseFloat(a.variants[0].grams),
-  //           b = parseFloat(b.variants[0].grams);
-  //         return a - b;           
-  //       });    
-  //       break;        
-  //     case 'cut':        
-  //       filteredProducts.sort(function (a, b) {
-  //         a = cutAxis.indexOf(a.variants[0].option1),
-  //           b = cutAxis.indexOf(b.variants[0].option1);
-  //         return a - b; 
-  //       });
-  //       break;        
-  //     case 'clarity':
-  //       filteredProducts.sort(function (a, b) {
-  //         a = clarityAxis.indexOf(a.variants[0].option3),
-  //           b = clarityAxis.indexOf(b.variants[0].option3);
-  //         return a - b; 
-  //       });        
-  //       break;        
-  //     default:        
-  //       filteredProducts.sort(function (a, b) {
-  //         a = parseFloat(a.variants[0].price),
-  //           b = parseFloat(b.variants[0].price);
-  //         return a - b;
-  //       });
-  //   }
-  //   if(sortDir == -1){
-  //     filteredProducts.reverse();
-  //   }    
-  //   $("#diamTableContent").html("");    
-  //   addToTable(filteredProducts);
-  // }
+  

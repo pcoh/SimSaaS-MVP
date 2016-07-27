@@ -67,7 +67,7 @@ $('#divWorkspaceContainer').on('click', 'div a .removePlot', function() {
 		$(this).parent().remove();
 	});
 	addListenerToPlots();
-	plotCount = plotCount -1;
+	//plotCount = plotCount -1;
 });
 
 
@@ -92,13 +92,5 @@ $( ".tableHeader.sortable" ).click(function() {
       lastSorted = sortAxis;
       $( ".diamondRow" ).remove();
       fillTable1(sortAxis, sortDir);
-      // subSetNum = 1;
-      // getRemaining = false;
-      // if(initialSort ==1){
-      //   initialSort=0;
-      // }      
-      // if(initialSort ==0){
-      //   sortData(filteredProducts);
-      // }
-
+      
     });

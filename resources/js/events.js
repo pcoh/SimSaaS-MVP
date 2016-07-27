@@ -31,7 +31,10 @@ $('#table1ContentScroller').scroll(function(event) {
 });
 $('#divTable1Container').scroll(function(event) {
   customScrollBar(event);      
-});    
+});  
+$('#divTable2Container').scroll(function(event) {
+  customScrollBar(event);      
+});   
 $('#divWorkspaceContainer').scroll(function(event) {
   customScrollBar(event);      
 });  

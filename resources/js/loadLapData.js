@@ -11,4 +11,5 @@ function loadLapCallback( data ) {
 		simData[currEvent].lapData={};
 	}
 	window.simData[currEvent].lapData[lapID-1] = data;
+	alert('dunzo!');
 }

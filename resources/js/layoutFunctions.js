@@ -134,7 +134,6 @@ function controlTable2Pos() {
 }
 
 function customScrollBar($event){
-
   $( ".channelSelector" ).selectmenu( "close" );
   var delay = 1000;
   var timeout = null;

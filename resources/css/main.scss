@@ -164,7 +164,7 @@ body {
   padding-top: 10px;
 
 }
-#eventHeadline{
+#eventHeadline, #navBarEventHeadline{
 	margin-top: 8px;
   padding-left: 0px;
   color: $accent-color;
@@ -184,11 +184,28 @@ body {
   height: 300px; }
   */
 
+.simControlSubContainer.left{
+  padding-left:0px;
+}
+
+.simControlSubContainer.right{
+  padding-right:0px;
+}
+
+@media(min-width: 1200px){
+  .simControlSubContainer.left,.simControlSubContainer.middle,.simControlSubContainer.right{
+    padding-left:0px;
+    padding-right: 0px
+  }
+}
+#simButton{
+  min-height: 32px;
+}
 
   
 
 #divTableAndSpacer {
-  padding-top: 30px;
+  padding-top: 20px;
   z-index: 100;
   position: absolute;
   
@@ -278,7 +295,9 @@ body {
 
 #navTrackNavBar {
   margin-bottom: 0px;
-  z-index: 10000; }
+  z-index: 10000; 
+  background-color: $background-color;
+}
 
 #divWorkspaceContainer {
   background-image: url(../images/BG_Porsche_tansparent.png);
@@ -287,6 +306,7 @@ body {
   background-position:  center center; 
   overflow-y: scroll;
   padding-top: 10px;
+  padding-right: 7px;
 }
 
 #divPlotArea {
@@ -352,4 +372,50 @@ body {
   background-color: $accent-color;
   border-color: $accent-color;
   box-shadow:0 0 3px $accent-color;
+}
+
+#trackMenuButton {
+    background-color: transparent;
+    width: 52px;
+}
+
+.icon-bar{
+  background-color: $font-color;
+}
+
+.navbar-nav > li > a {    
+    color: $font-color;
+}
+.navbar-collapse.collapse.in{
+  border-top: 1px solid $font-color_T;
+  border-bottom: 1px solid $font-color_T;
+}
+.nav > li > a:hover, .nav > li > a:focus {
+    text-decoration: none;
+    color: $background-color;
+}
+#ulEventsList{
+  width: 100%;
+}
+#navBarDivLogoContainer{
+  padding-right: 0px;
+  background-position: right;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-image: url(../images/AVLRacing_Logo.png);
+  height: 30px;
+  margin-top: 8px;  
+}
+
+#navBarEventHeadline{
+  height: 30px;
+  margin-top: 8px;
+  font-size: 1.5em; 
+  text-align: center;
+}
+#trackMenuButtonCont{
+  padding-left: 0px;
+}
+.liEventSelector, .liEventSelector >a{
+  cursor: pointer;
 }

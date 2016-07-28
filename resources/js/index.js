@@ -33,6 +33,7 @@ function buildEventControls(){
 }
 
 function eventSelectorClick(){
+  $(".navbar-collapse").collapse('hide');
   $('#simButton').button('disable');
   $('.eventSelector').removeClass('activeEvent')
   if($(this).attr("class")=='eventSelector'){
@@ -52,6 +53,7 @@ function eventSelectorClick(){
   plotData();
 
   $('#eventHeadline').html(currEvent + ' - '+ eventList[currEvent-1]);
+  $('#navBarEventHeadline ').html(currEvent + ' - '+ eventList[currEvent-1]);
 }
 
 function readJobData(jobPath){
@@ -309,7 +311,7 @@ function fillTable2(){
 }
 
 calcProgress = function(lapID){
-  var simDur = 2000;
+  var simDur = 60000;
   var endTime = $.now()+simDur; 
   updateProgress(endTime,simDur,lapID);
 }

@@ -3,14 +3,16 @@ $( document ).ready(function() {
   buildEventControls();
   
     
+  // $('#liEvent'+currEvent).click();
   $('#event'+currEvent).click();
+
   resizeTrackArea();
   resizeWorkSpace();
   $("#divControlTableRow").css({ 'margin-bottom': $("#divTableAndSpacer").outerHeight(true)});
   $("#divTableAndSpacer").css({ 'top': $("#divControlTableRow").offset().top + $("#divControlTableRow").outerHeight(false)});
   controlTable2Pos();
   positionBG();
-  populatePlot1DD();  
+  populatePlot1DD(); 
 });
 
 $( window ).resize(function() {
@@ -21,6 +23,7 @@ $( window ).resize(function() {
   positionBG();
   resizeSelectMenus();
   plotData();
+  console.log(window.innerWidth )
 })
 
 $('#divTrackContainer').scroll(function(event) {
@@ -74,26 +77,40 @@ $('#divWorkspaceContainer').on('click', 'div a .removePlot', function() {
 });
 
 
-$( ".tableHeader.sortable" ).click(function() {
-      
-      sortAxis = (this.innerHTML);
-      if(lastSorted == sortAxis){
-        sortDir = sortDirVector[axesVector.indexOf(sortAxis)]*-1;
-        sortDirVector = sortDirVector_default.slice(0);
-        sortDirVector[axesVector.indexOf(sortAxis)] = sortDir;
-      }else{
-        sortDirVector = sortDirVector_default.slice(0);
-        sortDir = sortDirVector[axesVector.indexOf(sortAxis)];        
-      }
-      $( ".tableHeader" ).removeClass("sortAsc");
-      $( ".tableHeader" ).removeClass("sortDesc");
-      if (sortDir == 1){
-       $(this).addClass("sortAsc");
-      }else{
-       $(this).addClass("sortDesc") 
-      }
-      lastSorted = sortAxis;
-      $( ".diamondRow" ).remove();
-      fillTable1(sortAxis, sortDir);
-      
-    });
+$( ".tableHeader.sortable" ).click(function() {      
+  sortAxis = (this.innerHTML);
+  if(lastSorted == sortAxis){
+    sortDir = sortDirVector[axesVector.indexOf(sortAxis)]*-1;
+    sortDirVector = sortDirVector_default.slice(0);
+    sortDirVector[axesVector.indexOf(sortAxis)] = sortDir;
+  }else{
+    sortDirVector = sortDirVector_default.slice(0);
+    sortDir = sortDirVector[axesVector.indexOf(sortAxis)];        
+  }
+  $( ".tableHeader" ).removeClass("sortAsc");
+  $( ".tableHeader" ).removeClass("sortDesc");
+  if (sortDir == 1){
+   $(this).addClass("sortAsc");
+  }else{
+   $(this).addClass("sortDesc") 
+  }
+  lastSorted = sortAxis;
+  $( ".diamondRow" ).remove();
+  fillTable1(sortAxis, sortDir);
+  
+});
+
+$('.collapse').on('show.bs.collapse', function(e) { 
+  $("#table2").hide();
+});
+$('.collapse').on('shown.bs.collapse', function(e) { 
+  smartScroll($("#divWorkspaceContainer").scrollTop());
+  $("#table2").show(); 
+});
+$('.collapse').on('hide.bs.collapse', function(e) {
+  $("#table2").hide(); 
+});
+$('.collapse').on('hidden.bs.collapse', function(e) {
+  smartScroll($("#divWorkspaceContainer").scrollTop());
+  $("#table2").show(); 
+});

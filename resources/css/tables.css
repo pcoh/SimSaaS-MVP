@@ -1,9 +1,9 @@
 #table1 {
-  width: 832px; }
+  width: 100%; }
 
 #table2 {
   height: 140px;
-  width: 760px;
+  width: 91.2%;
   background-color: rgba(255, 255, 255, 0.05); }
 
 #table1, #table2 {
@@ -30,9 +30,9 @@
 
 .tableHeader.sortable:after {
   display: inline-block;
-  width: 10px;
+  width: 8px;
   height: 16px;
-  margin: 0px 0px -3px 3px;
+  margin: 0px 0px -3px 1px;
   content: " ";
   background: url("../images/SortArrow_Inactive.png") no-repeat 0 0;
   background-size: contain; }
@@ -60,6 +60,9 @@
   overflow-y: scroll;
   background-color: rgba(255, 255, 255, 0.05); }
 
+#headerRowWrapper {
+  padding-right: 8px; }
+
 .rowContainer {
   border-bottom: 1px solid rgba(255, 255, 255, 0.4); }
 
@@ -80,36 +83,90 @@
 .cell.rightMost {
   border-right: none; }
 
-.setHeader, .setCell {
-  width: 29px; }
-
-.plotHeader, .plotCell {
-  width: 29px; }
+.setHeader, .plotHeader, .setCell, .plotCell {
+  width: 3.5%; }
 
 .lapTimeHeader, .lapTimeCell {
-  width: 83px; }
+  width: 10.1%; }
 
 .trackGripHeader, .trackGripCell {
-  width: 55px; }
+  width: 6.7%; }
 
 .wingPosHeader, .wingPosCell {
-  width: 92px; }
+  width: 11%; }
 
 .RHF_Header, .RHF_Cell, .RHR_Header, .RHR_Cell {
-  width: 55px; }
+  width: 6.7%; }
 
 .SSF_Header, .SSR_Header, .ARBF_Header, .ARBR_Header, .downloadHeader, .colorHeader, .SSF_Cell, .SSR_Cell, .ARBF_Cell, .ARBR_Cell, .downloadCell, .colorCell {
-  width: 72px; }
-
-.removeHeader, .removeCell {
-  width: 58px; }
+  width: 8.8%; }
 
 .deleteHeader, .deleteCell {
-  width: 72px; }
+  width: 7.8%; }
 
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-  .deleteHeader, .deleteCell {
-    width: 64px; } }
+#table2 .removeHeader {
+  width: 7.34%; }
+#table2 .lapTimeHeader {
+  width: 11.07%; }
+#table2 .trackGripHeader {
+  width: 7.35%; }
+#table2 .wingPosHeader {
+  width: 12.06%; }
+#table2 .RHF_Header, #table2 .RHR_Header {
+  width: 7.35%; }
+#table2 .SSF_Header, #table2 .SSR_Header, #table2 .ARBF_Header, #table2 .ARBR_Header, #table2 .downloadHeader {
+  width: 9.65%; }
+#table2 .colorHeader {
+  width: 8.55%; }
+
+.plotRow .removeCell {
+  width: 7.34%; }
+.plotRow .lapTimeCell {
+  width: 11.07%; }
+.plotRow .trackGripCell {
+  width: 7.35%; }
+.plotRow .wingPosCell {
+  width: 12.06%; }
+.plotRow .RHF_Cell, .plotRow .RHR_Cell {
+  width: 7.35%; }
+.plotRow .SSF_Cell, .plotRow .SSR_Cell, .plotRow .ARBF_Cell, .plotRow .ARBR_Cell, .plotRow .downloadCell, .plotRow .colorCell {
+  width: 9.65%; }
+.plotRow .colorCell {
+  width: 8.55%; }
+
+@media (min-width: 992px) and (max-width: 1199px) {
+  #table1 {
+    margin-top: 15px; }
+
+  #table2 {
+    width: 100%; }
+
+  .setHeader, .setCell, .downloadHeader, .downloadCell {
+    display: none; }
+
+  .plotHeader, .plotCell, .removeHeader, removeCell {
+    width: 4% !important; }
+
+  .lapTimeHeader, .lapTimeCell {
+    width: 11.5% !important; }
+
+  .trackGripHeader, .trackGripCell {
+    width: 7.6% !important; }
+
+  .wingPosHeader, .wingPosCell {
+    width: 12.8% !important; }
+
+  .RHF_Header, .RHF_Cell, .RHR_Header, .RHR_Cell {
+    width: 7.6% !important; }
+
+  .SSF_Header, .SSR_Header, .ARBF_Header, .ARBR_Header, .colorHeader, .SSF_Cell, .SSR_Cell, .ARBF_Cell, .ARBR_Cell, .colorCell {
+    width: 10% !important; }
+
+  .deleteHeader, .deleteCell, .colorHeader, .colorCell {
+    width: 8.9% !important; }
+
+  .removeHeader, .removeCell {
+    width: 4% !important; } }
 .plotCell, .setCell, .downloadCell, .deleteCell, .removeCell {
   background-size: 20px 20px;
   background-position: center center;

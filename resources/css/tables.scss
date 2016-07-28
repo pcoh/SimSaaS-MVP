@@ -1,11 +1,11 @@
 @import "variables";
 
 #table1{
-	width: 832px;
+	width: 100%;
 }
 #table2{
 	height: 140px;
-	width: 760px;
+	width: 91.2%;
 	background-color: rgba(255, 255, 255, 0.05);
 }
 #table1, #table2{
@@ -28,7 +28,6 @@
 	float: left;
 	background-color: $font-color;
 	text-align:center;
-
 }
 
 .sortAsc, .sortDesc{
@@ -37,9 +36,9 @@
 
 .tableHeader.sortable:after{
   display: inline-block;
-  width: 10px;
+  width: 8px;
   height: 16px;
-  margin: 0px 0px -3px 3px;
+  margin: 0px 0px -3px 1px;
   content: " ";
   background: url('../images/SortArrow_Inactive.png') no-repeat 0 0;
   background-size: contain;
@@ -69,6 +68,9 @@
 	overflow-y: scroll;
 	background-color: rgba(255, 255, 255, 0.05);
 }
+#headerRowWrapper{
+	padding-right: 8px;
+}
 
 .rowContainer{
 	border-bottom: 1px solid rgba(255, 255, 255, 0.4);
@@ -95,44 +97,151 @@
 .cell.rightMost{
 	border-right: none;
 }
-.setHeader, .setCell{
-	width: 29px;
+// .setHeader, .setCell{
+// 	width: 29px;
+// }
+
+// .plotHeader,.plotCell{
+// 	width: 29px;
+// }
+
+// .lapTimeHeader, .lapTimeCell{
+// 	width: 83px;
+// }
+// .trackGripHeader,.trackGripCell{
+// 	width: 55px;
+// }
+// .wingPosHeader, .wingPosCell{
+// 	width: 92px;
+// }
+// .RHF_Header, .RHF_Cell, .RHR_Header, .RHR_Cell{
+// 	width: 55px;
+// }
+
+// .SSF_Header, .SSR_Header, .ARBF_Header, .ARBR_Header, .downloadHeader, .colorHeader, .SSF_Cell, .SSR_Cell, .ARBF_Cell, .ARBR_Cell, .downloadCell,.colorCell{
+// 	width: 	72px;
+// }
+
+// .removeHeader,.removeCell{
+// 	width: 58px;
+// }
+
+// .deleteHeader, .deleteCell{
+// 	width: 72px;
+// }
+// @media screen and (-webkit-min-device-pixel-ratio:0) {
+//   	.deleteHeader, .deleteCell{
+// 		width: 64px;
+// 	}
+// }
+
+.setHeader, .plotHeader,.setCell, .plotCell{
+	width: 3.5%;
 }
-
-.plotHeader,.plotCell{
-	width: 29px;
-}
-
-
 .lapTimeHeader, .lapTimeCell{
-	width: 83px;
+	width: 10.1%;
 }
 .trackGripHeader,.trackGripCell{
-	width: 55px;
+	width: 6.7%;
 }
 .wingPosHeader, .wingPosCell{
-	width: 92px;
+	width: 11%;
 }
 .RHF_Header, .RHF_Cell, .RHR_Header, .RHR_Cell{
-	width: 55px;
+	width: 6.7%;
 }
-
 .SSF_Header, .SSR_Header, .ARBF_Header, .ARBR_Header, .downloadHeader, .colorHeader, .SSF_Cell, .SSR_Cell, .ARBF_Cell, .ARBR_Cell, .downloadCell,.colorCell{
-	width: 	72px;
+	width: 	8.8%
 }
-
-.removeHeader,.removeCell{
-	width: 58px;
-}
-
 .deleteHeader, .deleteCell{
-	width: 72px;
+	width: 7.8%;
 }
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  	.deleteHeader, .deleteCell{
-		width: 64px;
+
+#table2{
+	.removeHeader{
+		width: 7.34%;
+	}
+	.lapTimeHeader{
+		width: 11.07%;
+	}
+	.trackGripHeader{
+		width: 7.35%;
+	}
+	.wingPosHeader{
+		width: 12.06%;
+	}
+	.RHF_Header, .RHR_Header{
+		width: 7.35%;
+	}
+	.SSF_Header, .SSR_Header, .ARBF_Header, .ARBR_Header, .downloadHeader{
+		width: 	9.65%
+	}
+	.colorHeader{
+		width: 8.55%;
 	}
 }
+.plotRow{
+	.removeCell{
+		width: 7.34%;
+	}
+	.lapTimeCell{
+		width: 11.07%;
+	}
+	.trackGripCell{
+		width: 7.35%;
+	}
+	.wingPosCell{
+		width: 12.06%;
+	}
+	.RHF_Cell, .RHR_Cell{
+		width: 7.35%;
+	}
+	.SSF_Cell, .SSR_Cell, .ARBF_Cell, .ARBR_Cell, .downloadCell,.colorCell{
+		width: 	9.65%
+	}
+	.colorCell{
+		width: 8.55%;
+	}
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	#table1{
+		margin-top: 15px;
+	}
+	#table2{
+		width: 100%;
+	}
+	.setHeader, .setCell,.downloadHeader, .downloadCell{
+		display: none;
+	}	
+	.plotHeader, .plotCell, .removeHeader, removeCell{
+		width: 4% !important;
+	}
+	.lapTimeHeader, .lapTimeCell{
+		width: 11.5% !important;
+	}
+	.trackGripHeader,.trackGripCell{
+		width: 7.6% !important;
+	}
+	.wingPosHeader, .wingPosCell{
+		width: 12.8% !important;
+	}
+	.RHF_Header, .RHF_Cell, .RHR_Header, .RHR_Cell{
+		width: 7.6% !important;
+	}
+	.SSF_Header, .SSR_Header, .ARBF_Header, .ARBR_Header, .colorHeader, .SSF_Cell, .SSR_Cell, .ARBF_Cell, .ARBR_Cell, .colorCell{
+		width: 	10% !important;
+	}
+	.deleteHeader, .deleteCell, .colorHeader, .colorCell{
+		width: 8.9% !important;
+	}
+	.removeHeader,.removeCell{
+		width: 4% !important;
+	}
+}
+
+
+
 
 .plotCell,.setCell,.downloadCell,.deleteCell, .removeCell{
 	

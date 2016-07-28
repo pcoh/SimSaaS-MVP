@@ -21,7 +21,7 @@ function resizeTrackArea() {
 }
 
 function resizeWorkSpace() {
-	var WSheight = $( window ).height()-$("#divEventBanner").outerHeight(true)-$("#navTrackNavBar").outerHeight(false);
+	var WSheight = $( window ).height()-$("#divEventBanner").outerHeight(true)*$("#divEventBanner").is(':visible')-$("#navTrackNavBar").outerHeight(false);
 	$("#divWorkspaceContainer").outerHeight(WSheight);
   	$("#divTableAndSpacer").width($("#divControlTableRow").width()); 	
 }
@@ -108,11 +108,11 @@ function onChannelSelectorChange(){
   plotData();
 }
 function smartScroll(scrollPos){
-		scrollThresh = $("#divControlTableRow").outerHeight(false)+11;
+		scrollThresh = $("#divControlTableRow").outerHeight(false);
    		if(scrollPos >= scrollThresh){
    			$("#divTableAndSpacer").addClass('noSeeThrough');
    			if (tableSpaceScroll === false){
-	   			var topTarget = $("#divEventBanner").position().top +$("#divEventBanner").outerHeight(true);
+	   			var topTarget = $("#divEventBanner").position().top +$("#divEventBanner").outerHeight(true)*$("#divEventBanner").is(':visible')+$(".navbar-header").outerHeight(true)*$(".navbar-header").is(':visible');;
 	   			$("#divTableAndSpacer").css({ 'top': topTarget});
 	   		  	$("#divWorkspaceContainer").scrollTop(scrollPos);
    		   }

@@ -8,7 +8,8 @@
     <title>AVL Dynamic Lap Sim</title>
 
     <!-- Bootstrap -->
-    <link href="vendors/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="vendors/bootstrap-3.3.6-dist/css/bootstrap.css" rel="stylesheet">
+    <!-- <link href="vendors/bootstrap-3.3.6-dist/css/bootstrap.min.css" rel="stylesheet"> -->
     <!--jquery ui-->
     <link href="vendors/jquery-ui-1.11.4.custom/jquery-ui.css" rel="stylesheet">
     
@@ -29,16 +30,20 @@
   <body>
     <div class="container-fluid">
       <div class="row">          
-        <div class="hidden-xs col-sm-1 scroll-pane" id="divTrackContainer">
+        <div class="hidden-xs hidden-sm hidden-md col-lg-1 scroll-pane" id="divTrackContainer">
         </div>
-        <nav class="navbar navbar-default hidden-sm hidden-md hidden-lg" id="navTrackNavBar">            
+        <nav class="navbar  col-sm-12 col-md-12 hidden-lg" id="navTrackNavBar">            
           <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#eventNavBarCollapse" aria-expanded="false">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>                
+            <div class="col-xs-2" id="trackMenuButtonCont">
+              <button type="button" id="trackMenuButton" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#eventNavBarCollapse" aria-expanded="false">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div> 
+            <div class="col-xs-7"id="navBarEventHeadline">Round 1 - Catalunya</div>
+          <div class="col-xs-3" id="navBarDivLogoContainer"><div id="logo2"></div></div>               
           </div>
           <!-- Collect the nav links, forms, and other content for toggling -->
           <div class="collapse navbar-collapse" id="eventNavBarCollapse">
@@ -46,7 +51,7 @@
             </ul>                    
           </div><!-- /.navbar-collapse -->
         </nav>
-        <div class="col-xs-12 col-sm-11" id="divEventBanner">
+        <div class="hidden-xs hidden-sm hidden-md col-lg-11" id="divEventBanner">
           <div class="col-sm-7 col-xs-8"id="eventHeadline">Round 1 - Catalunya</div>
           <div class="col-sm-5 col-xs-4" id="divLogoContainer"><div id="logo"></div></div>
         </div>
@@ -54,120 +59,129 @@
     
         <div id="divWorkspaceContainer" class="container-fluid">
           <div class="row" id="divControlTableRow">  
-            <div class="col-sm-4" id="divSimControlContainer">
-              <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 componentCaption ">Track Grip:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
-                  <select id="selectTrackGrip" class="setupSelector ">
-                    <option>95%</option>
-                    <option selected="selected">100%</option>
-                    <option>105%</option>
-                  </select>
+            <div class="col-xs-12 col-sm-4 col-md-12 col-lg-4" id="divSimControlContainer">
+              <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12 simControlSubContainer left container-fluid">
+                <div class="row">
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 componentCaption ">Track Grip:</div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
+                    <select id="selectTrackGrip" class="setupSelector ">
+                      <option>95%</option>
+                      <option selected="selected">100%</option>
+                      <option>105%</option>
+                    </select>
+                  </div>
+                  <div class="hidden-xs hidden-sm hidden-md col-lg-4"></div>
                 </div>
-                <div class="hidden-xs hidden-sm hidden-md col-lg-4"></div>
-              </div>
 
-              <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 componentCaption ">Wing Position:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
-                  <select id="selectWingPos" class="setupSelector">
-                    <option>1</option>
-                    <option selected="selected">2</option>
-                    <option>3</option>
-                  </select>
+                <div class="row">
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 componentCaption ">Wing Position:</div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
+                    <select id="selectWingPos" class="setupSelector">
+                      <option>1</option>
+                      <option selected="selected">2</option>
+                      <option>3</option>
+                    </select>
+                  </div>
+                  <div class="hidden-xs hidden-sm hidden-md col-lg-4"></div>
                 </div>
-                <div class="hidden-xs hidden-sm hidden-md col-lg-4"></div>
-              </div>
-              <div class="row hidden-xs hidden-sm hidden-md ">
-                <div class="col-lg-4"></div>
-                <div class="col-lg-4 columnCaption left">Front:</div>
-                <div class="col-lg-4 columnCaption right">Rear:</div>
-              </div>
+                <div class="row hidden-xs hidden-sm hidden-md ">
+                  <div class="col-lg-4"></div>
+                  <div class="col-lg-4 columnCaption left">Front:</div>
+                  <div class="col-lg-4 columnCaption right">Rear:</div>
+                </div>
 
-              <div class="row">
-                <div class="hidden-xs hidden-sm hidden-md col-lg-4 componentCaption ">Ride Height:</div>
-                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Ride Height Front:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
-                  <select id="selectRH_Front" class="setupSelector">
-                    <option>20mm</option>
-                    <option selected="selected">25mm</option>
-                    <option>30mm</option>
-                  </select>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Ride Height Rear:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain right"> 
-                  <select id="selectRH_Rear" class="setupSelector">
-                    <option>50mm</option>
-                    <option selected="selected">55mm</option>
-                    <option>60mm</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="hidden-xs hidden-sm hidden-md col-lg-4 componentCaption ">Spring Stiffness:</div>
-                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Spring Stiffness Front:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
-                  <select id="selectSpringStiff_Front" class="setupSelector">
-                    <option>150N/mm</option>
-                    <option selected="selected">200N/mm</option>
-                    <option>250N/mm</option>
-                  </select>
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Spring Stiffness Rear:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain right"> 
-                  <select id="selectSpringStiff_Rear" class="setupSelector">
-                    <option>150N/mm</option>
-                    <option selected="selected">200N/mm</option>
-                    <option>250N/mm</option>
-                  </select>
+                <div class="row">
+                  <div class="hidden-xs hidden-sm hidden-md col-lg-4 componentCaption ">Ride Height:</div>
+                  <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Ride Height Front:</div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
+                    <select id="selectRH_Front" class="setupSelector">
+                      <option>20mm</option>
+                      <option selected="selected">25mm</option>
+                      <option>30mm</option>
+                    </select>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 hidden-lg componentCaption ">Ride Height Rear:</div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain right"> 
+                    <select id="selectRH_Rear" class="setupSelector">
+                      <option>50mm</option>
+                      <option selected="selected">55mm</option>
+                      <option>60mm</option>
+                    </select>
+                  </div>
                 </div>
               </div>
-
-              <div class="row">
-                <div class="hidden-xs hidden-sm hidden-md col-lg-4 componentCaption ">ARB Stiffness:</div>
-                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">ARB Stiffness Front:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
-                  <select id="selectARBStiff_Front" class="setupSelector">
-                    <option>150N/mm</option>
-                    <option selected="selected">200N/mm</option>
-                    <option>250N/mm</option>
-                  </select>
+              <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12 simControlSubContainer middle">
+                <div class="row">
+                  <div class="hidden-xs hidden-sm hidden-md col-lg-4 componentCaption ">Spring Stiffness:</div>
+                  <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Spring Stiffness Front:</div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
+                    <select id="selectSpringStiff_Front" class="setupSelector">
+                      <option>150N/mm</option>
+                      <option selected="selected">200N/mm</option>
+                      <option>250N/mm</option>
+                    </select>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">Spring Stiffness Rear:</div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain right"> 
+                    <select id="selectSpringStiff_Rear" class="setupSelector">
+                      <option>150N/mm</option>
+                      <option selected="selected">200N/mm</option>
+                      <option>250N/mm</option>
+                    </select>
+                  </div>
                 </div>
-                <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">ARB Stiffness Rear:</div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain right"> 
-                  <select id="selectARBStiff_Rear" class="setupSelector">
-                    <option>150N/mm</option>
-                    <option selected="selected">200N/mm</option>
-                    <option>250N/mm</option>
-                  </select>
+
+                <div class="row">
+                  <div class="hidden-xs hidden-sm hidden-md col-lg-4 componentCaption ">ARB Stiffness:</div>
+                  <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">ARB Stiffness Front:</div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain left"> 
+                    <select id="selectARBStiff_Front" class="setupSelector">
+                      <option>150N/mm</option>
+                      <option selected="selected">200N/mm</option>
+                      <option>250N/mm</option>
+                    </select>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md hidden-lg componentCaption ">ARB Stiffness Rear:</div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 selectContain right"> 
+                    <select id="selectARBStiff_Rear" class="setupSelector">
+                      <option>150N/mm</option>
+                      <option selected="selected">200N/mm</option>
+                      <option>250N/mm</option>
+                    </select>
+                  </div>
                 </div>
               </div>
-
-              <div class="row">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-8 componentCaption "></div>
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 buttonContain">
-                  <button id="simButton">Simulate Lap</button>
+              <div class="col-xs-12 col-sm-12 col-md-4 col-lg-12 simControlSubContainer right">
+                <div class="row"><div class="hidden-xs hidden-sm col-md-12 hidden-lg bufferRow"></div></div>
+                <div class="row"><div class="hidden-xs hidden-sm col-md-12 hidden-lg bufferRow"></div></div>
+                <div class="row"><div class="hidden-xs hidden-sm col-md-12 hidden-lg bufferRow"></div></div>
+                <div class="row">
+                  <div class="col-xs-6 col-sm-6 col-md-3 col-lg-8 componentCaption "></div>
+                  <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4 buttonContain">
+                    <button id="simButton">Simulate Lap</button>
+                  </div>
                 </div>
               </div>
             </div>
           
-            <div class="col-sm-8" id="divTable1Container">
+            <div class="col-xs-12 col-sm-8 col-md-12 col-lg-8" id="divTable1Container">
                 <div id="table1">
-                  <div class="headerRow">    
-                    <span class="tableHeader setHeader">Set</span>
-                    <span class="tableHeader plotHeader">Plot</span>
-                    <span class="tableHeader lapTimeHeader sortable sortAsc">Lap-time</span>
-                    <span class="tableHeader trackGripHeader sortable">Grip</span>
-                    <span class="tableHeader wingPosHeader sortable">Wing Pos.</span>
-                    <span class="tableHeader RHF_Header sortable">RH F</span>
-                    <span class="tableHeader RHR_Header sortable">RH R</span>
-                    <span class="tableHeader SSF_Header sortable">SS F</span>
-                    <span class="tableHeader SSR_Header sortable">SS R</span> 
-                    <span class="tableHeader ARBF_Header sortable">ARB F</span>  
-                    <span class="tableHeader ARBR_Header sortable">ARB R</span>
-                    <span class="tableHeader downloadHeader">Download</span>
-                    <span class="tableHeader deleteHeader">Delete</span>      
+                  <div class="headerRow"> 
+                    <div id='headerRowWrapper'>   
+                      <span class="tableHeader setHeader">Set</span>
+                      <span class="tableHeader plotHeader">Plot</span>
+                      <span class="tableHeader lapTimeHeader sortable sortAsc">Lap-time</span>
+                      <span class="tableHeader trackGripHeader sortable">Grip</span>
+                      <span class="tableHeader wingPosHeader sortable">Wing Pos.</span>
+                      <span class="tableHeader RHF_Header sortable">RH F</span>
+                      <span class="tableHeader RHR_Header sortable">RH R</span>
+                      <span class="tableHeader SSF_Header sortable">SS F</span>
+                      <span class="tableHeader SSR_Header sortable">SS R</span> 
+                      <span class="tableHeader ARBF_Header sortable">ARB F</span>  
+                      <span class="tableHeader ARBR_Header sortable">ARB R</span>
+                      <span class="tableHeader downloadHeader">Download</span>
+                      <span class="tableHeader deleteHeader">Delete</span>
+                    </div>
                   </div>
                 <div id="table1ContentScroller">
                   <div id="table1Content"> 
@@ -200,21 +214,21 @@
             </div>
 
             <div class="row" id="divTableAndSpacer">
-              <div class="hidden-xs col-sm-4" id="divSpacer"></div> 
-              <div class="col-sm-8" id="divTable2Container">
+              <div class="hidden-xs col-sm-4 hidden-md" id="divSpacer"></div> 
+              <div class="col-sm-12" id="divTable2Container">
                 <div id="table2">
                   <div class="headerRow">    
-                    <span class="tableHeader removeHeader">Remove</span>
-                    <span class="tableHeader lapTimeHeader">Lap-time</span>
-                    <span class="tableHeader trackGripHeader">Grip</span>
-                    <span class="tableHeader wingPosHeader">Wing Pos.</span>
-                    <span class="tableHeader RHF_Header">RH F</span>
-                    <span class="tableHeader RHR_Header">RH R</span>
-                    <span class="tableHeader SSF_Header">SS F</span>
-                    <span class="tableHeader SSR_Header">SS R</span> 
-                    <span class="tableHeader ARBF_Header">ARB F</span>  
-                    <span class="tableHeader ARBR_Header">ARB R</span>
-                    <span class="tableHeader colorHeader">Color</span>  
+                    <span class="tableHeader removeHeader table2">Remove</span>
+                    <span class="tableHeader lapTimeHeader table2">Lap-time</span>
+                    <span class="tableHeader trackGripHeader table2">Grip</span>
+                    <span class="tableHeader wingPosHeader table2">Wing Pos.</span>
+                    <span class="tableHeader RHF_Header table2">RH F</span>
+                    <span class="tableHeader RHR_Header table2">RH R</span>
+                    <span class="tableHeader SSF_Header table2">SS F</span>
+                    <span class="tableHeader SSR_Header table2">SS R</span> 
+                    <span class="tableHeader ARBF_Header table2">ARB F</span>  
+                    <span class="tableHeader ARBR_Header table2">ARB R</span>
+                    <span class="tableHeader colorHeader table2">Color</span>  
                   </div>
                   <div class="rowContainer" id="rowContainer2">
                   </div>

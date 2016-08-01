@@ -78,7 +78,7 @@ function plotData(){
 				var cursorCanvas = document.getElementById(cursorCanvasName);
 				cursorCanvas.width = $(".canvasContainer").width(); 
 				cursorCanvas.height = $(".canvasContainer").height();
-				$("#cursorCanvas"+(i+1)).css({"margin-top" : -$(".canvasContainer").height()});
+				$("#"+cursorCanvasName).css({"margin-top" : -$(".canvasContainer").height()});
 
 				//fetch the data of the channels:
 				for (var j=0; j< toBePlotted.length; j++){

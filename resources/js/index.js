@@ -311,7 +311,7 @@ function fillTable2(){
 }
 
 calcProgress = function(lapID){
-  var simDur = 60000;
+  var simDur = 1000;
   var endTime = $.now()+simDur; 
   updateProgress(endTime,simDur,lapID);
 }

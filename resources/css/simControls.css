@@ -17,7 +17,13 @@ button {
   width: 100%; }
 
 .ui-state-focus {
-  outline-color: #08c1fe; }
+  outline: none; }
+
+#simButton {
+  background-color: #343434;
+  color: #08c1fe;
+  border: 3px solid #08c1fe;
+  font-weight: bold; }
 
 #simButton:hover {
   background-color: #08c1fe;

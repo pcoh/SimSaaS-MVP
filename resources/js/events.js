@@ -96,7 +96,9 @@ $( ".tableHeader.sortable" ).click(function() {
   }
   lastSorted = sortAxis;
   $( ".diamondRow" ).remove();
-  fillTable1(sortAxis, sortDir);
+  
+  sortedLapIDs = sortTable1Contents(sortAxis, sortDir);
+  fillTable1(sortedLapIDs);
   
 });
 

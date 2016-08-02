@@ -87,6 +87,9 @@
 .oddRow{
 	//background-color: rgba(255, 255, 255, 0.4);
 }
+.lapRow.movedRow{
+	background-color: $accent-color;
+}
 .cell{
 	display: inline-block;
 	text-align: center;

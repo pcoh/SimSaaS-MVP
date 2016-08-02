@@ -47,8 +47,8 @@ function eventSelectorClick(){
   
   var jobPath = jobsFolder+(currEvent < 10 ? '0'+currEvent : currEvent)+'/'+jobFileName;
   readJobData(jobPath);
-  sortedArray = sortTable1Contents(sortAxis, sortDir);
-  fillTable1(sortedArray);
+  sortedLapIDs = sortTable1Contents(sortAxis, sortDir);
+  fillTable1(sortedLapIDs);
   getLapsToBePlotted();
   fillTable2();
   plotData();
@@ -127,10 +127,11 @@ getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R
     }
      
   }
-  addLapToTable1Object(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+  
   //addLapToTable1(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
-  sortedArray = sortTable1Contents(sortAxis, sortDir);
-  fillTable1(sortedArray);
+  sortedLapIDs = sortTable1Contents(sortAxis, sortDir);
+  sortedLapIDs = addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+  fillTable1(sortedLapIDs);
   if(simData[currEvent].hasOwnProperty('lapData')){
     if(simData[currEvent].lapData.hasOwnProperty(lapID-1)){
       alert("A lap with these settings has already been simulated");  
@@ -144,7 +145,7 @@ getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R
   }
 }
 
-function addLapToTable1Object(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
+function addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
   if(!simData.hasOwnProperty(currEvent)){
     simData[currEvent]= {};
   }
@@ -165,11 +166,14 @@ function addLapToTable1Object(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, 
   simData[currEvent].table1Object[lapID].demARBStiff_F = demARBStiff_F;
   simData[currEvent].table1Object[lapID].demARBStiff_R = demARBStiff_R;
   simData[currEvent].table1Object[lapID].plotted = false;
+  
+  sortedLapIDs.push(lapID);
 
-
+  return sortedLapIDs;
 }
 
 function sortTable1Contents(sortAxis, sortDir){
+  var sortedLapIDs = [];
   if(simData.hasOwnProperty(currEvent)){
     if(simData[currEvent].hasOwnProperty('table1Object')){
       var sortVector = [];
@@ -177,8 +181,7 @@ function sortTable1Contents(sortAxis, sortDir){
         sortVector.push(i);
       }
       
-      var sortedArray = simData[currEvent].table1Object.slice();
-      
+      var sortedArray = simData[currEvent].table1Object.slice();      
       switch(sortAxis){
         case "Lap-time":        
         sortedArray.sort(function (a, b) {
@@ -248,44 +251,45 @@ function sortTable1Contents(sortAxis, sortDir){
 
       if(sortDir == -1){
         sortedArray.reverse();
-      } 
-      return sortedArray;
-    }
+      }
+      
+      for (var i=0; i<sortedArray.length; i++){
+        if (sortedArray[i] != null){
+          sortedLapIDs.push(sortedArray[i].lapID); 
+        }
+      }
+      
+    }    
   }
+  return sortedLapIDs;
 }
 
-function fillTable1(sortedArray){
+function fillTable1(sortedLapIDs){
   $("#rowContainer1").html("");
-
   if(simData.hasOwnProperty(currEvent)){
     if(simData[currEvent].hasOwnProperty('table1Object')){
-         
-      //for(var i=0;i<Object.keys(simData[currEvent].table1Object).length;i++){
-      for(var i=0;i<sortedArray.length;i++){
-        // if(sortedArray[i].hasOwnProperty('demTrackGrip')){
-        if(typeof sortedArray[i] !== 'undefined'){
-          var currLapID =  sortedArray[i].lapID;  
-          if (i %2 !=0){
-            var rowType = "evenRow";
-          }else{
-            var rowType = "oddRow"
-          }
-          var lapHTML = "<div id=\"lapRow"+currLapID+ "\" class=\"lapRow " +rowType + "\"><span class=\"cell setCell\"></span><span id=\"plotCell"+currLapID+ "\" class=\"cell plotCell loading\"></span><span class=\"cell lapTimeCell\"><div class=\"progressBG\"><div class=\"progressVal\" id=\"progress"+currLapID+"\"></div></div></span>"+
-                        "<span class=\"cell trackGripCell\">"+simData[currEvent].table1Object[currLapID].demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+simData[currEvent].table1Object[currLapID].demWingPos+"</span><span class=\"cell RHF_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_R+"mm</span>" +
-                        "<span class=\"cell SSF_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_R+"N/mm</span>" +
-                        "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell loading rightMost\"></span></div>";
-          $("#rowContainer1").append(lapHTML); 
-
-          if(simData[currEvent].table1Object[currLapID].hasOwnProperty('lapTime')){
-            $("#lapRow"+currLapID).children('.lapTimeCell').html(simData[currEvent].table1Object[currLapID].lapTime);
-            $("#lapRow"+currLapID).children(".plotCell").removeClass("loading").on('click',  clickPlotButton);
-            $("#lapRow"+currLapID).children(".deleteCell").removeClass("loading").on('click',  clickDeleteButton);
-            $("#lapRow"+currLapID).children(".setCell").on('click',  clickSetButton);
-          }
-          if(simData[currEvent].table1Object[currLapID].plotted == true){
-            $("#plotCell"+currLapID).addClass('plotted');
-          }
+      for(var i=0;i<sortedLapIDs.length;i++){
+        var currLapID =  sortedLapIDs[i];  
+        if (i %2 !=0){
+          var rowType = "evenRow";
+        }else{
+          var rowType = "oddRow"
         }
+        var lapHTML = "<div id=\"lapRow"+currLapID+ "\" class=\"lapRow " +rowType + "\"><span class=\"cell setCell\"></span><span id=\"plotCell"+currLapID+ "\" class=\"cell plotCell loading\"></span><span class=\"cell lapTimeCell\"><div class=\"progressBG\"><div class=\"progressVal\" id=\"progress"+currLapID+"\"></div></div></span>"+
+                      "<span class=\"cell trackGripCell\">"+simData[currEvent].table1Object[currLapID].demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+simData[currEvent].table1Object[currLapID].demWingPos+"</span><span class=\"cell RHF_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_R+"mm</span>" +
+                      "<span class=\"cell SSF_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_R+"N/mm</span>" +
+                      "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell loading rightMost\"></span></div>";
+        $("#rowContainer1").append(lapHTML); 
+
+        if(simData[currEvent].table1Object[currLapID].hasOwnProperty('lapTime')){
+          $("#lapRow"+currLapID).children('.lapTimeCell').html(simData[currEvent].table1Object[currLapID].lapTime);
+          $("#lapRow"+currLapID).children(".plotCell").removeClass("loading").on('click',  clickPlotButton);
+          $("#lapRow"+currLapID).children(".deleteCell").removeClass("loading").on('click',  clickDeleteButton);
+          $("#lapRow"+currLapID).children(".setCell").on('click',  clickSetButton);
+        }
+        if(simData[currEvent].table1Object[currLapID].plotted == true){
+          $("#plotCell"+currLapID).addClass('plotted');
+        }        
       }
     }
   }
@@ -342,6 +346,13 @@ function updateProgress(endTime,simDur,lapID) {
     var LT_HMSH = secondsTimeSpanToHMSH(currLT);
     simData[currEvent].table1Object[lapID].lapTime_s = currLT;
     simData[currEvent].table1Object[lapID].lapTime = LT_HMSH;
+
+    sortedLapIDs = sortTable1Contents(sortAxis, sortDir);
+    fillTable1(sortedLapIDs);
+    $("#lapRow"+lapID).addClass('movedRow').delay(2000).queue(function(next){
+      $(this).removeClass('movedRow');
+      next();
+    });
     $("#lapRow"+lapID).children(".lapTimeCell").html(LT_HMSH);
     return;
   }

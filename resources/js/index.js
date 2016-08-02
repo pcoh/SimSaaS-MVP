@@ -47,7 +47,8 @@ function eventSelectorClick(){
   
   var jobPath = jobsFolder+(currEvent < 10 ? '0'+currEvent : currEvent)+'/'+jobFileName;
   readJobData(jobPath);
-  fillTable1(sortAxis, sortDir);
+  sortedArray = sortTable1Contents(sortAxis, sortDir);
+  fillTable1(sortedArray);
   getLapsToBePlotted();
   fillTable2();
   plotData();
@@ -128,7 +129,8 @@ getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R
   }
   addLapToTable1Object(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
   //addLapToTable1(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
-  fillTable1(sortAxis, sortDir);
+  sortedArray = sortTable1Contents(sortAxis, sortDir);
+  fillTable1(sortedArray);
   if(simData[currEvent].hasOwnProperty('lapData')){
     if(simData[currEvent].lapData.hasOwnProperty(lapID-1)){
       alert("A lap with these settings has already been simulated");  
@@ -167,8 +169,7 @@ function addLapToTable1Object(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, 
 
 }
 
-function fillTable1(sortAxis, sortDir){
-  $("#rowContainer1").html("");
+function sortTable1Contents(sortAxis, sortDir){
   if(simData.hasOwnProperty(currEvent)){
     if(simData[currEvent].hasOwnProperty('table1Object')){
       var sortVector = [];
@@ -243,14 +244,22 @@ function fillTable1(sortAxis, sortDir){
             return a - b;
           });
           break;        
+      }
+
+      if(sortDir == -1){
+        sortedArray.reverse();
+      } 
+      return sortedArray;
     }
+  }
+}
 
-    if(sortDir == -1){
-      sortedArray.reverse();
-    } 
+function fillTable1(sortedArray){
+  $("#rowContainer1").html("");
 
-
-     
+  if(simData.hasOwnProperty(currEvent)){
+    if(simData[currEvent].hasOwnProperty('table1Object')){
+         
       //for(var i=0;i<Object.keys(simData[currEvent].table1Object).length;i++){
       for(var i=0;i<sortedArray.length;i++){
         // if(sortedArray[i].hasOwnProperty('demTrackGrip')){

@@ -1,4 +1,5 @@
 function clickPlotButton(){
+	
 	$targetCell = $(this);
 	lapID = getPlotLapID($targetCell);
 
@@ -11,6 +12,12 @@ function clickPlotButton(){
 		simData[currEvent].table1Object[lapID].plotted = false;
 	}else{
 		simData[currEvent].table1Object[lapID].plotted = true;
+		ga('send', {
+		    hitType: 'event',
+		    eventCategory: 'Analysis',
+		    eventAction: 'Plot Lap',
+		    eventLabel: ''
+		  });
 	}
 
 	getLapsToBePlotted(); 

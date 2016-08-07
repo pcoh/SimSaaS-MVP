@@ -44,6 +44,12 @@ function eventSelectorClick(){
     $(".navbar-header").children("button").click();
   }
   $('#event'+currEvent).addClass('activeEvent');
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Simulation',
+    eventAction: 'Select Event',
+    eventLabel: currEvent
+  }); 
   
   var jobPath = jobsFolder+(currEvent < 10 ? '0'+currEvent : currEvent)+'/'+jobFileName;
   readJobData(jobPath);
@@ -324,7 +330,7 @@ function fillTable2(){
 }
 
 calcProgress = function(lapID){
-  var simDur = 1000;
+  var simDur = 60000;
   var endTime = $.now()+simDur; 
   updateProgress(endTime,simDur,lapID);
 }
@@ -359,6 +365,12 @@ function updateProgress(endTime,simDur,lapID) {
 } 
 
 function clickSetButton(){
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Simulation',
+    eventAction: 'Set Current Setup',
+    eventLabel: ''
+  });
   var activeTrackGrip = $(this).parent().children(".trackGripCell").html().match(/\d+/);  
   var activeWingPos = $(this).parent().children(".wingPosCell").html().match(/\d+/);
   var activeRH_F = $(this).parent().children(".RHF_Cell").html().match(/\d+/);
@@ -429,6 +441,12 @@ function clickSetButton(){
 }
 
 function clickDeleteButton(){  
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Analysis',
+    eventAction: 'Delete Lap',
+    eventLabel: ''
+  });
   // delete lapID from toBePlotted
   var lapID = parseInt($(this).parent().attr("id").replace("lapRow",""));
 
@@ -444,6 +462,12 @@ function clickDeleteButton(){
 }
 
 function clickRemoveButton(){  
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Analysis',
+    eventAction: 'Remove Lap',
+    eventLabel: ''
+  });
   var lapID = parseInt($(this).parent().attr("id").replace("lapRow",""));
   
   $("#plotCell"+lapID).click();

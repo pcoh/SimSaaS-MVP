@@ -51,11 +51,23 @@ $('#divTableAndSpacer').on('mousewheel',function(event) {
 });
 
 $('#simButton').on('click',  function() {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Simulation',
+    eventAction: 'simulate',
+    eventLabel: ''
+  });
   getSimSettings();
    // loadLapData(); 
 });
 
 $('.addPlot').on('click',  function() {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Analysis',
+    eventAction: 'Add Plot',
+    eventLabel: ''
+  });
   plotCount = plotCount +1;
 	plotContHTML = createPlotContainer(plotCount);  
 
@@ -69,6 +81,12 @@ $('.addPlot').on('click',  function() {
 });
 
 $('#divWorkspaceContainer').on('click', 'div a .removePlot', function() {
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Analysis',
+    eventAction: 'Remove Plot',
+    eventLabel: ''
+  });
 	$(this).parent().parent().slideUp(400, function() {
 		$(this).parent().remove();
 	});
@@ -77,8 +95,14 @@ $('#divWorkspaceContainer').on('click', 'div a .removePlot', function() {
 });
 
 
-$( ".tableHeader.sortable" ).click(function() {      
+$( ".tableHeader.sortable" ).click(function() { 
   sortAxis = (this.innerHTML);
+  ga('send', {
+    hitType: 'event',
+    eventCategory: 'Analysis',
+    eventAction: 'Sort Table',
+    eventLabel: sortAxis
+  }); 
   if(lastSorted == sortAxis){
     sortDir = sortDirVector[axesVector.indexOf(sortAxis)]*-1;
     sortDirVector = sortDirVector_default.slice(0);
@@ -115,4 +139,69 @@ $('.collapse').on('hide.bs.collapse', function(e) {
 $('.collapse').on('hidden.bs.collapse', function(e) {
   smartScroll($("#divWorkspaceContainer").scrollTop());
   $("#table2").show(); 
+});
+
+$('#selectTrackGrip').on('selectmenuchange', function() {
+   ga('send', {
+    hitType: 'event',
+    eventCategory: 'Simulation',
+    eventAction: 'Change Setup',
+    eventLabel: "Grip"
+  }); 
+});
+$('#selectWingPos').on('selectmenuchange', function() {
+   ga('send', {
+    hitType: 'event',
+    eventCategory: 'Simulation',
+    eventAction: 'Change Setup',
+    eventLabel: "Wing Position"
+  }); 
+});
+$('#selectRH_Front').on('selectmenuchange', function() {
+   ga('send', {
+    hitType: 'event',
+    eventCategory: 'Simulation',
+    eventAction: 'Change Setup',
+    eventLabel: "RideHeight Front"
+  }); 
+});
+$('#selectRH_Rear').on('selectmenuchange', function() {
+   ga('send', {
+    hitType: 'event',
+    eventCategory: 'Simulation',
+    eventAction: 'Change Setup',
+    eventLabel: "RideHeight Rear"
+  }); 
+});
+$('#selectSpringStiff_Front').on('selectmenuchange', function() {
+   ga('send', {
+    hitType: 'event',
+    eventCategory: 'Simulation',
+    eventAction: 'Change Setup',
+    eventLabel: "SpringStiffness Front"
+  }); 
+});
+$('#selectSpringStiff_Rear').on('selectmenuchange', function() {
+   ga('send', {
+    hitType: 'event',
+    eventCategory: 'Simulation',
+    eventAction: 'Change Setup',
+    eventLabel: "SpringStiffness Rear"
+  }); 
+});
+$('#selectARBStiff_Front').on('selectmenuchange', function() {
+   ga('send', {
+    hitType: 'event',
+    eventCategory: 'Simulation',
+    eventAction: 'Change Setup',
+    eventLabel: "ARB Stiffness Front"
+  }); 
+});
+$('#selectARBStiff_Rear').on('selectmenuchange', function() {
+   ga('send', {
+    hitType: 'event',
+    eventCategory: 'Simulation',
+    eventAction: 'Change Setup',
+    eventLabel: "ARB Stiffness Rear"
+  }); 
 });

@@ -1,0 +1,20 @@
+CACHE MANIFEST
+ 
+# Version 0.0.11
+
+NETWORK:
+*
+
+CACHE:
+resources/css/main.css
+resources/css/simControls.css
+resources/css/tables.css
+resources/js/initVars.js
+resources/js/layoutFunctions.js
+resources/js/dragAndDrop.js
+resources/js/index.js
+resources/js/loadLapData.js
+resources/js/plot.js
+resources/js/channelNaming_VSM.js
+resources/js/events.js
+

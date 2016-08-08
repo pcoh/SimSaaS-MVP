@@ -225,13 +225,17 @@ body {
 }
 
 .divPlotContainer {
-  
   height: 300px;
   display: none;
   margin-bottom: 20px;
   cursor: move;
-  
 }
+@media (max-width: 1200px) {
+  .divPlotContainer {
+    height: 250px;
+  }
+}
+
 .plot{
   background-color: rgba(52,52,52,0.65);
   width: 100%;

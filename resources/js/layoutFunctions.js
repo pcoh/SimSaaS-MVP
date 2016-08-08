@@ -108,11 +108,15 @@ function onChannelSelectorChange(){
   plotData();
 }
 function smartScroll(scrollPos){
-		scrollThresh = $("#divControlTableRow").outerHeight(false);
+  if ($( window ).innerWidth() >= 1200){
+		scrollThresh = $("#divControlTableRow").outerHeight(false)+10;
+  }else{
+    scrollThresh = $("#divControlTableRow").outerHeight(false)+17;
+  }
    		if(scrollPos >= scrollThresh){
    			$("#divTableAndSpacer").addClass('noSeeThrough');
    			if (tableSpaceScroll === false){
-	   			var topTarget = $("#divEventBanner").position().top +$("#divEventBanner").outerHeight(true)*$("#divEventBanner").is(':visible')+$(".navbar-header").outerHeight(true)*$(".navbar-header").is(':visible');;
+	   			var topTarget = $("#divEventBanner").position().top +$("#divEventBanner").outerHeight(true)*$("#divEventBanner").is(':visible')+$(".navbar-header").outerHeight(true)*$(".navbar-header").is(':visible');
 	   			$("#divTableAndSpacer").css({ 'top': topTarget});
 	   		  	$("#divWorkspaceContainer").scrollTop(scrollPos);
    		   }

@@ -136,22 +136,6 @@ getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R
   
   //addLapToTable1(lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
   sortedLapIDs = sortTable1Contents(sortAxis, sortDir);
-  sortedLapIDs = addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
-  fillTable1(sortedLapIDs);
-  if(simData[currEvent].hasOwnProperty('lapData')){
-    if(simData[currEvent].lapData.hasOwnProperty(lapID-1)){
-      alert("A lap with these settings has already been simulated");  
-    }else{
-      calcProgress(lapID); 
-      loadLapData(lapID);  
-    }
-  }else{
-    calcProgress(lapID); 
-    loadLapData(lapID);  
-  }
-}
-
-function addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
   if(!simData.hasOwnProperty(currEvent)){
     simData[currEvent]= {};
   }
@@ -161,6 +145,26 @@ function addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demRH
   if(!simData[currEvent].table1Object.hasOwnProperty(lapID)){
     simData[currEvent].table1Object[lapID] = {};
   }
+  
+  if(simData[currEvent].hasOwnProperty('lapData')){
+    if(simData[currEvent].lapData.hasOwnProperty(lapID-1)){
+      alert("A lap with these settings has already been simulated");  
+    }else{
+      sortedLapIDs = addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+      fillTable1(sortedLapIDs);
+      calcProgress(lapID); 
+      loadLapData(lapID);  
+    }
+  }else{
+    sortedLapIDs = addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+    fillTable1(sortedLapIDs);
+    calcProgress(lapID); 
+    loadLapData(lapID);  
+  }
+}
+
+function addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
+  
 
   simData[currEvent].table1Object[lapID].lapID = lapID;
   simData[currEvent].table1Object[lapID].demTrackGrip = demTrackGrip;
@@ -330,7 +334,7 @@ function fillTable2(){
 }
 
 calcProgress = function(lapID){
-  var simDur = 60000;
+  var simDur = 1000;
   var endTime = $.now()+simDur; 
   updateProgress(endTime,simDur,lapID);
 }

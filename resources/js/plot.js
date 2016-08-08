@@ -166,8 +166,9 @@ function setYAxisRange(minYVal, maxYVal){
 		yMin = 0;
 	}else{
 		yMin = minYVal - yBufferBottom;
-		yMax = maxYVal + yBufferTop;
+		
 	}
+	yMax = maxYVal + yBufferTop;
 	var yPlotRange = [yMin, yMax];
 	return yPlotRange;
 }

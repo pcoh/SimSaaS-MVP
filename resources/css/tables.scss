@@ -100,110 +100,140 @@
 .cell.rightMost{
 	border-right: none;
 }
-// .setHeader, .setCell{
-// 	width: 29px;
-// }
 
-// .plotHeader,.plotCell{
-// 	width: 29px;
+// .setHeader, .plotHeader,.setCell, .plotCell{
+// 	width: 3.5%;
 // }
-
 // .lapTimeHeader, .lapTimeCell{
-// 	width: 83px;
+// 	width: 10.1%;
 // }
 // .trackGripHeader,.trackGripCell{
-// 	width: 55px;
+// 	width: 6.7%;
 // }
 // .wingPosHeader, .wingPosCell{
-// 	width: 92px;
+// 	width: 11%;
 // }
 // .RHF_Header, .RHF_Cell, .RHR_Header, .RHR_Cell{
-// 	width: 55px;
+// 	width: 6.7%;
 // }
-
 // .SSF_Header, .SSR_Header, .ARBF_Header, .ARBR_Header, .downloadHeader, .colorHeader, .SSF_Cell, .SSR_Cell, .ARBF_Cell, .ARBR_Cell, .downloadCell,.colorCell{
-// 	width: 	72px;
+// 	width: 	8.8%
 // }
-
-// .removeHeader,.removeCell{
-// 	width: 58px;
-// }
-
 // .deleteHeader, .deleteCell{
-// 	width: 72px;
-// }
-// @media screen and (-webkit-min-device-pixel-ratio:0) {
-//   	.deleteHeader, .deleteCell{
-// 		width: 64px;
-// 	}
+// 	width: 7.8%;
 // }
 
 .setHeader, .plotHeader,.setCell, .plotCell{
-	width: 3.5%;
+	width: 3.75%;
 }
 .lapTimeHeader, .lapTimeCell{
-	width: 10.1%;
+	width: 10.81%;
 }
 .trackGripHeader,.trackGripCell{
-	width: 6.7%;
+	width: 7.17%;
 }
-.wingPosHeader, .wingPosCell{
-	width: 11%;
+.wingPosHeader, .wingPosCell, .fuelLoadHeader, .fuelLoadCell{
+	width: 11.78%;
 }
 .RHF_Header, .RHF_Cell, .RHR_Header, .RHR_Cell{
-	width: 6.7%;
+	width: 7.17%;
 }
-.SSF_Header, .SSR_Header, .ARBF_Header, .ARBR_Header, .downloadHeader, .colorHeader, .SSF_Cell, .SSR_Cell, .ARBF_Cell, .ARBR_Cell, .downloadCell,.colorCell{
-	width: 	8.8%
+.ARBF_Header, .ARBR_Header, .downloadHeader,.colorHeader, .ARBF_Cell, .ARBR_Cell, .downloadCell, .colorCell{
+	width: 	9.42%
 }
 .deleteHeader, .deleteCell{
-	width: 7.8%;
+	width: 8.35%;
 }
 
+
+
 #table2{
+	// .removeHeader{
+	// 	width: 7.34%;
+	// }
+	// .lapTimeHeader{
+	// 	width: 11.07%;
+	// }
+	// .trackGripHeader{
+	// 	width: 7.35%;
+	// }
+	// .wingPosHeader{
+	// 	width: 12.06%;
+	// }
+	// .RHF_Header, .RHR_Header{
+	// 	width: 7.35%;
+	// }
+	// .SSF_Header, .SSR_Header, .ARBF_Header, .ARBR_Header, .downloadHeader{
+	// 	width: 	9.65%
+	// }
+	// .colorHeader{
+	// 	width: 8.55%;
+	// }
+
 	.removeHeader{
-		width: 7.34%;
+		width: 8.18%;
 	}
 	.lapTimeHeader{
-		width: 11.07%;
+		width: 11.80%;
 	}
 	.trackGripHeader{
-		width: 7.35%;
+		width: 7.82%;
 	}
-	.wingPosHeader{
-		width: 12.06%;
+	.wingPosHeader, fuelLoadHeader{
+		width: 12.85%;
 	}
 	.RHF_Header, .RHR_Header{
-		width: 7.35%;
+		width: 7.82%;
 	}
-	.SSF_Header, .SSR_Header, .ARBF_Header, .ARBR_Header, .downloadHeader{
-		width: 	9.65%
+	.ARBF_Header, .ARBR_Header, .downloadHeader{
+		width: 	10.28%
 	}
 	.colorHeader{
-		width: 8.55%;
+		width: 10.28%;
 	}
 }
 .plotRow{
+	// .removeCell{
+	// 	width: 7.34%;
+	// }
+	// .lapTimeCell{
+	// 	width: 11.07%;
+	// }
+	// .trackGripCell{
+	// 	width: 7.35%;
+	// }
+	// .wingPosCell{
+	// 	width: 12.06%;
+	// }
+	// .RHF_Cell, .RHR_Cell{
+	// 	width: 7.35%;
+	// }
+	// .SSF_Cell, .SSR_Cell, .ARBF_Cell, .ARBR_Cell, .downloadCell,.colorCell{
+	// 	width: 	9.65%
+	// }
+	// .colorCell{
+	// 	width: 8.55%;
+	// }
 	.removeCell{
-		width: 7.34%;
+		width: 8.18%;
 	}
 	.lapTimeCell{
-		width: 11.07%;
+		width: 11.80%;
 	}
 	.trackGripCell{
-		width: 7.35%;
+		width: 7.82%;
 	}
-	.wingPosCell{
-		width: 12.06%;
+	.wingPosCell, fuelLoadCell{
+		width: 12.85%;
 	}
 	.RHF_Cell, .RHR_Cell{
-		width: 7.35%;
+		width: 7.82%;
 	}
-	.SSF_Cell, .SSR_Cell, .ARBF_Cell, .ARBR_Cell, .downloadCell,.colorCell{
-		width: 	9.65%
+	.ARBF_Cell, .ARBR_Cell, .downloadCell,.colorCell{
+		width: 	10.28%
 	}
 	.colorCell{
-		width: 8.55%;
+		width: 10.28%;
 	}
 }
 
@@ -217,30 +247,54 @@
 	.setHeader, .setCell,.downloadHeader, .downloadCell{
 		display: none;
 	}	
-	.plotHeader, .plotCell, .removeHeader, removeCell{
-		width: 4% !important;
+	// .plotHeader, .plotCell, .removeHeader, removeCell{
+	// 	width: 4% !important;
+	// }
+	// .lapTimeHeader, .lapTimeCell{
+	// 	width: 11.5% !important;
+	// }
+	// .trackGripHeader,.trackGripCell{
+	// 	width: 7.6% !important;
+	// }
+	// .wingPosHeader, .wingPosCell{
+	// 	width: 12.8% !important;
+	// }
+	// .RHF_Header, .RHF_Cell, .RHR_Header, .RHR_Cell{
+	// 	width: 7.6% !important;
+	// }
+	// .SSF_Header, .SSR_Header, .ARBF_Header, .ARBR_Header, .colorHeader, .SSF_Cell, .SSR_Cell, .ARBF_Cell, .ARBR_Cell, .colorCell{
+	// 	width: 	10% !important;
+	// }
+	// .deleteHeader, .deleteCell, .colorHeader, .colorCell{
+	// 	width: 8.9% !important;
+	// }
+	// .removeHeader,.removeCell{
+	// 	width: 4% !important;
+	// }
+	.plotHeader, .plotCell, .removeHeader, .removeCell{
+		width: 4.32% !important;
 	}
 	.lapTimeHeader, .lapTimeCell{
-		width: 11.5% !important;
+		width: 12.45% !important;
 	}
 	.trackGripHeader,.trackGripCell{
-		width: 7.6% !important;
+		width: 8.26% !important;
 	}
-	.wingPosHeader, .wingPosCell{
-		width: 12.8% !important;
+	.wingPosHeader, .wingPosCell,.fuelLoadHeader, .fuelLoadCell{
+		width: 13.57% !important;
 	}
 	.RHF_Header, .RHF_Cell, .RHR_Header, .RHR_Cell{
-		width: 7.6% !important;
+		width: 8.76% !important;
 	}
-	.SSF_Header, .SSR_Header, .ARBF_Header, .ARBR_Header, .colorHeader, .SSF_Cell, .SSR_Cell, .ARBF_Cell, .ARBR_Cell, .colorCell{
-		width: 	10% !important;
+	.ARBF_Header, .ARBR_Header, .colorHeader, .ARBF_Cell, .ARBR_Cell, .colorCell{
+		width: 	10.85% !important;
 	}
 	.deleteHeader, .deleteCell, .colorHeader, .colorCell{
-		width: 8.9% !important;
+		width: 8.60% !important;
 	}
-	.removeHeader,.removeCell{
-		width: 4% !important;
-	}
+	// .removeHeader,.removeCell{
+	// 	width: 4.32% !important;
+	// }
 }
 
 

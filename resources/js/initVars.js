@@ -28,6 +28,9 @@ cursorLabelFont="14px Arial";
 var sortAxis = 'Lap-time';
 var sortDir = 1;
 var initialSort = 1;
-var sortDirVector_default = [1,1,1,1,1,1,1,1,1];
+// var sortDirVector_default = [1,1,1,1,1,1,1,1,1];
+var sortDirVector_default = [1,1,1,1,1,1,1,1];
 var lastSorted;
-var axesVector = ["Lap-time", "Grip", "Wing Pos.", "RH F", "RH R", "SS F", "SS R", "ARB F", "ARB R"];
+// var axesVector = ["Lap-time", "Grip", "Wing Pos.", "RH F", "RH R", "SS F", "SS R", "ARB F", "ARB R"];
+var axesVector = ["Lap-time", "Grip", "Wing Pos.", "Fuel Load","RH F", "RH R", "ARB F", "ARB R"];
+

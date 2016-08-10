@@ -70,34 +70,42 @@ function readJobData(jobPath){
 function getJasonCallback(data){
   var jobData = data;
   var size = Object.keys(jobData).length;
-  var jobLapNum = [], jobLapNames = [], jobGrips = [], jobWingPositions = [], jobRideHeights_F = [], jobRideHeights_R = [], jobSpringStiffnesses_F = [], jobSpringStiffnesses_R = [], jobARBStiffnesses_F = [], jobARBStiffnesses_R = [];
+  var jobLapNum = [], jobLapNames = [], jobGrips = [], jobWingPositions = [], jobFuelLoads = [], jobRideHeights_F = [], jobRideHeights_R = [], jobSpringStiffnesses_F = [], jobSpringStiffnesses_R = [], jobARBStiffnesses_F = [], jobARBStiffnesses_R = [];
+  
   for (var i=0; i<size; i++){
     jobLapNum[i] = [i+1];
     jobLapNames[i] = jobData[i+1].FileName;
     jobGrips[i] = jobData[i+1]["General_Parameters.Overall_Grip_[%]"];
     jobWingPositions[i] = jobData[i+1]["General_Parameters.Rear_Wing_Position_[deg]"];
+    jobFuelLoads[i] = jobData[i+1]["Initialization.FuelLoad_[kg]"];
     jobRideHeights_F[i] = jobData[i+1]["Initialization.Ride_Height.RideHeight_FL_Garage_[mm]"];
     jobRideHeights_R[i] = jobData[i+1]["Initialization.Ride_Height.RideHeight_RR_Garage_[mm]"];
-    jobSpringStiffnesses_F[i] = jobData[i+1]["Spring.FL.Spring_Force_Gradient_[N/mm]"];
-    jobSpringStiffnesses_R[i] = jobData[i+1]["Spring.RL.Spring_Force_Gradient_[N/mm]"];
+    // jobSpringStiffnesses_F[i] = jobData[i+1]["Spring.FL.Spring_Force_Gradient_[N/mm]"];
+    // jobSpringStiffnesses_R[i] = jobData[i+1]["Spring.RL.Spring_Force_Gradient_[N/mm]"];
     jobARBStiffnesses_F[i] = jobData[i+1]["Anti_Roll_Bar.Front.Characteristics_Linear.ARB_Stiffness_[N/mm]"];
     jobARBStiffnesses_R[i] = jobData[i+1]["Anti_Roll_Bar.Rear.Chararcteristics_Linear.ARB_Stiffness_[N/mm]"];
   }
-  extractVarParams(jobGrips,jobWingPositions, jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R); 
-  window.jobData_parsed = [jobLapNum,jobLapNames, jobGrips,jobWingPositions,jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R];
+  // extractVarParams(jobGrips,jobWingPositions, jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R); 
+  extractVarParams(jobGrips,jobWingPositions, jobFuelLoads,jobRideHeights_F,jobRideHeights_R,jobARBStiffnesses_F,jobARBStiffnesses_R); 
+ 
+  // window.jobData_parsed = [jobLapNum,jobLapNames, jobGrips,jobWingPositions,jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R];
+  window.jobData_parsed = [jobLapNum,jobLapNames, jobGrips,jobWingPositions,jobFuelLoads, jobRideHeights_F,jobRideHeights_R,jobARBStiffnesses_F,jobARBStiffnesses_R];
   $('#simButton').button('enable');
 }
 
-function extractVarParams(jobGrips,jobWingPositions, jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R){
+// function extractVarParams(jobGrips,jobWingPositions, jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R){
+  function extractVarParams(jobGrips,jobWingPositions, jobFuelLoads,jobRideHeights_F,jobRideHeights_R,jobARBStiffnesses_F,jobARBStiffnesses_R){
   window.uniqueGrip = unique( jobGrips );
   window.uniqueWingPos = unique( jobWingPositions );
+  window.uniqueFuelLoad = unique( jobFuelLoads );
   window.uniqueRH_F = unique( jobRideHeights_F );
   window.uniqueRH_R = unique( jobRideHeights_R );
-  window.uniqueSS_F = unique( jobSpringStiffnesses_F );
-  window.uniqueSS_R = unique( jobSpringStiffnesses_R );
+  // window.uniqueSS_F = unique( jobSpringStiffnesses_F );
+  // window.uniqueSS_R = unique( jobSpringStiffnesses_R );
   window.uniqueARB_F = unique( jobARBStiffnesses_F );
   window.uniqueARB_R = unique( jobARBStiffnesses_R );
-  setDDOptions(uniqueGrip,uniqueWingPos,uniqueRH_F,uniqueRH_R,uniqueSS_F,uniqueSS_R,uniqueARB_F,uniqueARB_R);
+  // setDDOptions(uniqueGrip,uniqueWingPos,uniqueRH_F,uniqueRH_R,uniqueSS_F,uniqueSS_R,uniqueARB_F,uniqueARB_R);
+  setDDOptions(uniqueGrip,uniqueWingPos,uniqueFuelLoad, uniqueRH_F,uniqueRH_R,uniqueARB_F,uniqueARB_R);
 };
 
 function getSimSettings(){
@@ -105,30 +113,46 @@ function getSimSettings(){
   var demWingPos = uniqueWingPos[$( "#selectWingPos").val()];
   var demRH_F = uniqueRH_F[$( "#selectRH_Front").val()];
   var demRH_R = uniqueRH_R[$( "#selectRH_Rear").val()];
-  var demSS_F = uniqueSS_F[$( "#selectSpringStiff_Front").val()];
-  var demSS_R = uniqueSS_R[$( "#selectSpringStiff_Rear").val()];
+  var demFuelLoad = uniqueFuelLoad[$( "#selectFuelLoad").val()];
+  // var demSS_F = uniqueSS_F[$( "#selectSpringStiff_Front").val()];
+  // var demSS_R = uniqueSS_R[$( "#selectSpringStiff_Rear").val()];
   var demARBStiff_F = uniqueARB_F[$( "#selectARBStiff_Front").val()];
   var demARBStiff_R = uniqueARB_R[$( "#selectARBStiff_Rear").val()];
 
-  var demandSettings = [demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R];
+  // var demandSettings = [demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R];
+  var demandSettings = [demTrackGrip, demWingPos, demFuelLoad, demRH_F, demRH_R, demARBStiff_F, demARBStiff_R];
 
-  getLapID(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+  // getLapID(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+  getLapID(demTrackGrip, demWingPos, demFuelLoad, demRH_F, demRH_R, demARBStiff_F, demARBStiff_R);
 }
 
-getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
+// getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
+getLapID = function(demTrackGrip, demWingPos, demFuelLoad, demRH_F, demRH_R, demARBStiff_F, demARBStiff_R){  
   //lapID = [];
   for(var i=0;i<jobData_parsed[0].length;i++){
+    // currTrackGrip = jobData_parsed[2][i];
+    // currWingPos = jobData_parsed[3][i];
+    // currRH_F = jobData_parsed[4][i];
+    // currRH_R = jobData_parsed[5][i];
+    // currSS_F = jobData_parsed[6][i];
+    // currSS_R = jobData_parsed[7][i];
+    // currARB_F = jobData_parsed[8][i];
+    // currARB_R = jobData_parsed[9][i];
+
     currTrackGrip = jobData_parsed[2][i];
     currWingPos = jobData_parsed[3][i];
-    currRH_F = jobData_parsed[4][i];
-    currRH_R = jobData_parsed[5][i];
-    currSS_F = jobData_parsed[6][i];
-    currSS_R = jobData_parsed[7][i];
-    currARB_F = jobData_parsed[8][i];
-    currARB_R = jobData_parsed[9][i];
-    //window.jobData_parsed = [jobLapNum,jobLapNames, jobGrips,jobWingPositions,jobRideHeights_F,jobRideHeights_R,jobSpringStiffnesses_F,jobSpringStiffnesses_R,jobARBStiffnesses_F,jobARBStiffnesses_R];
+    currFuelLoad = jobData_parsed[4][i];
+    currRH_F = jobData_parsed[5][i];
+    currRH_R = jobData_parsed[6][i];
+    currARB_F = jobData_parsed[7][i];
+    currARB_R = jobData_parsed[8][i];
 
-    if( currTrackGrip == demTrackGrip &&  currWingPos == demWingPos && currRH_F == demRH_F && currRH_R == demRH_R && currSS_F == demSS_F && currSS_R == demSS_R && currARB_F == demARBStiff_F && currARB_R == demARBStiff_R){   
+
+    // if( currTrackGrip == demTrackGrip &&  currWingPos == demWingPos && currRH_F == demRH_F && currRH_R == demRH_R && currSS_F == demSS_F && currSS_R == demSS_R && currARB_F == demARBStiff_F && currARB_R == demARBStiff_R){   
+    //   lapID = jobData_parsed[0][i][0];
+    // }
+   
+    if( currTrackGrip == demTrackGrip &&  currWingPos == demWingPos && currFuelLoad == demFuelLoad && currRH_F == demRH_F && currRH_R == demRH_R && currARB_F == demARBStiff_F && currARB_R == demARBStiff_R){   
       lapID = jobData_parsed[0][i][0];
     }
      
@@ -150,29 +174,32 @@ getLapID = function(demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R
     if(simData[currEvent].lapData.hasOwnProperty(lapID-1)){
       alert("A lap with these settings has already been simulated");  
     }else{
-      sortedLapIDs = addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+      // sortedLapIDs = addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+      sortedLapIDs = addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demFuelLoad, demRH_F, demRH_R, demARBStiff_F, demARBStiff_R);
       fillTable1(sortedLapIDs);
       calcProgress(lapID); 
       loadLapData(lapID);  
     }
   }else{
-    sortedLapIDs = addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+    // sortedLapIDs = addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R);
+    sortedLapIDs = addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demFuelLoad, demRH_F, demRH_R, demARBStiff_F, demARBStiff_R);
     fillTable1(sortedLapIDs);
     calcProgress(lapID); 
     loadLapData(lapID);  
   }
 }
 
-function addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
-  
+// function addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demRH_F, demRH_R, demSS_F, demSS_R, demARBStiff_F, demARBStiff_R){
+function addLapToTable1Object(sortedLapIDs,lapID,demTrackGrip, demWingPos, demFuelLoad, demRH_F, demRH_R, demARBStiff_F, demARBStiff_R){  
 
   simData[currEvent].table1Object[lapID].lapID = lapID;
   simData[currEvent].table1Object[lapID].demTrackGrip = demTrackGrip;
   simData[currEvent].table1Object[lapID].demWingPos = demWingPos;
+  simData[currEvent].table1Object[lapID].demFuelLoad = demFuelLoad;
   simData[currEvent].table1Object[lapID].demRH_F = demRH_F;
   simData[currEvent].table1Object[lapID].demRH_R = demRH_R;
-  simData[currEvent].table1Object[lapID].demSS_F = demSS_F;
-  simData[currEvent].table1Object[lapID].demSS_R = demSS_R;
+  // simData[currEvent].table1Object[lapID].demSS_F = demSS_F;
+  // simData[currEvent].table1Object[lapID].demSS_R = demSS_R;
   simData[currEvent].table1Object[lapID].demARBStiff_F = demARBStiff_F;
   simData[currEvent].table1Object[lapID].demARBStiff_R = demARBStiff_R;
   simData[currEvent].table1Object[lapID].plotted = false;
@@ -215,6 +242,13 @@ function sortTable1Contents(sortAxis, sortDir){
             return a - b;
           });
           break;
+        case "Fuel Load":
+          sortedArray.sort(function (a, b) {
+            a = parseFloat(a.demFuelLoad),
+            b = parseFloat(b.demFuelLoad );          
+            return a - b;
+          });
+          break;
         case "RH F":
           sortedArray.sort(function (a, b) {
             a = parseFloat(a.demRH_F),
@@ -229,20 +263,20 @@ function sortTable1Contents(sortAxis, sortDir){
             return a - b;
           });
           break;
-        case "SS F":
-          sortedArray.sort(function (a, b) {
-            a = parseFloat(a.demSS_F),
-            b = parseFloat(b.demSS_F);          
-            return a - b;
-          });
-          break;
-        case "SS R": 
-          sortedArray.sort(function (a, b) {
-            a = parseFloat(a.demSS_R),
-            b = parseFloat(b.demSS_R);          
-            return a - b;
-          });
-          break;
+        // case "SS F":
+        //   sortedArray.sort(function (a, b) {
+        //     a = parseFloat(a.demSS_F),
+        //     b = parseFloat(b.demSS_F);          
+        //     return a - b;
+        //   });
+        //   break;
+        // case "SS R": 
+        //   sortedArray.sort(function (a, b) {
+        //     a = parseFloat(a.demSS_R),
+        //     b = parseFloat(b.demSS_R);          
+        //     return a - b;
+        //   });
+        //   break;
         case "ARB F":
           sortedArray.sort(function (a, b) {
             a = parseFloat(a.demARBStiff_F),
@@ -285,10 +319,16 @@ function fillTable1(sortedLapIDs){
         }else{
           var rowType = "oddRow"
         }
+        // var lapHTML = "<div id=\"lapRow"+currLapID+ "\" class=\"lapRow " +rowType + "\"><span class=\"cell setCell\"></span><span id=\"plotCell"+currLapID+ "\" class=\"cell plotCell loading\"></span><span class=\"cell lapTimeCell\"><div class=\"progressBG\"><div class=\"progressVal\" id=\"progress"+currLapID+"\"></div></div></span>"+
+        //               "<span class=\"cell trackGripCell\">"+simData[currEvent].table1Object[currLapID].demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+simData[currEvent].table1Object[currLapID].demWingPos+"</span><span class=\"cell RHF_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_R+"mm</span>" +
+        //               "<span class=\"cell SSF_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_R+"N/mm</span>" +
+        //               "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell loading rightMost\"></span></div>";
+
         var lapHTML = "<div id=\"lapRow"+currLapID+ "\" class=\"lapRow " +rowType + "\"><span class=\"cell setCell\"></span><span id=\"plotCell"+currLapID+ "\" class=\"cell plotCell loading\"></span><span class=\"cell lapTimeCell\"><div class=\"progressBG\"><div class=\"progressVal\" id=\"progress"+currLapID+"\"></div></div></span>"+
-                      "<span class=\"cell trackGripCell\">"+simData[currEvent].table1Object[currLapID].demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+simData[currEvent].table1Object[currLapID].demWingPos+"</span><span class=\"cell RHF_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_R+"mm</span>" +
-                      "<span class=\"cell SSF_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_R+"N/mm</span>" +
+                      "<span class=\"cell trackGripCell\">"+simData[currEvent].table1Object[currLapID].demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+simData[currEvent].table1Object[currLapID].demWingPos+"deg</span></span><span class=\"cell fuelLoadCell\">"+simData[currEvent].table1Object[currLapID].demFuelLoad+"kg</span><span class=\"cell RHF_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_R+"mm</span>" +
+                      "<span class=\"cell ARBF_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_R+"N/mm</span>" +
                       "<span class=\"cell downloadCell\"></span><span class=\"cell deleteCell loading rightMost\"></span></div>";
+
         $("#rowContainer1").append(lapHTML); 
 
         if(simData[currEvent].table1Object[currLapID].hasOwnProperty('lapTime')){
@@ -318,9 +358,14 @@ function fillTable2(){
           }else{
             var rowType = "oddRow"
           }
+          // var lapHTML = "<div id=\"plotRow"+currLapID+ "\" class=\"plotRow " +rowType + "\"><span id=\"removeCell"+currLapID+ "\" class=\"cell removeCell\"></span><span class=\"cell lapTimeCell\">"+simData[currEvent].table1Object[currLapID].lapTime+"</span>"+
+          //               "<span class=\"cell trackGripCell\">"+simData[currEvent].table1Object[currLapID].demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+simData[currEvent].table1Object[currLapID].demWingPos+"</span><span class=\"cell RHF_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_R+"mm</span>" +
+          //               "<span class=\"cell SSF_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_R+"N/mm</span>" +
+          //               "<span class=\"cell colorCell rightMost\"><div class=\"colorSample\"></div></span></div>";
+
           var lapHTML = "<div id=\"plotRow"+currLapID+ "\" class=\"plotRow " +rowType + "\"><span id=\"removeCell"+currLapID+ "\" class=\"cell removeCell\"></span><span class=\"cell lapTimeCell\">"+simData[currEvent].table1Object[currLapID].lapTime+"</span>"+
-                        "<span class=\"cell trackGripCell\">"+simData[currEvent].table1Object[currLapID].demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+simData[currEvent].table1Object[currLapID].demWingPos+"</span><span class=\"cell RHF_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_R+"mm</span>" +
-                        "<span class=\"cell SSF_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_F+"N/mm</span><span class=\"cell SSR_Cell\">"+simData[currEvent].table1Object[currLapID].demSS_R+"N/mm</span><span class=\"cell ARBF_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_R+"N/mm</span>" +
+                        "<span class=\"cell trackGripCell\">"+simData[currEvent].table1Object[currLapID].demTrackGrip+"%</span><span class=\"cell wingPosCell\">"+simData[currEvent].table1Object[currLapID].demWingPos+"</span><span class=\"cell fuelLoadCell\">"+simData[currEvent].table1Object[currLapID].demFuelLoad+"</span><span class=\"cell RHF_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_F+"mm</span><span class=\"cell RHR_Cell\">"+simData[currEvent].table1Object[currLapID].demRH_R+"mm</span>" +
+                        "<span class=\"cell ARBF_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_F+"N/mm</span><span class=\"cell ARBR_Cell\">"+simData[currEvent].table1Object[currLapID].demARBStiff_R+"N/mm</span>" +
                         "<span class=\"cell colorCell rightMost\"><div class=\"colorSample\"></div></span></div>";
           $("#rowContainer2").append(lapHTML); 
           $("#plotRow"+currLapID).children(".removeCell").on('click',  clickPlotButton);

@@ -1,10 +1,11 @@
 $(function() {
     $( "#selectTrackGrip" ).selectmenu();
     $( "#selectWingPos" ).selectmenu();
+    $( "#selectFuelLoad" ).selectmenu();    
     $( "#selectRH_Front" ).selectmenu();
     $( "#selectRH_Rear" ).selectmenu();
-    $( "#selectSpringStiff_Front" ).selectmenu();
-    $( "#selectSpringStiff_Rear" ).selectmenu();
+    // $( "#selectSpringStiff_Front" ).selectmenu();
+    // $( "#selectSpringStiff_Rear" ).selectmenu();
     $( "#selectARBStiff_Front" ).selectmenu();
     $( "#selectARBStiff_Rear" ).selectmenu();
     $( ".channelSelector" ).selectmenu(
@@ -37,9 +38,11 @@ function resizeSelectMenus(){
     })
 }
 
-function setDDOptions(uniqueGrip,uniqueWingPos,uniqueRH_F,uniqueRH_R,uniqueSS_F,uniqueSS_R,uniqueARB_F,uniqueARB_R){
-  var controlNames = ["selectTrackGrip", "selectWingPos", "selectRH_Front", "selectRH_Rear", "selectSpringStiff_Front","selectSpringStiff_Rear", "selectARBStiff_Front","selectARBStiff_Rear"];
-  var controlUnits = ["%", "deg","mm","mm", "N/mm", "N/mm", "N/mm", "N/mm"];
+// function setDDOptions(uniqueGrip,uniqueWingPos,uniqueRH_F,uniqueRH_R,uniqueSS_F,uniqueSS_R,uniqueARB_F,uniqueARB_R){
+function setDDOptions(uniqueGrip,uniqueWingPos,uniqueFuelLoad, uniqueRH_F,uniqueRH_R,uniqueARB_F,uniqueARB_R){
+  // var controlNames = ["selectTrackGrip", "selectWingPos", "selectRH_Front", "selectRH_Rear", "selectSpringStiff_Front","selectSpringStiff_Rear", "selectARBStiff_Front","selectARBStiff_Rear"];
+  var controlNames = ["selectTrackGrip", "selectWingPos", "selectFuelLoad", "selectRH_Front", "selectRH_Rear", "selectARBStiff_Front","selectARBStiff_Rear"];
+  var controlUnits = ["%", "deg","kg","mm","mm", "N/mm", "N/mm"];
   for(var j = 0; j<arguments.length; j++){
     var optionsAsString = "";
     uniqueValues = arguments[j];

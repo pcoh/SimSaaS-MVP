@@ -1,7 +1,6 @@
 $( document ).ready(function() {
   $('#simButton').button('disable');
   buildEventControls();
-  
     
   // $('#liEvent'+currEvent).click();
   $('#event'+currEvent).click();

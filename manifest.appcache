@@ -1,11 +1,12 @@
 CACHE MANIFEST
  
-# Version 0.0.24
+# Version 0.0.38
 
 NETWORK:
 *
 
 CACHE:
+index.html
 resources/css/main.css
 resources/css/simControls.css
 resources/css/tables.css

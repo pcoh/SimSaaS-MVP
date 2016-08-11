@@ -19,6 +19,16 @@ function secondsTimeSpanToHMSH(s) {
       return h+":" +(m < 10 ? '0'+m : m)+":"+(s < 10 ? '0'+s : s)+"."+(H < 10 ? '0'+H : H);
     }
 }
+
+function findFirstNull(obj) {
+    var len = Object.keys(obj).length;
+    for (var i=0; i<len; i++) {
+        if (obj[i] !== null && obj[i] !== undefined) {
+            return i;
+        }
+    }
+    return null;
+}
 //----------------------------------------------------------
 
 function buildEventControls(){
@@ -397,13 +407,16 @@ function updateProgress(endTime,simDur,lapID) {
     $("#lapRow"+lapID).children(".deleteCell").removeClass("loading").on('click',  clickDeleteButton);
     $("#lapRow"+lapID).children(".setCell").on('click',  clickSetButton);
 
-    var currLT = simData[currEvent].lapData[lapID-1].FIELD1[simData[currEvent].lapData[lapID-1].FIELD1.length-1];
+    // var currLT = simData[currEvent].lapData[lapID-1].FIELD1[simData[currEvent].lapData[lapID-1].FIELD1.length-1];
+    var currLT = simData[currEvent].lapData[lapID-1]["Time [s]"][simData[currEvent].lapData[lapID-1]["Time [s]"].length-1];
+
     var LT_HMSH = secondsTimeSpanToHMSH(currLT);
     simData[currEvent].table1Object[lapID].lapTime_s = currLT;
     simData[currEvent].table1Object[lapID].lapTime = LT_HMSH;
 
     sortedLapIDs = sortTable1Contents(sortAxis, sortDir);
     fillTable1(sortedLapIDs);
+    populatePlot1DD(); 
     $("#lapRow"+lapID).addClass('movedRow').delay(2000).queue(function(next){
       $(this).removeClass('movedRow');
       next();

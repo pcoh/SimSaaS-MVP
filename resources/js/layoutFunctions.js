@@ -55,33 +55,41 @@ function setDDOptions(uniqueGrip,uniqueWingPos,uniqueFuelLoad, uniqueRH_F,unique
   }
 }
 
+function getAvailChannels(){
+  var firstPos = findFirstNull(simData[currEvent].lapData)
+  var availChannels = Object.keys(simData[currEvent].lapData[firstPos]);
+  return availChannels;
+}
 
-function cleanAndSortChannelNames(){
-  var channelOptions = channelNamesInFiles.slice(0); //slice is necessary to create a copy and not just a new referene to the same array;
-  var index = channelOptions.indexOf("Time");
-  channelOptions.splice(index, 1);
+function cleanAndSortChannelNames(availChannels){
+  var channelOptions = availChannels.slice(0); //slice is necessary to create a copy and not just a new referene to the same array;
+  var channelCaptions = [];
+  for (var i=0; i<channelOptions.length; i++){
+    spaceIndex = channelOptions[i].indexOf(" ");
+    channelCaptions[i] = channelOptions[i].substr(0, spaceIndex);
+  }
+  var index = channelCaptions.indexOf("Time");
+  channelCaptions.splice(index, 1);
   
-  var index = channelOptions.indexOf("TRK_Distance");
-  channelOptions.splice(index, 1);
+  var index = channelCaptions.indexOf("TRK_Distance");
+  channelCaptions.splice(index, 1);
   
-  channelOptions = channelOptions.sort();
-  return channelOptions
+  channelCaptions = channelCaptions.sort();
+  return channelCaptions;
 }
 
 function assemblePlotSelectOptions(plotCount){
   var openingTags = "<select id=\"selectChannel_"+plotCount+"\" class=\"channelSelector\">";
   var closingTags = "</select>";
-  var optionTags = ""
-  var channelOptions = cleanAndSortChannelNames();
+  var optionTags = "";
+  var availChannels = getAvailChannels();
+  var channelOptions = cleanAndSortChannelNames(availChannels);
   for (var i = 1; i< channelOptions.length; i++){
     optionTags = optionTags + "<option>" + channelOptions[i] +"</option>";
-  }
-  //<option>Speed</option><option selected=\"selected\">Engine Speed</option><option>Pedal Position</option>"
-
+  }  
   var plotSelectOptions = openingTags+optionTags+closingTags;
 
   return plotSelectOptions;
-
 }
 
 function createPlotContainer(plotCount){
@@ -94,16 +102,12 @@ function createPlotContainer(plotCount){
     "<canvas class=\"cursorCanvas\" id=\"cursorCanvas"+plotCount+"\"></canvas></div></div></div>";
 
 	return plotContHTML;
-
 }
 
 function populatePlot1DD(){
   plotSelectOptions = assemblePlotSelectOptions(plotCount);  
   $("#channelSelectContainer1").html(plotSelectOptions);
-  //$(function() {
-    $( ".channelSelector" ).selectmenu();
-  //})
-  //$(".channelSelector").change( onChannelSelectorChange );
+  $( ".channelSelector" ).selectmenu();
   $(".channelSelector").on('selectmenuchange',  onChannelSelectorChange);
 }
 

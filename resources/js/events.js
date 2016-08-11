@@ -11,7 +11,7 @@ $( document ).ready(function() {
   $("#divTableAndSpacer").css({ 'top': $("#divControlTableRow").offset().top + $("#divControlTableRow").outerHeight(false)});
   controlTable2Pos();
   positionBG();
-  populatePlot1DD(); 
+  
 });
 
 $( window ).resize(function() {

@@ -45,6 +45,15 @@ function getPlotLapID($targetCell){
 	return lapID;
 }
 
+function getFullChannelName(selectChannelName){
+	fullChannelNameList = Object.keys(simData[currEvent].lapData[toBePlotted[0]-1]);
+	for (var i=0;i<fullChannelNameList.length;i++){
+		if (fullChannelNameList[i].indexOf(selectChannelName) !=-1){
+			return fullChannelNameList[i];
+		}
+	}	
+}
+
 function plotData(){
 	clearAllPlots();
 	if(simData.hasOwnProperty(currEvent)){ 
@@ -54,22 +63,22 @@ function plotData(){
 			}	
 			// check which plots are to be plotted in:
 			var plotIDs = [],
-			channelNames = [];
 			$('.plot').each(function() {
 			    plotIDs.push(this.id);
 			});
 			var plotObject = {};
-			var xFieldIndex= channelNamesInFiles.indexOf("TRK_Distance")+1;
-			var xUnit = channelUnits[xFieldIndex-1];
+			var xUnit = "m";
 			// for each plot, 
 			for (var i = 0; i<plotIDs.length; i++){
 				// 	check which cannels need to be plotted (for each of the laps):
 				plotObject[plotIDs[i]] = {};
-				plotObject[plotIDs[i]].channelName = $("#"+plotIDs[i]).children().children(".channelSelector").val();
 				plotObject[plotIDs[i]].XData = {};
 				plotObject[plotIDs[i]].YData = {};		
 				plotObject[plotIDs[i]].XUnit = [];
-				plotObject[plotIDs[i]].YUnit = [];		
+				plotObject[plotIDs[i]].YUnit = [];	
+
+				var selectChannelName = $("#"+plotIDs[i]).children().children(".channelSelector").val();
+				var fullChannelName = getFullChannelName(selectChannelName);
 				
 				var maxXVal = Number.NEGATIVE_INFINITY;
 				var minXVal = Number.POSITIVE_INFINITY;
@@ -89,15 +98,15 @@ function plotData(){
 
 				//fetch the data of the channels:
 				for (var j=0; j< toBePlotted.length; j++){
-					var yFieldIndex = channelNamesInFiles.indexOf(plotObject[plotIDs[i]].channelName )+1;
-				if (j==0){
-					var yUnit = channelUnits[yFieldIndex-1];
-					plotObject[plotIDs[i]].XUnit = xUnit;
-					plotObject[plotIDs[i]].YUnit = yUnit;
-				}
 					
-					plotObject[plotIDs[i]].XData[toBePlotted[j]] = simData[currEvent].lapData[toBePlotted[j]-1]["FIELD"+xFieldIndex].slice(1);
-					plotObject[plotIDs[i]].YData[toBePlotted[j]] = simData[currEvent].lapData[toBePlotted[j]-1]["FIELD"+yFieldIndex].slice(1);
+					if (j==0){
+						var yUnit = fullChannelName.substr(fullChannelName.indexOf(" ")+1,fullChannelName.length);
+						plotObject[plotIDs[i]].XUnit = xUnit;
+						plotObject[plotIDs[i]].YUnit = yUnit;
+					}
+					
+					plotObject[plotIDs[i]].XData[toBePlotted[j]] = simData[currEvent].lapData[toBePlotted[j]-1]["TRK_Distance m"].slice(0);
+					plotObject[plotIDs[i]].YData[toBePlotted[j]] = simData[currEvent].lapData[toBePlotted[j]-1][fullChannelName].slice(0);
 					
 					// 	find maximum and minimum values across all laps 
 					maxXCurr = Math.max.apply(Math,plotObject[plotIDs[i]].XData[toBePlotted[j]]);
@@ -150,7 +159,7 @@ function plotData(){
 				plotTickValues("X",xTickPos, xTickPosScaled, scaledXAxisData[0], scaledYAxisData[0], canvasName, xUnit);
 				plotTickValues("Y",yTickPos, yTickPosScaled, scaledYAxisData[0], scaledXAxisData[0], canvasName, yUnit);
 			}
-			window.plotObject =plotObject;
+			window.plotObject = plotObject;
 			$(".cursorCanvas").on('mousemove',  onCursorCanvasHover);
 		    $(".cursorCanvas").on('mouseleave',  onCursorCanvasLeave);
 		}
@@ -165,8 +174,7 @@ function setYAxisRange(minYVal, maxYVal){
 	if (minYVal == 0){
 		yMin = 0;
 	}else{
-		yMin = minYVal - yBufferBottom;
-		
+		yMin = minYVal - yBufferBottom;		
 	}
 	yMax = maxYVal + yBufferTop;
 	var yPlotRange = [yMin, yMax];

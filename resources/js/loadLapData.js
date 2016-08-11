@@ -1,6 +1,6 @@
 function loadLapData(lapID){
 	var lapName = jobData_parsed[1][lapID-1];
-	$.getJSON( "resources/data/"+(currEvent < 10 ? '0'+currEvent : currEvent)+'/'+lapName +".json", lapID, createCallback(lapID));
+	$.getJSON( "resources/data/"+(currEvent < 10 ? '0'+currEvent : currEvent)+'/'+lapName +"_new.json", lapID, createCallback(lapID));
 }
 
 // function loadLapCallback( data ) {

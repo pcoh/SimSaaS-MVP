@@ -62,8 +62,8 @@ function plotData(){
 				return;
 			}	
 			// check which plots are to be plotted in:
-			var plotIDs = [],
-			$('.plot').each(function() {
+			var plotIDs = [];
+			$('.plot').each(function(){
 			    plotIDs.push(this.id);
 			});
 			var plotObject = {};

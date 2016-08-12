@@ -435,10 +435,11 @@ function clickSetButton(){
   });
   var activeTrackGrip = $(this).parent().children(".trackGripCell").html().match(/\d+/);  
   var activeWingPos = $(this).parent().children(".wingPosCell").html().match(/\d+/);
+  var activeFuelLoad = $(this).parent().children(".fuelLoadCell").html().match(/\d+/);
   var activeRH_F = $(this).parent().children(".RHF_Cell").html().match(/\d+/);
   var activeRH_R = $(this).parent().children(".RHR_Cell").html().match(/\d+/);
-  var activeSS_F = $(this).parent().children(".SSF_Cell").html().match(/\d+/);
-  var activeSS_R = $(this).parent().children(".SSR_Cell").html().match(/\d+/);
+  // var activeSS_F = $(this).parent().children(".SSF_Cell").html().match(/\d+/);
+  // var activeSS_R = $(this).parent().children(".SSR_Cell").html().match(/\d+/);
   var activeARB_F = $(this).parent().children(".ARBF_Cell").html().match(/\d+/);
   var activeARB_R = $(this).parent().children(".ARBR_Cell").html().match(/\d+/);
 
@@ -458,6 +459,13 @@ function clickSetButton(){
     next();
   });
 
+  var optionIndex = uniqueFuelLoad.indexOf(parseInt(activeFuelLoad));
+  $('#selectFuelLoad').val(optionIndex).selectmenu("refresh");
+  $("#selectFuelLoad-button").addClass("autoChange").delay(highLightDuration).queue(function(next){
+    $(this).removeClass("autoChange");
+    next();
+  });
+
   var optionIndex = uniqueRH_F.indexOf(parseInt(activeRH_F));
   $('#selectRH_Front').val(optionIndex).selectmenu("refresh");
   $("#selectRH_Front-button").addClass("autoChange").delay(highLightDuration).queue(function(next){
@@ -472,19 +480,19 @@ function clickSetButton(){
     next();
   });
 
-  var optionIndex = uniqueSS_F.indexOf(parseInt(activeSS_F));
-  $('#selectSpringStiff_Front').val(optionIndex).selectmenu("refresh");
-  $("#selectSpringStiff_Front-button").addClass("autoChange").delay(highLightDuration).queue(function(next){
-    $(this).removeClass("autoChange");
-    next();
-  });
+  // var optionIndex = uniqueSS_F.indexOf(parseInt(activeSS_F));
+  // $('#selectSpringStiff_Front').val(optionIndex).selectmenu("refresh");
+  // $("#selectSpringStiff_Front-button").addClass("autoChange").delay(highLightDuration).queue(function(next){
+  //   $(this).removeClass("autoChange");
+  //   next();
+  // });
 
-  var optionIndex = uniqueSS_R.indexOf(parseInt(activeSS_R));
-  $('#selectSpringStiff_Rear').val(optionIndex).selectmenu("refresh");
-  $("#selectSpringStiff_Rear-button").addClass("autoChange").delay(highLightDuration).queue(function(next){
-    $(this).removeClass("autoChange");
-    next();
-  });
+  // var optionIndex = uniqueSS_R.indexOf(parseInt(activeSS_R));
+  // $('#selectSpringStiff_Rear').val(optionIndex).selectmenu("refresh");
+  // $("#selectSpringStiff_Rear-button").addClass("autoChange").delay(highLightDuration).queue(function(next){
+  //   $(this).removeClass("autoChange");
+  //   next();
+  // });
 
   var optionIndex = uniqueARB_F.indexOf(parseInt(activeARB_F));
   $('#selectARBStiff_Front').val(optionIndex).selectmenu("refresh");
